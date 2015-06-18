@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
+import com.bitmovin.bitcodin.api.Input;
+import com.bitmovin.bitcodin.api.media.Stream;
 
 public class BitcodinApiTest {
 
@@ -19,8 +21,12 @@ public class BitcodinApiTest {
     public void createInput() {
 
         BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
-
-        System.out.println(bitApi.createInput("http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv"));
+        Input input = bitApi.createInput("http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv");
+        
+        assertEquals(input.filename, "Sintel.2010.720p.mkv");
+        assertEquals(input.mediaConfigurations.size(), 2);
+        assertEquals(input.mediaConfigurations.get(0).width, 1280);
+        assertEquals(input.mediaConfigurations.get(0).height, 544);
     }
 
 }

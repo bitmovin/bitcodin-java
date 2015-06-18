@@ -30,7 +30,6 @@ public class RestClient {
         Iterator<Entry<String, String>> it = headers.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
-
             connection.setRequestProperty(pair.getKey(), pair.getValue());
         }
 
@@ -45,12 +44,10 @@ public class RestClient {
 
         String read = "";
         StringBuffer sb = new StringBuffer(read);
-        while ((read = reader.readLine()) != null) {
+        while ((read = reader.readLine()) != null)
             sb.append(read);
-        }
 
         connection.disconnect();
-
         return sb.toString();
     }
 

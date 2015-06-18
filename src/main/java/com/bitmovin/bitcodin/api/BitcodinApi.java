@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 
 import com.bitmovin.network.http.RestClient;
+import com.google.gson.Gson;
 
 public class BitcodinApi {
 
@@ -32,13 +33,13 @@ public class BitcodinApi {
         return this.apiKey;
     }
     
-    public String createInput(String url) {
+    public Input createInput(String url) {
         
         RestClient rest;
         try {
             rest = new RestClient(new URI("http://portal.bitcodin.com/api/"));
         } catch (URISyntaxException e1) {
-            return "API url not valid!";
+            return null;
         }
 
         HashMap<String, String> headers = new HashMap<String, String>();
@@ -47,11 +48,12 @@ public class BitcodinApi {
         headers.put("bitcodin-api-key", this.apiKey);
         
         try {
-            return rest.post(new URI("input/create"), headers, "{\"url\": \"" + url + "\"}");
+            Gson gson = new Gson();
+            return gson.fromJson(rest.post(new URI("input/create"), headers, "{\"url\": \"" + url + "\"}"), Input.class);
         } catch (IOException e) {
-            return "Input could not be analyzed!";
+            return null;
         } catch (URISyntaxException e) {
-            return "Input resource url not valid!";
+            return null;
         }
     }
 
