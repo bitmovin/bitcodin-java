@@ -21,6 +21,7 @@ import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
+import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
@@ -231,6 +232,34 @@ public class BitcodinApi {
             Gson gson = new Gson();
             String content = gson.toJson(jobConfig);
             return gson.fromJson(rest.post(new URI("job/create"), this.defaultHeaders, content), Job.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public JobList listJobs(int pageNumber) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("jobs/" + Integer.toString(pageNumber)), this.defaultHeaders), JobList.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public Job getJob(int id) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("job/" + Integer.toString(id)), this.defaultHeaders), Job.class);
+            
         } catch (IOException e) {
             e.printStackTrace();
             return null;

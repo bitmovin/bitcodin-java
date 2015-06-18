@@ -9,6 +9,7 @@ import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
+import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
@@ -202,5 +203,19 @@ public class BitcodinApiTest {
         Job job = bitApi.createJob(jobConfig);
         
         assertEquals(job.status, "Enqueued");
+    }
+    @Test
+    public void listJobs() {
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        JobList jobList = bitApi.listJobs(0);
+        
+        assertEquals(jobList.jobs.get(0).jobId, 2421);
+    }
+    @Test
+    public void getJob() {
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        Job job = bitApi.getJob(2421);
+        
+        assertEquals(job.jobId, 2421);
     }
 }
