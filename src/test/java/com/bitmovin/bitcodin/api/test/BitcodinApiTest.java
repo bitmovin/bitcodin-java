@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
 import com.bitmovin.bitcodin.api.Input;
-import com.bitmovin.bitcodin.api.media.Stream;
 
 public class BitcodinApiTest {
 
