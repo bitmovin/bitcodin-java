@@ -30,6 +30,11 @@ public class RestClient {
         URL url = this.baseUrl.resolve(resource).toURL();
         return this.request("GET", url, headers);
     }
+    public String delete(URI resource, Map<String, String> headers) throws IOException {
+        
+        URL url = this.baseUrl.resolve(resource).toURL();
+        return this.request("DELETE", url, headers);
+    }
     public String request(String method, URL url, Map<String, String> headers) throws IOException {
         return this.request(method, url, headers, null);
     }
