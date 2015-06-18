@@ -7,6 +7,7 @@ import org.junit.Test;
 import com.bitmovin.bitcodin.api.BitcodinApi;
 import com.bitmovin.bitcodin.api.Input;
 import com.bitmovin.bitcodin.api.InputList;
+import com.bitmovin.bitcodin.api.S3OutputConfig;
 
 public class BitcodinApiTest {
 
@@ -67,5 +68,20 @@ public class BitcodinApiTest {
         bitApi.deleteInput(input.inputId);
         assertNull(bitApi.getInput(input.inputId));
     }
+    @Test
+    public void createS3Output() {
 
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        S3OutputConfig s3OutputConfig = new S3OutputConfig();
+        
+        s3OutputConfig.accessKey = "YOUR_ACCESS_KEY";
+        s3OutputConfig.secretKey = "YOUR_SECRET_KEY";
+        s3OutputConfig.host = "s3-eu-west-1.amazonaws.com";
+        s3OutputConfig.name = "OUTPUT_NAME";
+        s3OutputConfig.bucket = "YOUR_BUCKET";
+        s3OutputConfig.prefix = "DIRECTORY/SUBDIRECTORY";
+        
+        bitApi.createS3Output(s3OutputConfig);
+        
+    }
 }
