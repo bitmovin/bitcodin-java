@@ -68,5 +68,19 @@ public class BitcodinApi {
             return null;
         }
     }
+    public Input getInput(int id) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("input/" + Integer.toString(id)), this.defaultHeaders), Input.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
