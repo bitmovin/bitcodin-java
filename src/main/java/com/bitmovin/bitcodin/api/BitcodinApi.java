@@ -17,6 +17,18 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
+import com.bitmovin.bitcodin.api.input.Input;
+import com.bitmovin.bitcodin.api.input.InputList;
+import com.bitmovin.bitcodin.api.job.Job;
+import com.bitmovin.bitcodin.api.job.JobConfig;
+import com.bitmovin.bitcodin.api.media.EncodingProfile;
+import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
+import com.bitmovin.bitcodin.api.media.EncodingProfileList;
+import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
+import com.bitmovin.bitcodin.api.output.GCSOutputConfig;
+import com.bitmovin.bitcodin.api.output.Output;
+import com.bitmovin.bitcodin.api.output.OutputList;
+import com.bitmovin.bitcodin.api.output.S3OutputConfig;
 import com.bitmovin.network.http.RestClient;
 import com.google.gson.Gson;
 
@@ -131,5 +143,100 @@ public class BitcodinApi {
             e.printStackTrace();
         }
     }
-
+    public OutputList listOutputs(int pageNumber) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("outputs/" + Integer.toString(pageNumber)), this.defaultHeaders), OutputList.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public Output getOutput(int id) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("output/" + Integer.toString(id)), this.defaultHeaders), Output.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public void deleteOutput(int id) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            rest.delete(new URI("output/" + Integer.toString(id)), this.defaultHeaders);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    public EncodingProfile createEncodingProfile(EncodingProfileConfig profile) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            String content = gson.toJson(profile);
+            return gson.fromJson(rest.post(new URI("encoding-profile/create"), this.defaultHeaders, content), EncodingProfile.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public EncodingProfileList listEncodingProfiles(int pageNumber) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("encoding-profiles/" + Integer.toString(pageNumber)), this.defaultHeaders), EncodingProfileList.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public EncodingProfile getEncodingProfile(int id) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("encoding-profile/" + Integer.toString(id)), this.defaultHeaders), EncodingProfile.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public Job createJob(JobConfig jobConfig) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            String content = gson.toJson(jobConfig);
+            return gson.fromJson(rest.post(new URI("job/create"), this.defaultHeaders, content), Job.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

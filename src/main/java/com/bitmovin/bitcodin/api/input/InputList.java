@@ -1,4 +1,4 @@
-package com.bitmovin.bitcodin.api;
+package com.bitmovin.bitcodin.api.input;
 
 import java.util.List;
 

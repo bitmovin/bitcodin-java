@@ -1,4 +1,4 @@
-package com.bitmovin.bitcodin.api;
+package com.bitmovin.bitcodin.api.output;
 
 import com.google.gson.annotations.Expose;
 

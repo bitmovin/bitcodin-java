@@ -1,12 +1,14 @@
-package com.bitmovin.bitcodin.api;
+package com.bitmovin.bitcodin.api.output;
 
 import com.google.gson.annotations.Expose;
 
-public class GCSOutputConfig {
+public class S3OutputConfig {
     @Expose
-    public String type = "gcs";
+    public String type = "s3";
     @Expose
     public String name;
+    @Expose
+    public String host;
     @Expose
     public String accessKey;
     @Expose
