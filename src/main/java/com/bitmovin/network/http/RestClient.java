@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,16 +13,17 @@ import java.util.Map.Entry;
 
 public class RestClient {
 
-    private String baseUrl;
+    private URI baseUrl;
 
-    public RestClient(String baseUrl) {
+    public RestClient(URI baseUrl) {
 
         this.baseUrl = baseUrl;
     }
 
-    public String post(String resource, Map<String, String> headers, String content) throws IOException {
+    public String post(URI resource, Map<String, String> headers, String content) throws IOException {
 
-        URL url = new URL(this.baseUrl + resource);
+        URL url = this.baseUrl.resolve(resource).toURL();
+        //URL url = new URL(this.baseUrl + resource);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod("POST");

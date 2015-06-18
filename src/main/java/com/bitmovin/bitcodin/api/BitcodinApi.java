@@ -13,6 +13,8 @@
 package com.bitmovin.bitcodin.api;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 
 import com.bitmovin.network.http.RestClient;
@@ -30,9 +32,14 @@ public class BitcodinApi {
         return this.apiKey;
     }
     
-    public String createInput(String url){
+    public String createInput(String url) {
         
-        RestClient rest = new RestClient("http://portal.bitcodin.com/api");
+        RestClient rest;
+        try {
+            rest = new RestClient(new URI("http://portal.bitcodin.com/api/"));
+        } catch (URISyntaxException e1) {
+            return "API url not valid!";
+        }
 
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Content-Type", "application/json");
@@ -40,9 +47,11 @@ public class BitcodinApi {
         headers.put("bitcodin-api-key", this.apiKey);
         
         try {
-            return rest.post("/input/create", headers, "{\"url\": \"" + url + "\"}");
+            return rest.post(new URI("input/create"), headers, "{\"url\": \"" + url + "\"}");
         } catch (IOException e) {
             return "Input could not be analyzed!";
+        } catch (URISyntaxException e) {
+            return "Input resource url not valid!";
         }
     }
 
