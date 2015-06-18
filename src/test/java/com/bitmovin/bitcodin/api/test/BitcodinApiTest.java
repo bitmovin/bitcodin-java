@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
+import com.bitmovin.bitcodin.api.FTPOutputConfig;
+import com.bitmovin.bitcodin.api.GCSOutputConfig;
 import com.bitmovin.bitcodin.api.Input;
 import com.bitmovin.bitcodin.api.InputList;
 import com.bitmovin.bitcodin.api.S3OutputConfig;
@@ -82,6 +84,33 @@ public class BitcodinApiTest {
         s3OutputConfig.prefix = "DIRECTORY/SUBDIRECTORY";
         
         bitApi.createS3Output(s3OutputConfig);
+        
+    }
+    @Test
+    public void createGCSOutput() {
+
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        GCSOutputConfig gcsOutputConfig = new GCSOutputConfig();
+        
+        gcsOutputConfig.accessKey = "YOUR_ACCESS_KEY";
+        gcsOutputConfig.secretKey = "YOUR_SECRET_KEY";
+        gcsOutputConfig.name = "OUTPUT_NAME";
+        gcsOutputConfig.bucket = "YOUR_BUCKET";
+        gcsOutputConfig.prefix = "DIRECTORY/SUBDIRECTORY";
+        
+        bitApi.createGCSOutput(gcsOutputConfig);
+        
+    }
+    @Test
+    public void createFTPOutput() {
+
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        FTPOutputConfig ftpOutputConfig = new FTPOutputConfig();
+        
+        ftpOutputConfig.name = "OUTPUT_NAME";
+        ftpOutputConfig.host = "YOUR_HOST";
+        
+        bitApi.createFTPOutput(ftpOutputConfig);
         
     }
 }
