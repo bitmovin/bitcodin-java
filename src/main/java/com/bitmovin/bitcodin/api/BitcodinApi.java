@@ -82,5 +82,16 @@ public class BitcodinApi {
             return null;
         }
     }
+    public void deleteInput(int id) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            rest.delete(new URI("input/" + Integer.toString(id)), this.defaultHeaders);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

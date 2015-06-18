@@ -50,5 +50,22 @@ public class BitcodinApiTest {
         
         assertEquals(input.filename, sameInput.filename);
     }
+    @Test
+    public void deleteInput() {
+
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        Input input = bitApi.createInput("http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv");
+        
+        assertEquals(input.filename, "Sintel.2010.720p.mkv");
+        assertEquals(input.mediaConfigurations.size(), 2);
+        assertEquals(input.mediaConfigurations.get(0).width, 1280);
+        assertEquals(input.mediaConfigurations.get(0).height, 544);
+        
+        Input sameInput = bitApi.getInput(input.inputId);
+        assertEquals(input.filename, sameInput.filename);
+        
+        bitApi.deleteInput(input.inputId);
+        assertNull(bitApi.getInput(input.inputId));
+    }
 
 }

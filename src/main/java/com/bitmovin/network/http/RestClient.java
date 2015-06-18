@@ -57,7 +57,8 @@ public class RestClient {
         }
 
         if (connection.getResponseCode() != HttpURLConnection.HTTP_CREATED &&
-            connection.getResponseCode() != HttpURLConnection.HTTP_OK)
+            connection.getResponseCode() != HttpURLConnection.HTTP_OK &&
+            connection.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT)
             throw new RuntimeException("Failed : HTTP error code : " + connection.getResponseCode());
 
         BufferedReader reader = new BufferedReader(new InputStreamReader((connection.getInputStream())));
