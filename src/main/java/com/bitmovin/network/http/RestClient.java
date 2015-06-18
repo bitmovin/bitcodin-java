@@ -23,7 +23,6 @@ public class RestClient {
     public String post(URI resource, Map<String, String> headers, String content) throws IOException {
 
         URL url = this.baseUrl.resolve(resource).toURL();
-        //URL url = new URL(this.baseUrl + resource);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod("POST");
