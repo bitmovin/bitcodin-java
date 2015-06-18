@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 
 import com.bitmovin.network.http.RestClient;
 import com.google.gson.Gson;
@@ -23,10 +24,16 @@ import com.google.gson.Gson;
 public class BitcodinApi {
 
     private String apiKey;
+    private String apiUrl;
+    private HashMap<String, String> defaultHeaders = new HashMap<String, String>();
 
     public BitcodinApi(String apiKey) {
 
         this.apiKey = apiKey;
+        this.apiUrl = "http://portal.bitcodin.com/api/";
+        this.defaultHeaders.put("Content-Type", "application/json");
+        this.defaultHeaders.put("bitcodin-api-version", "v1");
+        this.defaultHeaders.put("bitcodin-api-key", this.apiKey);
     }
 
     public String getKey() {
@@ -34,25 +41,30 @@ public class BitcodinApi {
     }
     
     public Input createInput(String url) {
-        
-        RestClient rest;
         try {
-            rest = new RestClient(new URI("http://portal.bitcodin.com/api/"));
-        } catch (URISyntaxException e1) {
-            return null;
-        }
-
-        HashMap<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/json");
-        headers.put("bitcodin-api-version", "v1");
-        headers.put("bitcodin-api-key", this.apiKey);
-        
-        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
             Gson gson = new Gson();
-            return gson.fromJson(rest.post(new URI("input/create"), headers, "{\"url\": \"" + url + "\"}"), Input.class);
+            return gson.fromJson(rest.post(new URI("input/create"), this.defaultHeaders, "{\"url\": \"" + url + "\"}"), Input.class);
+            
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public InputList listInputs(int pageNumber) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("inputs/" + Integer.toString(pageNumber)), this.defaultHeaders), InputList.class);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
             return null;
         }
     }
