@@ -12,6 +12,11 @@
 
 package com.bitmovin.bitcodin.api;
 
+import java.io.IOException;
+import java.util.HashMap;
+
+import com.bitmovin.network.http.RestClient;
+
 public class BitcodinApi {
 
     private String apiKey;
@@ -23,6 +28,22 @@ public class BitcodinApi {
 
     public String getKey() {
         return this.apiKey;
+    }
+    
+    public String createInput(String url){
+        
+        RestClient rest = new RestClient("http://portal.bitcodin.com/api");
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Content-Type", "application/json");
+        headers.put("bitcodin-api-version", "v1");
+        headers.put("bitcodin-api-key", this.apiKey);
+        
+        try {
+            return rest.post("/input/create", headers, "{\"url\": \"" + url + "\"}");
+        } catch (IOException e) {
+            return "Input could not be analyzed!";
+        }
     }
 
 }
