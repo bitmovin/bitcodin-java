@@ -105,5 +105,18 @@ public class BitcodinApi {
             e.printStackTrace();
         }
     }
+    public void createGCSOutput(GCSOutputConfig output) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            String content = gson.toJson(output);
+            rest.post(new URI("output/create"), this.defaultHeaders, content);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
