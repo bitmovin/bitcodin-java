@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
+import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
 import com.bitmovin.bitcodin.api.job.Job;
@@ -55,11 +56,12 @@ public class BitcodinApi {
         return this.apiKey;
     }
     
-    public Input createInput(String url) {
+    public Input createInput(HTTPInputConfig httpInputConfig) {
         try {
             RestClient rest = new RestClient(new URI(this.apiUrl));
             Gson gson = new Gson();
-            return gson.fromJson(rest.post(new URI("input/create"), this.defaultHeaders, "{\"url\": \"" + url + "\"}"), Input.class);
+            String content = gson.toJson(httpInputConfig);
+            return gson.fromJson(rest.post(new URI("input/create"), this.defaultHeaders, content), Input.class);
             
         } catch (IOException e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
+import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
 import com.bitmovin.bitcodin.api.job.Job;
@@ -33,7 +34,9 @@ public class BitcodinApiTest {
     public void createInput() {
 
         BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
-        Input input = bitApi.createInput("http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv");
+        HTTPInputConfig httpInputConfig = new HTTPInputConfig();
+        httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
+        Input input = bitApi.createInput(httpInputConfig);
         
         assertEquals(input.filename, "Sintel.2010.720p.mkv");
         assertEquals(input.mediaConfigurations.size(), 2);
@@ -52,7 +55,9 @@ public class BitcodinApiTest {
     public void getInput() {
 
         BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
-        Input input = bitApi.createInput("http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv");
+        HTTPInputConfig httpInputConfig = new HTTPInputConfig();
+        httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
+        Input input = bitApi.createInput(httpInputConfig);
         
         assertEquals(input.filename, "Sintel.2010.720p.mkv");
         assertEquals(input.mediaConfigurations.size(), 2);
@@ -67,7 +72,9 @@ public class BitcodinApiTest {
     public void deleteInput() {
 
         BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
-        Input input = bitApi.createInput("http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv");
+        HTTPInputConfig httpInputConfig = new HTTPInputConfig();
+        httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
+        Input input = bitApi.createInput(httpInputConfig);
         
         assertEquals(input.filename, "Sintel.2010.720p.mkv");
         assertEquals(input.mediaConfigurations.size(), 2);
