@@ -148,13 +148,12 @@ public class BitcodinApiTest {
     }
     @Test
     public void createEncodingProfile() {
-
         BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
         
         VideoStreamConfig videoConfig = new VideoStreamConfig();
-        videoConfig.bitrate = 8 * 1024 * 1024;
-        videoConfig.width = 1920;
-        videoConfig.height = 1080;
+        videoConfig.bitrate = 1 * 1024 * 1024;
+        videoConfig.width = 640;
+        videoConfig.height = 480;
         videoConfig.profile = "Main";
         videoConfig.preset = "Standard";
         

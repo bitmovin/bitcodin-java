@@ -72,10 +72,8 @@ public class BitcodinApi {
 
     public InputList listInputs(int pageNumber) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            return gson.fromJson(rest.get(new URI("inputs/" + Integer.toString(pageNumber)), this.defaultHeaders), InputList.class);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("inputs/" + Integer.toString(pageNumber)), this.defaultHeaders, InputList.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
