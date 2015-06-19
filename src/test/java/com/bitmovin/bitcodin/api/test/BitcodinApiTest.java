@@ -2,6 +2,8 @@ package com.bitmovin.bitcodin.api.test;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 import org.junit.Test;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
@@ -24,16 +26,22 @@ import com.bitmovin.bitcodin.api.transfer.TransferList;
 
 public class BitcodinApiTest {
 
+    private Settings settings;
+    
+    public BitcodinApiTest() throws FileNotFoundException {
+        this.settings = Settings.getInstance();
+    }
+    
     @Test
     public void testApiKeyGetter() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
-        assertEquals(Settings.apikey, bitApi.getKey());
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
+        assertEquals(settings.apikey, bitApi.getKey());
     }
     @Test
     public void createInput() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
         httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
         Input input = bitApi.createInput(httpInputConfig);
@@ -46,7 +54,7 @@ public class BitcodinApiTest {
     @Test
     public void listInputs() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         InputList inputList = bitApi.listInputs(0);
         
         assertEquals(inputList.inputs.get(0).filename, "Sintel.2010.720p.mkv");
@@ -54,7 +62,7 @@ public class BitcodinApiTest {
     @Test
     public void getInput() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
         httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
         Input input = bitApi.createInput(httpInputConfig);
@@ -71,7 +79,7 @@ public class BitcodinApiTest {
     @Test
     public void deleteInput() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
         httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
         Input input = bitApi.createInput(httpInputConfig);
@@ -90,7 +98,7 @@ public class BitcodinApiTest {
     @Test
     public void createS3Output() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         S3OutputConfig s3OutputConfig = new S3OutputConfig();
         
         s3OutputConfig.accessKey = "YOUR_ACCESS_KEY";
@@ -106,7 +114,7 @@ public class BitcodinApiTest {
     @Test
     public void createGCSOutput() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         GCSOutputConfig gcsOutputConfig = new GCSOutputConfig();
         
         gcsOutputConfig.accessKey = "YOUR_ACCESS_KEY";
@@ -121,7 +129,7 @@ public class BitcodinApiTest {
     @Test
     public void createFTPOutput() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         FTPOutputConfig ftpOutputConfig = new FTPOutputConfig();
         
         ftpOutputConfig.name = "OUTPUT_NAME";
@@ -133,7 +141,7 @@ public class BitcodinApiTest {
     @Test
     public void listOutputs() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         OutputList outputList = bitApi.listOutputs(0);
         
         assertNotNull(outputList);
@@ -148,7 +156,7 @@ public class BitcodinApiTest {
     }
     @Test
     public void createEncodingProfile() {
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         
         VideoStreamConfig videoConfig = new VideoStreamConfig();
         videoConfig.bitrate = 1 * 1024 * 1024;
@@ -169,7 +177,7 @@ public class BitcodinApiTest {
     @Test
     public void listEncodingProfiles() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         EncodingProfileList encodingProfileList = bitApi.listEncodingProfiles(0);
         
         assertEquals(encodingProfileList.profiles.get(0).name, "JUnitTestProfile");
@@ -177,7 +185,7 @@ public class BitcodinApiTest {
     @Test
     public void getEncodingProfile() {
 
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         
         VideoStreamConfig videoConfig = new VideoStreamConfig();
         videoConfig.bitrate = 8 * 1024 * 1024;
@@ -201,7 +209,7 @@ public class BitcodinApiTest {
     }
     @Test
     public void createJob() {
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         JobConfig jobConfig = new JobConfig();
         jobConfig.encodingProfileId = 6838;
         jobConfig.inputId = 2614;
@@ -214,14 +222,14 @@ public class BitcodinApiTest {
     }
     @Test
     public void listJobs() {
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         JobList jobList = bitApi.listJobs(0);
         
         assertNotNull(jobList.jobs.get(0));
     }
     @Test
     public void getJob() {
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         Job job = bitApi.getJob(2421);
         
         assertEquals(job.jobId, 2421);
@@ -232,19 +240,19 @@ public class BitcodinApiTest {
     }
     @Test
     public void listTransfers() {
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         TransferList transferList = bitApi.listTransfers(6838);
     }
     @Test
     public void getStatistics() {
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         Statistic stats = bitApi.getStatistics();
         
         assertNotNull(stats);
     }
     @Test
     public void getStatisticsFromTo() {
-        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        BitcodinApi bitApi = new BitcodinApi(settings.apikey);
         Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-17");
         
         System.out.println(stats.jobCountFinished);
