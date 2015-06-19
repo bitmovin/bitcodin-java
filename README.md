@@ -13,7 +13,7 @@ An example how you can instantiate the bitcodin API is shown in the following:
 ```java
 import com.bitmovin.bitcodin.api.BitcodinApi;
 
-public class BitcodinApiTestExternal {
+public class BitcodinApiTest {
     public static void main(String[] args) {
         BitcodinApi bitApi = new BitcodinApi("THISISMYAPIKEY");
     }
