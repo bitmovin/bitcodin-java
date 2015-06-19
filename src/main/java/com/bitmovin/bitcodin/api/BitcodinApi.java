@@ -311,4 +311,18 @@ public class BitcodinApi {
             return null;
         }
     }
+    public Statistic getStatistics(String from, String to) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            String response = rest.get(new URI("statistics/jobs/" + from + "/" + to), this.defaultHeaders);
+            return gson.fromJson(response, Statistic.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

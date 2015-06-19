@@ -236,4 +236,13 @@ public class BitcodinApiTest {
         
         assertNotNull(stats);
     }
+    @Test
+    public void getStatisticsFromTo() {
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-17");
+        
+        System.out.println(stats.jobCountFinished);
+        
+        assertNotNull(stats);
+    }
 }
