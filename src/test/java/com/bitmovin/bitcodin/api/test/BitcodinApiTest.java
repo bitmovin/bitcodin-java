@@ -211,8 +211,8 @@ public class BitcodinApiTest {
     public void createJob() {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = new JobConfig();
-        jobConfig.encodingProfileId = 6838;
-        jobConfig.inputId = 2614;
+        jobConfig.encodingProfileId = 6938;
+        jobConfig.inputId = 2765;
         jobConfig.manifestTypes.addElement("mpd");
         jobConfig.manifestTypes.addElement("m3u8");
         
@@ -230,9 +230,9 @@ public class BitcodinApiTest {
     @Test
     public void getJob() {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Job job = bitApi.getJob(2421);
+        Job job = bitApi.getJob(2471);
         
-        assertEquals(job.jobId, 2421);
+        assertEquals(job.jobId, 2471);
     }
     @Test
     public void transfer() {
