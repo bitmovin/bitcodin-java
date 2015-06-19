@@ -43,7 +43,6 @@ public class BitcodinApi {
     private HashMap<String, String> defaultHeaders = new HashMap<String, String>();
 
     public BitcodinApi(String apiKey) {
-
         this.apiKey = apiKey;
         this.apiUrl = "http://portal.bitcodin.com/api/";
         this.defaultHeaders.put("Content-Type", "application/json");
