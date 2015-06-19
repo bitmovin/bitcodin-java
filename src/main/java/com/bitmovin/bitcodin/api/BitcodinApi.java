@@ -30,6 +30,9 @@ import com.bitmovin.bitcodin.api.output.GCSOutputConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.S3OutputConfig;
+import com.bitmovin.bitcodin.api.statistics.Statistic;
+import com.bitmovin.bitcodin.api.transfer.TransferConfig;
+import com.bitmovin.bitcodin.api.transfer.TransferList;
 import com.bitmovin.network.http.RestClient;
 import com.google.gson.Gson;
 
@@ -260,6 +263,46 @@ public class BitcodinApi {
             Gson gson = new Gson();
             return gson.fromJson(rest.get(new URI("job/" + Integer.toString(id)), this.defaultHeaders), Job.class);
             
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public void transfer(TransferConfig config) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            String content = gson.toJson(config);
+            String response = rest.post(new URI("job/transfer"), this.defaultHeaders, content);
+            /*TODO: Test when outputs work */
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+    public TransferList listTransfers(int jobId) {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            return gson.fromJson(rest.get(new URI("jobs/" + Integer.toString(jobId) + "/transfers"), this.defaultHeaders), TransferList.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public Statistic getStatistics() {
+        try {
+            RestClient rest = new RestClient(new URI(this.apiUrl));
+            Gson gson = new Gson();
+            String response = rest.get(new URI("statistics"), this.defaultHeaders);
+            return gson.fromJson(response, Statistic.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

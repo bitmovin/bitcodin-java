@@ -18,6 +18,8 @@ import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
 import com.bitmovin.bitcodin.api.output.GCSOutputConfig;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.S3OutputConfig;
+import com.bitmovin.bitcodin.api.statistics.Statistic;
+import com.bitmovin.bitcodin.api.transfer.TransferList;
 
 public class BitcodinApiTest {
 
@@ -209,7 +211,7 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
         JobList jobList = bitApi.listJobs(0);
         
-        assertEquals(jobList.jobs.get(0).jobId, 2421);
+        assertNotNull(jobList.jobs.get(0));
     }
     @Test
     public void getJob() {
@@ -217,5 +219,21 @@ public class BitcodinApiTest {
         Job job = bitApi.getJob(2421);
         
         assertEquals(job.jobId, 2421);
+    }
+    @Test
+    public void transfer() {
+        /*TODO*/
+    }
+    @Test
+    public void listTransfers() {
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        TransferList transferList = bitApi.listTransfers(6838);
+    }
+    @Test
+    public void getStatistics() {
+        BitcodinApi bitApi = new BitcodinApi(Settings.apikey);
+        Statistic stats = bitApi.getStatistics();
+        
+        assertNotNull(stats);
     }
 }
