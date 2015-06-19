@@ -13,10 +13,9 @@ import java.util.Map.Entry;
 
 public class RestClient {
 
-    private URI baseUrl;
+    protected URI baseUrl;
 
     public RestClient(URI baseUrl) {
-
         this.baseUrl = baseUrl;
     }
 
