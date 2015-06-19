@@ -163,8 +163,8 @@ public class BitcodinApiTest {
         
         EncodingProfile encodingProfile = bitApi.createEncodingProfile(encodingProfileConfig);
         
-        assertEquals(encodingProfile.videoStreamConfigs.get(0).width, 1920);
-        assertEquals(encodingProfile.videoStreamConfigs.get(0).height, 1080);
+        assertEquals(encodingProfile.videoStreamConfigs.get(0).width, 640);
+        assertEquals(encodingProfile.videoStreamConfigs.get(0).height, 480);
     }
     @Test
     public void listEncodingProfiles() {
