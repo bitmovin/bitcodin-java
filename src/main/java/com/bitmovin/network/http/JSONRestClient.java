@@ -17,6 +17,11 @@ public class JSONRestClient extends RestClient{
         String jsoncontent = gson.toJson(content);
         return gson.fromJson(this.post(resource, headers, jsoncontent), classOfT);
     }
+    public void post(URI resource, Map<String, String> headers, Object content) throws IOException {
+        Gson gson = new Gson();
+        String jsoncontent = gson.toJson(content);
+        this.post(resource, headers, jsoncontent);
+    }
     public <T> T get(URI resource, Map<String, String> headers, Class<T> classOfT) throws IOException {
         Gson gson = new Gson();
         return gson.fromJson(this.get(resource, headers), classOfT);

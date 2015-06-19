@@ -35,8 +35,6 @@ import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
 import com.bitmovin.network.http.JSONRestClient;
-import com.bitmovin.network.http.RestClient;
-import com.google.gson.Gson;
 
 public class BitcodinApi {
 
@@ -98,9 +96,8 @@ public class BitcodinApi {
 
     public void deleteInput(int id) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            rest.delete(new URI("input/" + Integer.toString(id)), this.defaultHeaders);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            jRest.delete(new URI("input/" + Integer.toString(id)), this.defaultHeaders);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -110,11 +107,8 @@ public class BitcodinApi {
 
     public void createS3Output(S3OutputConfig output) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            String content = gson.toJson(output);
-            rest.post(new URI("output/create"), this.defaultHeaders, content);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            jRest.post(new URI("output/create"), this.defaultHeaders, output);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -124,11 +118,8 @@ public class BitcodinApi {
 
     public void createGCSOutput(GCSOutputConfig output) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            String content = gson.toJson(output);
-            rest.post(new URI("output/create"), this.defaultHeaders, content);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            jRest.post(new URI("output/create"), this.defaultHeaders, output);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -138,11 +129,8 @@ public class BitcodinApi {
 
     public void createFTPOutput(FTPOutputConfig output) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            String content = gson.toJson(output);
-            rest.post(new URI("output/create"), this.defaultHeaders, content);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            jRest.post(new URI("output/create"), this.defaultHeaders, output);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -152,10 +140,8 @@ public class BitcodinApi {
 
     public OutputList listOutputs(int pageNumber) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            return gson.fromJson(rest.get(new URI("outputs/" + Integer.toString(pageNumber)), this.defaultHeaders), OutputList.class);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("outputs/" + Integer.toString(pageNumber)), this.defaultHeaders, OutputList.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -167,10 +153,8 @@ public class BitcodinApi {
 
     public Output getOutput(int id) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            return gson.fromJson(rest.get(new URI("output/" + Integer.toString(id)), this.defaultHeaders), Output.class);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("output/" + Integer.toString(id)), this.defaultHeaders, Output.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -182,9 +166,8 @@ public class BitcodinApi {
 
     public void deleteOutput(int id) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            rest.delete(new URI("output/" + Integer.toString(id)), this.defaultHeaders);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            jRest.delete(new URI("output/" + Integer.toString(id)), this.defaultHeaders);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -194,11 +177,8 @@ public class BitcodinApi {
 
     public EncodingProfile createEncodingProfile(EncodingProfileConfig profile) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            String content = gson.toJson(profile);
-            return gson.fromJson(rest.post(new URI("encoding-profile/create"), this.defaultHeaders, content), EncodingProfile.class);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.post(new URI("encoding-profile/create"), this.defaultHeaders, profile, EncodingProfile.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -210,10 +190,8 @@ public class BitcodinApi {
 
     public EncodingProfileList listEncodingProfiles(int pageNumber) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            return gson.fromJson(rest.get(new URI("encoding-profiles/" + Integer.toString(pageNumber)), this.defaultHeaders), EncodingProfileList.class);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("encoding-profiles/" + Integer.toString(pageNumber)), this.defaultHeaders, EncodingProfileList.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -225,10 +203,8 @@ public class BitcodinApi {
 
     public EncodingProfile getEncodingProfile(int id) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            return gson.fromJson(rest.get(new URI("encoding-profile/" + Integer.toString(id)), this.defaultHeaders), EncodingProfile.class);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("encoding-profile/" + Integer.toString(id)), this.defaultHeaders, EncodingProfile.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -240,10 +216,8 @@ public class BitcodinApi {
 
     public Job createJob(JobConfig jobConfig) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            String content = gson.toJson(jobConfig);
-            return gson.fromJson(rest.post(new URI("job/create"), this.defaultHeaders, content), Job.class);
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.post(new URI("job/create"), this.defaultHeaders, jobConfig, Job.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -255,10 +229,8 @@ public class BitcodinApi {
 
     public JobList listJobs(int pageNumber) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            return gson.fromJson(rest.get(new URI("jobs/" + Integer.toString(pageNumber)), this.defaultHeaders), JobList.class);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("jobs/" + Integer.toString(pageNumber)), this.defaultHeaders, JobList.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -270,10 +242,8 @@ public class BitcodinApi {
 
     public Job getJob(int id) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            return gson.fromJson(rest.get(new URI("job/" + Integer.toString(id)), this.defaultHeaders), Job.class);
-
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("job/" + Integer.toString(id)), this.defaultHeaders, Job.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -283,13 +253,11 @@ public class BitcodinApi {
         }
     }
 
-    public void transfer(TransferConfig config) {
+    public void transfer(TransferConfig transferConfig) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            String content = gson.toJson(config);
-            String response = rest.post(new URI("job/transfer"), this.defaultHeaders, content);
-            /* TODO: Test when outputs work */
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            jRest.post(new URI("job/transfer"), this.defaultHeaders, transferConfig);
+            /* TODO Add return when output works */
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -299,9 +267,8 @@ public class BitcodinApi {
 
     public TransferList listTransfers(int jobId) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            return gson.fromJson(rest.get(new URI("jobs/" + Integer.toString(jobId) + "/transfers"), this.defaultHeaders), TransferList.class);
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("jobs/" + Integer.toString(jobId) + "/transfers"), this.defaultHeaders, TransferList.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -313,10 +280,8 @@ public class BitcodinApi {
 
     public Statistic getStatistics() {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            String response = rest.get(new URI("statistics"), this.defaultHeaders);
-            return gson.fromJson(response, Statistic.class);
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("statistics"), this.defaultHeaders, Statistic.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -328,10 +293,8 @@ public class BitcodinApi {
 
     public Statistic getStatistics(String from, String to) {
         try {
-            RestClient rest = new RestClient(new URI(this.apiUrl));
-            Gson gson = new Gson();
-            String response = rest.get(new URI("statistics/jobs/" + from + "/" + to), this.defaultHeaders);
-            return gson.fromJson(response, Statistic.class);
+            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
+            return jRest.get(new URI("statistics/jobs/" + from + "/" + to), this.defaultHeaders, Statistic.class);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
