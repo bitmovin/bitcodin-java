@@ -7,7 +7,8 @@ The bitcodin API for Java is a seamless integration with the [bitcodin cloud tra
 
 # Getting started
 
-First add the library (jar) to your project. The main interaction with bitcodin will be handled through the BitcodinApi class. Therefore instantiate an object as folows:
+First add the library (jar) to your project. The main interaction with bitcodin will be handled through the BitcodinApi class. Therefore instantiate an object with your API key, which can be found in the settings of your bitcodin user account, as shown in the figure below.
+[![APIKey](http://www.bitcodin.com/wp-content/uploads/2015/06/api_key.png)]
 ```java
 import com.bitmovin.bitcodin.api.BitcodinApi;
 
