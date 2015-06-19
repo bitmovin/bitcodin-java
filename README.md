@@ -1,7 +1,9 @@
 # bitcodin-java
 [![build status](https://travis-ci.org/bitmovin/bitcodin-java.svg)](https://travis-ci.org/bitmovin/bitcodin-java)
 
-bitcodin API for Java enables interaction with the bitcodin cloud transcoding system. Enables the generation of MPEG-DASH and HLS content in just some minutes.
+The bitcodin API for Java is a seamless integration with the [bitcodin cloud transcoding system](http://www.bitcodin.com). Enables the generation of MPEG-DASH and HLS content in just some minutes.
+
+[![bitcodin](http://www.bitmovin.net/wp-content/uploads/2015/03/General-Try-Now-1024x538.jpg)](http://www.bitcodin.com)
 
 # Getting started
 
