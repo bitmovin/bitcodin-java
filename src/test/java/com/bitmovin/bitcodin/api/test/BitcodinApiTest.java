@@ -251,6 +251,7 @@ public class BitcodinApiTest {
         
         bitApi.transfer(transferConfig);
     }
+    
     @Test
     public void transferToS3() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
@@ -258,10 +259,20 @@ public class BitcodinApiTest {
         
         this.transfer(s3Output);
     }
+    
+    @Test
+    public void transferToFTP() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output ftpOutput = bitApi.createFTPOutput(this.settings.ftpOutput);
+        
+        this.transfer(ftpOutput);
+    }
 
     @Test
     public void listTransfers() throws BitcodinApiException {
-        /* TODO cannot be implemented without API fix so that transfer returns at least id */
+        /* TODO 
+         * cannot effectively be implemented without API fix
+         * so that transfer returns at least id */
     }
 
     @Test
