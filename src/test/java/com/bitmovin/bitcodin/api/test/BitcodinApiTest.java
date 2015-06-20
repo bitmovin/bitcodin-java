@@ -72,6 +72,7 @@ public class BitcodinApiTest {
         Input sameInput = bitApi.getInput(input.inputId);
 
         assertEquals(input.filename, sameInput.filename);
+        assertEquals(input.inputId, sameInput.inputId);
     }
 
     @Test
@@ -120,7 +121,12 @@ public class BitcodinApiTest {
 
     @Test
     public void getOutput() throws BitcodinApiException {
-        /* TODO */
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
+        Output sameOutput = bitApi.getOutput(output.outputId);
+
+        assertEquals(output.name, sameOutput.name);
+        assertEquals(output.outputId, sameOutput.outputId);
     }
 
     @Test
