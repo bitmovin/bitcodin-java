@@ -281,6 +281,9 @@ public class BitcodinApiTest {
         Statistic stats = bitApi.getStatistics();
 
         assertNotNull(stats);
+        
+        /* TODO 
+         * Does this call return monthly? Values must be redesigned */
     }
 
     @Test
@@ -288,5 +291,8 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-10");
         assertNotNull(stats);
+        
+        /* TODO 
+         * Range is not working -> fix in API */
     }
 }
