@@ -8,7 +8,7 @@ public class S3OutputConfig {
     @Expose
     public String name;
     @Expose
-    public String region;
+    public S3Region region;
     @Expose
     public String accessKey;
     @Expose
