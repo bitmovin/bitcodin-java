@@ -161,16 +161,16 @@ public class BitcodinApi {
         this.delete("input/" + Integer.toString(id), this.defaultHeaders);
     }
 
-    public void createS3Output(S3OutputConfig output) throws BitcodinApiException {
-        this.post("output/create", this.defaultHeaders, output);
+    public Output createS3Output(S3OutputConfig output) throws BitcodinApiException {
+        return this.post("output/create", this.defaultHeaders, output, Output.class);
     }
 
-    public void createGCSOutput(GCSOutputConfig output) throws BitcodinApiException {
-        this.post("output/create", this.defaultHeaders, output);
+    public Output createGCSOutput(GCSOutputConfig output) throws BitcodinApiException {
+        return this.post("output/create", this.defaultHeaders, output, Output.class);
     }
 
-    public void createFTPOutput(FTPOutputConfig output) throws BitcodinApiException {
-        this.post("output/create", this.defaultHeaders, output);
+    public Output createFTPOutput(FTPOutputConfig output) throws BitcodinApiException {
+        return this.post("output/create", this.defaultHeaders, output, Output.class);
     }
 
     public OutputList listOutputs(int pageNumber) throws BitcodinApiException {
