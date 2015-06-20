@@ -1,5 +1,12 @@
 package com.bitmovin.bitcodin.api.output;
 
-public class Output {
+import com.google.gson.annotations.Expose;
 
+public class Output {
+    @Expose
+    public int outputId;
+    @Expose
+    public String name;
+    @Expose
+    public String type;
 }
