@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 public class GCSOutputConfig {
     @Expose
-    public String type = "gcs";
+    public OutputType type = OutputType.GCS;
     @Expose
     public String name;
     @Expose

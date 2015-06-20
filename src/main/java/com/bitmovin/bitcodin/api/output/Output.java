@@ -8,5 +8,5 @@ public class Output {
     @Expose
     public String name;
     @Expose
-    public String type;
+    public OutputType type;
 }

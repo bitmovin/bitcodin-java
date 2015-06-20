@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 public class FTPOutputConfig {
     @Expose
-    public String type = "ftp";
+    public OutputType type = OutputType.FTP;
     @Expose
     public String name;
     @Expose

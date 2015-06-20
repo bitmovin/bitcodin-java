@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 public class S3OutputConfig {
     @Expose
-    public String type = "s3";
+    public OutputType type = OutputType.S3;
     @Expose
     public String name;
     @Expose

@@ -23,6 +23,7 @@ import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
+import com.bitmovin.bitcodin.api.output.OutputType;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 
@@ -49,6 +50,7 @@ public class BitcodinApiTest {
         
         return bitApi.createInput(httpInputConfig);
     }
+
     @Test
     public void createInput() throws BitcodinApiException {
         Input input = this.createSintelInput();
@@ -87,14 +89,16 @@ public class BitcodinApiTest {
         Input input = this.createSintelInput();
 
         bitApi.deleteInput(input.inputId);
-        /* TODO: fix API input delete is not working */
+        /* TODO: FIX API input delete is not working */
         //assertNull(bitApi.getInput(input.inputId));
     }
 
     @Test
     public void createS3Output() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        bitApi.createS3Output(this.settings.s3OutputEUWest);
+        Output output = bitApi.createS3Output(this.settings.s3OutputEUWest);
+        
+        assertEquals(output.type, OutputType.S3);
     }
 
     @Test
@@ -105,7 +109,9 @@ public class BitcodinApiTest {
     @Test
     public void createFTPOutput() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        bitApi.createFTPOutput(this.settings.ftpOutput);
+        Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
+        
+        assertEquals(output.type, OutputType.FTP);
     }
 
     @Test
