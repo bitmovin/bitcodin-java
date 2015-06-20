@@ -137,11 +137,8 @@ public class BitcodinApiTest {
         thrown.expectMessage("Resource not available");
         bitApi.getOutput(output.outputId);
     }
-
-    @Test
-    public void createEncodingProfile() throws BitcodinApiException {
-        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-
+    
+    public EncodingProfileConfig createEncodingProfileConfig() {
         VideoStreamConfig videoConfig = new VideoStreamConfig();
         videoConfig.bitrate = 1 * 1024 * 1024;
         videoConfig.width = 640;
@@ -152,11 +149,18 @@ public class BitcodinApiTest {
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
         encodingProfileConfig.name = "JUnitTestProfile";
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
+        
+        return encodingProfileConfig;
+    }
 
-        EncodingProfile encodingProfile = bitApi.createEncodingProfile(encodingProfileConfig);
+    @Test
+    public void createEncodingProfile() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        EncodingProfileConfig config = this.createEncodingProfileConfig();
+        EncodingProfile encodingProfile = bitApi.createEncodingProfile(config);
 
-        assertEquals(encodingProfile.videoStreamConfigs.get(0).width, 640);
-        assertEquals(encodingProfile.videoStreamConfigs.get(0).height, 480);
+        assertEquals(encodingProfile.videoStreamConfigs.get(0).width, config.videoStreamConfigs.get(0).width);
+        assertEquals(encodingProfile.videoStreamConfigs.get(0).height, config.videoStreamConfigs.get(0).height);
     }
 
     @Test
