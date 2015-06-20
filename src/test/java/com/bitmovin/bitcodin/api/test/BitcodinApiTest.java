@@ -17,6 +17,7 @@ import com.bitmovin.bitcodin.api.input.InputType;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobList;
+import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
@@ -214,7 +215,7 @@ public class BitcodinApiTest {
         JobConfig jobConfig = this.createJobConfig();
         Job job = bitApi.createJob(jobConfig);
 
-        assertEquals(job.status, "Enqueued");
+        assertEquals(job.status, JobStatus.ENQUEUED);
     }
 
     @Test
@@ -244,7 +245,7 @@ public class BitcodinApiTest {
         
         Job finishedJob = null;
         for (Job job : jobList.jobs) {
-            if (job.status.equals("Finished")) {
+            if (job.status == JobStatus.FINISHED) {
                 finishedJob = job; 
                 break;
             }

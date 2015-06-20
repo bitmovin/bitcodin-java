@@ -6,5 +6,5 @@ public class Job {
     @Expose
     public int jobId;
     @Expose
-    public String status;
+    public JobStatus status;
 }
