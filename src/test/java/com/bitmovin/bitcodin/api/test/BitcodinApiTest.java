@@ -32,14 +32,12 @@ public class BitcodinApiTest {
 
     @Test
     public void testApiKeyGetter() {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         assertEquals(this.settings.apikey, bitApi.getKey());
     }
 
     @Test
     public void createInput() throws BitcodinApiException {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
         httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
@@ -53,7 +51,6 @@ public class BitcodinApiTest {
 
     @Test
     public void listInputs() throws BitcodinApiException {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         InputList inputList = bitApi.listInputs(0);
 
@@ -62,7 +59,6 @@ public class BitcodinApiTest {
 
     @Test
     public void getInput() throws BitcodinApiException {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
         httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
@@ -80,7 +76,6 @@ public class BitcodinApiTest {
 
     @Test
     public void deleteInput() throws BitcodinApiException {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
         httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
@@ -98,14 +93,12 @@ public class BitcodinApiTest {
 
     @Test
     public void createS3Output() throws BitcodinApiException {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         bitApi.createS3Output(this.settings.s3OutputEUWest);
     }
 
     @Test
     public void createGCSOutput() throws BitcodinApiException {
-        
         /* TODO */
     }
 
@@ -117,7 +110,6 @@ public class BitcodinApiTest {
 
     @Test
     public void listOutputs() throws BitcodinApiException {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         OutputList outputList = bitApi.listOutputs(0);
 
@@ -157,7 +149,6 @@ public class BitcodinApiTest {
 
     @Test
     public void listEncodingProfiles() throws BitcodinApiException {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         EncodingProfileList encodingProfileList = bitApi.listEncodingProfiles(0);
 
@@ -166,7 +157,6 @@ public class BitcodinApiTest {
 
     @Test
     public void getEncodingProfile() throws BitcodinApiException {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
 
         VideoStreamConfig videoConfig = new VideoStreamConfig();
