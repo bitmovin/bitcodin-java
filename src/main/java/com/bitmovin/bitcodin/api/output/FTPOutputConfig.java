@@ -10,9 +10,9 @@ public class FTPOutputConfig {
     @Expose
     public String host;
     @Expose
-    public String basicAuthUser;
+    public String username;
     @Expose
-    public String basicAuthPassword;
+    public String password;
     @Expose
     public boolean passive;
 }

@@ -24,7 +24,8 @@ public class JSONRestClient extends RestClient{
     }
     public <T> T get(URI resource, Map<String, String> headers, Class<T> classOfT) throws IOException {
         Gson gson = new Gson();
-        return gson.fromJson(this.get(resource, headers), classOfT);
+        String response = this.get(resource, headers);
+        return gson.fromJson(response, classOfT);
     }
     public <T> T delete(URI resource, Map<String, String> headers, Class<T> classOfT) throws IOException {
         Gson gson = new Gson();

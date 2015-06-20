@@ -17,10 +17,8 @@ import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
-import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
 import com.bitmovin.bitcodin.api.output.GCSOutputConfig;
 import com.bitmovin.bitcodin.api.output.OutputList;
-import com.bitmovin.bitcodin.api.output.S3OutputConfig;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
 
@@ -97,53 +95,26 @@ public class BitcodinApiTest {
         assertEquals(input.filename, sameInput.filename);
 
         bitApi.deleteInput(input.inputId);
-        assertNull(bitApi.getInput(input.inputId));
+        //assertNull(bitApi.getInput(input.inputId));
     }
 
     @Test
     public void createS3Output() {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        S3OutputConfig s3OutputConfig = new S3OutputConfig();
-
-        s3OutputConfig.accessKey = "YOUR_ACCESS_KEY";
-        s3OutputConfig.secretKey = "YOUR_SECRET_KEY";
-        s3OutputConfig.host = "s3-eu-west-1.amazonaws.com";
-        s3OutputConfig.name = "OUTPUT_NAME";
-        s3OutputConfig.bucket = "YOUR_BUCKET";
-        s3OutputConfig.prefix = "DIRECTORY/SUBDIRECTORY";
-
-        bitApi.createS3Output(s3OutputConfig);
-
+        bitApi.createS3Output(this.settings.s3OutputEUWest);
     }
 
     @Test
     public void createGCSOutput() {
-
-        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        GCSOutputConfig gcsOutputConfig = new GCSOutputConfig();
-
-        gcsOutputConfig.accessKey = "YOUR_ACCESS_KEY";
-        gcsOutputConfig.secretKey = "YOUR_SECRET_KEY";
-        gcsOutputConfig.name = "OUTPUT_NAME";
-        gcsOutputConfig.bucket = "YOUR_BUCKET";
-        gcsOutputConfig.prefix = "DIRECTORY/SUBDIRECTORY";
-
-        bitApi.createGCSOutput(gcsOutputConfig);
-
+        
+        /* TODO */
     }
 
     @Test
     public void createFTPOutput() {
-
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        FTPOutputConfig ftpOutputConfig = new FTPOutputConfig();
-
-        ftpOutputConfig.name = "OUTPUT_NAME";
-        ftpOutputConfig.host = "YOUR_HOST";
-
-        bitApi.createFTPOutput(ftpOutputConfig);
-
+        bitApi.createFTPOutput(this.settings.ftpOutput);
     }
 
     @Test
@@ -273,10 +244,7 @@ public class BitcodinApiTest {
     @Test
     public void getStatisticsFromTo() {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-17");
-
-        System.out.println(stats.jobCountFinished);
-
+        Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-10");
         assertNotNull(stats);
     }
 }

@@ -2,6 +2,7 @@ package com.bitmovin.network.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -24,21 +25,25 @@ public class RestClient {
         URL url = this.baseUrl.resolve(resource).toURL();
         return this.request("POST", url, headers, content);
     }
+
     public String get(URI resource, Map<String, String> headers) throws IOException {
-        
+
         URL url = this.baseUrl.resolve(resource).toURL();
         return this.request("GET", url, headers);
     }
+
     public String delete(URI resource, Map<String, String> headers) throws IOException {
-        
+
         URL url = this.baseUrl.resolve(resource).toURL();
         return this.request("DELETE", url, headers);
     }
+
     public String request(String method, URL url, Map<String, String> headers) throws IOException {
         return this.request(method, url, headers, null);
     }
+
     public String request(String method, URL url, Map<String, String> headers, String content) throws IOException {
-        
+
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod(method);
@@ -55,13 +60,17 @@ public class RestClient {
             os.flush();
         }
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_CREATED &&
-            connection.getResponseCode() != HttpURLConnection.HTTP_OK &&
-            connection.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT)
-            throw new RuntimeException("Failed : HTTP error code : " + connection.getResponseCode() + 
-                                       " Message: " + connection.getResponseMessage() + 
-                                       " URL: " + url.toString() +
-                                       " Content: " + content);
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_CREATED && connection.getResponseCode() != HttpURLConnection.HTTP_OK && connection.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+
+            String read = "";
+            StringBuffer sb = new StringBuffer(read);
+            while ((read = reader.readLine()) != null)
+                sb.append(read);
+
+            throw new RuntimeException("Failed : HTTP error code : " + connection.getResponseCode() + " Message: " + connection.getResponseMessage() + " Body: " + sb.toString() + " URL: " + url.toString() + " Content: " + content);
+        }
 
         BufferedReader reader = new BufferedReader(new InputStreamReader((connection.getInputStream())));
 
@@ -71,6 +80,7 @@ public class RestClient {
             sb.append(read);
 
         connection.disconnect();
+
         return sb.toString();
     }
 
