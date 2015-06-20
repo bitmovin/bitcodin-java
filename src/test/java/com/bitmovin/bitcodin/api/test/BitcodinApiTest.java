@@ -184,9 +184,8 @@ public class BitcodinApiTest {
         assertEquals(sameProfile.name, encodingProfile.name);
         assertEquals(sameProfile.encodingProfileId, encodingProfile.encodingProfileId);
     }
-
-    @Test
-    public void createJob() throws BitcodinApiException {
+    
+    public JobConfig createJobConfig() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = new JobConfig();
         EncodingProfileConfig config = this.createEncodingProfileConfig();
@@ -197,7 +196,14 @@ public class BitcodinApiTest {
         jobConfig.inputId = input.inputId;
         jobConfig.manifestTypes.addElement("mpd");
         jobConfig.manifestTypes.addElement("m3u8");
+        
+        return jobConfig;
+    }
 
+    @Test
+    public void createJob() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        JobConfig jobConfig = this.createJobConfig();
         Job job = bitApi.createJob(jobConfig);
 
         assertEquals(job.status, "Enqueued");
@@ -206,17 +212,22 @@ public class BitcodinApiTest {
     @Test
     public void listJobs() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        JobConfig jobConfig = this.createJobConfig();
+        Job job = bitApi.createJob(jobConfig);
         JobList jobList = bitApi.listJobs(0);
+        Job lastRecentJob = jobList.jobs.get(0);
 
-        assertNotNull(jobList.jobs.get(0));
+        assertEquals(lastRecentJob.jobId, job.jobId);
     }
 
     @Test
     public void getJob() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Job job = bitApi.getJob(2471);
+        JobConfig jobConfig = this.createJobConfig();
+        Job job = bitApi.createJob(jobConfig);
+        Job sameJob = bitApi.getJob(job.jobId);
 
-        assertEquals(job.jobId, 2471);
+        assertEquals(sameJob.jobId, job.jobId);
     }
 
     @Test
