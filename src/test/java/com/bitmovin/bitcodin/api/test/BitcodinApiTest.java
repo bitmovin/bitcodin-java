@@ -230,8 +230,7 @@ public class BitcodinApiTest {
         assertEquals(sameJob.jobId, job.jobId);
     }
 
-    @Test
-    public void transferToS3() throws BitcodinApiException {
+    public void transfer (Output output) throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobList jobList = bitApi.listJobs(0);
         
@@ -245,13 +244,19 @@ public class BitcodinApiTest {
         
         assertNotNull(finishedJob);
         
-        Output s3Output = bitApi.createS3Output(this.settings.s3OutputEUWest);
         TransferConfig transferConfig = new TransferConfig();
         
         transferConfig.jobId = finishedJob.jobId;
-        transferConfig.outputId = s3Output.outputId;
+        transferConfig.outputId = output.outputId;
         
         bitApi.transfer(transferConfig);
+    }
+    @Test
+    public void transferToS3() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output s3Output = bitApi.createS3Output(this.settings.s3OutputEUWest);
+        
+        this.transfer(s3Output);
     }
 
     @Test
