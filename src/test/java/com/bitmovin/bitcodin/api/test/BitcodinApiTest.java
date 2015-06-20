@@ -13,6 +13,7 @@ import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
 import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
+import com.bitmovin.bitcodin.api.input.InputType;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobList;
@@ -56,6 +57,7 @@ public class BitcodinApiTest {
         assertEquals(input.mediaConfigurations.size(), 2);
         assertEquals(input.mediaConfigurations.get(0).width, 1280);
         assertEquals(input.mediaConfigurations.get(0).height, 544);
+        assertEquals(input.inputType, InputType.URL);
     }
 
     @Test
