@@ -18,6 +18,7 @@ import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.job.JobStatus;
+import com.bitmovin.bitcodin.api.job.ManifestType;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
@@ -203,8 +204,8 @@ public class BitcodinApiTest {
         
         jobConfig.encodingProfileId = encodingProfile.encodingProfileId;
         jobConfig.inputId = input.inputId;
-        jobConfig.manifestTypes.addElement("mpd");
-        jobConfig.manifestTypes.addElement("m3u8");
+        jobConfig.manifestTypes.addElement(ManifestType.MPEG_DASH_MPD);
+        jobConfig.manifestTypes.addElement(ManifestType.HLS_M3U8);
         
         return jobConfig;
     }

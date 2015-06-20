@@ -10,5 +10,5 @@ public class JobConfig {
     @Expose
     public int encodingProfileId;
     @Expose
-    public Vector<String> manifestTypes = new Vector<String>();
+    public Vector<ManifestType> manifestTypes = new Vector<ManifestType>();
 }
