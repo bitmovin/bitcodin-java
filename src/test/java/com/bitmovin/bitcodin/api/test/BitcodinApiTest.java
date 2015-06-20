@@ -23,6 +23,7 @@ import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
+import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
 
 public class BitcodinApiTest {
@@ -231,8 +232,27 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void transfer() throws BitcodinApiException {
-        /* TODO */
+    public void transferToS3() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        JobList jobList = bitApi.listJobs(0);
+        
+        Job finishedJob = null;
+        for (Job job : jobList.jobs) {
+            if (job.status.equals("Finished")) {
+                finishedJob = job; 
+                break;
+            }
+        }
+        
+        assertNotNull(finishedJob);
+        
+        Output s3Output = bitApi.createS3Output(this.settings.s3OutputEUWest);
+        TransferConfig transferConfig = new TransferConfig();
+        
+        transferConfig.jobId = finishedJob.jobId;
+        transferConfig.outputId = s3Output.outputId;
+        
+        bitApi.transfer(transferConfig);
     }
 
     @Test
