@@ -97,7 +97,7 @@ public class BitcodinApiTest {
 
     @Test
     public void createGCSOutput() throws BitcodinApiException {
-        /* TODO */
+        /* TODO Create public GCS bucket*/
     }
 
     @Test
