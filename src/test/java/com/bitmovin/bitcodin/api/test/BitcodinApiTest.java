@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import org.junit.Test;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
+import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
 import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
@@ -17,7 +18,6 @@ import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
-import com.bitmovin.bitcodin.api.output.GCSOutputConfig;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
@@ -38,7 +38,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void createInput() {
+    public void createInput() throws BitcodinApiException {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
@@ -52,7 +52,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void listInputs() {
+    public void listInputs() throws BitcodinApiException {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         InputList inputList = bitApi.listInputs(0);
@@ -61,7 +61,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void getInput() {
+    public void getInput() throws BitcodinApiException {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
@@ -79,7 +79,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void deleteInput() {
+    public void deleteInput() throws BitcodinApiException {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
@@ -99,26 +99,26 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void createS3Output() {
+    public void createS3Output() throws BitcodinApiException {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         bitApi.createS3Output(this.settings.s3OutputEUWest);
     }
 
     @Test
-    public void createGCSOutput() {
+    public void createGCSOutput() throws BitcodinApiException {
         
         /* TODO */
     }
 
     @Test
-    public void createFTPOutput() {
+    public void createFTPOutput() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         bitApi.createFTPOutput(this.settings.ftpOutput);
     }
 
     @Test
-    public void listOutputs() {
+    public void listOutputs() throws BitcodinApiException {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         OutputList outputList = bitApi.listOutputs(0);
@@ -127,17 +127,17 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void getOutput() {
+    public void getOutput() throws BitcodinApiException {
         /* TODO */
     }
 
     @Test
-    public void deleteOutput() {
+    public void deleteOutput() throws BitcodinApiException {
         /* TODO */
     }
 
     @Test
-    public void createEncodingProfile() {
+    public void createEncodingProfile() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
 
         VideoStreamConfig videoConfig = new VideoStreamConfig();
@@ -158,7 +158,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void listEncodingProfiles() {
+    public void listEncodingProfiles() throws BitcodinApiException {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         EncodingProfileList encodingProfileList = bitApi.listEncodingProfiles(0);
@@ -167,7 +167,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void getEncodingProfile() {
+    public void getEncodingProfile() throws BitcodinApiException {
 
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
 
@@ -193,7 +193,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void createJob() {
+    public void createJob() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = new JobConfig();
         jobConfig.encodingProfileId = 6938;
@@ -207,7 +207,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void listJobs() {
+    public void listJobs() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobList jobList = bitApi.listJobs(0);
 
@@ -215,7 +215,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void getJob() {
+    public void getJob() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Job job = bitApi.getJob(2471);
 
@@ -223,18 +223,18 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void transfer() {
+    public void transfer() throws BitcodinApiException {
         /* TODO */
     }
 
     @Test
-    public void listTransfers() {
+    public void listTransfers() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         TransferList transferList = bitApi.listTransfers(6838);
     }
 
     @Test
-    public void getStatistics() {
+    public void getStatistics() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Statistic stats = bitApi.getStatistics();
 
@@ -242,7 +242,7 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void getStatisticsFromTo() {
+    public void getStatisticsFromTo() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-10");
         assertNotNull(stats);

@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Map;
 
+import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
 import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
@@ -35,6 +37,7 @@ import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
 import com.bitmovin.network.http.JSONRestClient;
+import com.bitmovin.network.http.RestException;
 
 public class BitcodinApi {
 
@@ -53,253 +56,172 @@ public class BitcodinApi {
     public String getKey() {
         return this.apiKey;
     }
-
-    public Input createInput(HTTPInputConfig httpInputConfig) {
+    
+    public <T> T post(String resource, Map<String, String> headers, Object content, Class<T> classOfT) throws BitcodinApiException{
+        JSONRestClient jRest;
         try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.post(new URI("input/create"), this.defaultHeaders, httpInputConfig, Input.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            jRest = new JSONRestClient(new URI(this.apiUrl));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
+            throw new BitcodinApiException("API url not valid", e);
+        }
+        try {
+            return jRest.post(new URI(resource), this.defaultHeaders, content, classOfT);
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("Resource url not valid", e);
+        }  catch (RestException e) {
+            throw new BitcodinApiException("Request is not vaild", e);
+        } catch (IOException e) {
+            throw new BitcodinApiException("Network problem", e);
+        }
+    }
+    
+    public void post(String resource, Map<String, String> headers, Object content) throws BitcodinApiException {
+        JSONRestClient jRest;
+        try {
+            jRest = new JSONRestClient(new URI(this.apiUrl));
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("API url not valid", e);
+        }
+        try {
+            jRest.post(new URI(resource), this.defaultHeaders, content);
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("Resource url not valid", e);
+        }  catch (RestException e) {
+            throw new BitcodinApiException("Request is not vaild", e);
+        } catch (IOException e) {
+            throw new BitcodinApiException("Network problem", e);
+        }
+    }
+    
+    public <T> T get(String resource, Map<String, String> headers, Class<T> classOfT) throws BitcodinApiException {
+        JSONRestClient jRest;
+        try {
+            jRest = new JSONRestClient(new URI(this.apiUrl));
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("API url not valid", e);
+        }
+        try {
+            return jRest.get(new URI(resource), this.defaultHeaders, classOfT);
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("Resource url not valid", e);
+        }  catch (RestException e) {
+            throw new BitcodinApiException("Request is not vaild", e);
+        } catch (IOException e) {
+            throw new BitcodinApiException("Network problem", e);
+        }
+    }
+    public <T> T delete(String resource, Map<String, String> headers, Class<T> classOfT) throws BitcodinApiException {
+        JSONRestClient jRest;
+        try {
+            jRest = new JSONRestClient(new URI(this.apiUrl));
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("API url not valid", e);
+        }
+        try {
+            return jRest.delete(new URI(resource), this.defaultHeaders, classOfT);
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("Resource url not valid", e);
+        }  catch (RestException e) {
+            throw new BitcodinApiException("Request is not vaild", e);
+        } catch (IOException e) {
+            throw new BitcodinApiException("Network problem", e);
+        }
+    }
+    public void delete(String resource, Map<String, String> headers) throws BitcodinApiException {
+        JSONRestClient jRest;
+        try {
+            jRest = new JSONRestClient(new URI(this.apiUrl));
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("API url not valid", e);
+        }
+        try {
+            jRest.delete(new URI(resource), this.defaultHeaders);
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("Resource url not valid", e);
+        }  catch (RestException e) {
+            throw new BitcodinApiException("Request is not vaild", e);
+        } catch (IOException e) {
+            throw new BitcodinApiException("Network problem", e);
         }
     }
 
-    public InputList listInputs(int pageNumber) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("inputs/" + Integer.toString(pageNumber)), this.defaultHeaders, InputList.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Input createInput(HTTPInputConfig httpInputConfig) throws BitcodinApiException {
+        return this.post("input/create", this.defaultHeaders, httpInputConfig, Input.class);
     }
 
-    public Input getInput(int id) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("input/" + Integer.toString(id)), this.defaultHeaders, Input.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public InputList listInputs(int pageNumber) throws BitcodinApiException {
+        return this.get("inputs/" + Integer.toString(pageNumber), this.defaultHeaders, InputList.class);
     }
 
-    public void deleteInput(int id) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            jRest.delete(new URI("input/" + Integer.toString(id)), this.defaultHeaders);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public Input getInput(int id) throws BitcodinApiException {
+        return this.get("input/" + Integer.toString(id), this.defaultHeaders, Input.class);
     }
 
-    public void createS3Output(S3OutputConfig output) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            jRest.post(new URI("output/create"), this.defaultHeaders, output);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public void deleteInput(int id) throws BitcodinApiException {
+        this.delete("input/" + Integer.toString(id), this.defaultHeaders);
     }
 
-    public void createGCSOutput(GCSOutputConfig output) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            jRest.post(new URI("output/create"), this.defaultHeaders, output);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public void createS3Output(S3OutputConfig output) throws BitcodinApiException {
+        this.post("output/create", this.defaultHeaders, output);
     }
 
-    public void createFTPOutput(FTPOutputConfig output) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            jRest.post(new URI("output/create"), this.defaultHeaders, output);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public void createGCSOutput(GCSOutputConfig output) throws BitcodinApiException {
+        this.post("output/create", this.defaultHeaders, output);
     }
 
-    public OutputList listOutputs(int pageNumber) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("outputs/" + Integer.toString(pageNumber)), this.defaultHeaders, OutputList.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public void createFTPOutput(FTPOutputConfig output) throws BitcodinApiException {
+        this.post("output/create", this.defaultHeaders, output);
     }
 
-    public Output getOutput(int id) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("output/" + Integer.toString(id)), this.defaultHeaders, Output.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public OutputList listOutputs(int pageNumber) throws BitcodinApiException {
+        return this.get("outputs/" + Integer.toString(pageNumber), this.defaultHeaders, OutputList.class);
     }
 
-    public void deleteOutput(int id) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            jRest.delete(new URI("output/" + Integer.toString(id)), this.defaultHeaders);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public Output getOutput(int id) throws BitcodinApiException {
+        return this.get("output/" + Integer.toString(id), this.defaultHeaders, Output.class);
     }
 
-    public EncodingProfile createEncodingProfile(EncodingProfileConfig profile) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.post(new URI("encoding-profile/create"), this.defaultHeaders, profile, EncodingProfile.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public void deleteOutput(int id) throws BitcodinApiException {
+        this.delete("output/" + Integer.toString(id), this.defaultHeaders);
     }
 
-    public EncodingProfileList listEncodingProfiles(int pageNumber) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("encoding-profiles/" + Integer.toString(pageNumber)), this.defaultHeaders, EncodingProfileList.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public EncodingProfile createEncodingProfile(EncodingProfileConfig profile) throws BitcodinApiException {
+        return this.post("encoding-profile/create", this.defaultHeaders, profile, EncodingProfile.class);
     }
 
-    public EncodingProfile getEncodingProfile(int id) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("encoding-profile/" + Integer.toString(id)), this.defaultHeaders, EncodingProfile.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public EncodingProfileList listEncodingProfiles(int pageNumber) throws BitcodinApiException {
+        return this.get("encoding-profiles/" + Integer.toString(pageNumber), this.defaultHeaders, EncodingProfileList.class);
     }
 
-    public Job createJob(JobConfig jobConfig) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.post(new URI("job/create"), this.defaultHeaders, jobConfig, Job.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public EncodingProfile getEncodingProfile(int id) throws BitcodinApiException {
+        return this.get("encoding-profile/" + Integer.toString(id), this.defaultHeaders, EncodingProfile.class);
     }
 
-    public JobList listJobs(int pageNumber) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("jobs/" + Integer.toString(pageNumber)), this.defaultHeaders, JobList.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Job createJob(JobConfig jobConfig) throws BitcodinApiException {
+        return this.post("job/create", this.defaultHeaders, jobConfig, Job.class);
     }
 
-    public Job getJob(int id) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("job/" + Integer.toString(id)), this.defaultHeaders, Job.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public JobList listJobs(int pageNumber) throws BitcodinApiException {
+        return this.get("jobs/" + Integer.toString(pageNumber), this.defaultHeaders, JobList.class);
     }
 
-    public void transfer(TransferConfig transferConfig) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            jRest.post(new URI("job/transfer"), this.defaultHeaders, transferConfig);
-            /* TODO Add return when output works */
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public Job getJob(int id) throws BitcodinApiException {
+        return this.get("job/" + Integer.toString(id), this.defaultHeaders, Job.class);
     }
 
-    public TransferList listTransfers(int jobId) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("jobs/" + Integer.toString(jobId) + "/transfers"), this.defaultHeaders, TransferList.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public void transfer(TransferConfig transferConfig) throws BitcodinApiException {
+        this.post("job/transfer", this.defaultHeaders, transferConfig);
     }
 
-    public Statistic getStatistics() {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("statistics"), this.defaultHeaders, Statistic.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public TransferList listTransfers(int jobId) throws BitcodinApiException {
+        return this.get("jobs/" + Integer.toString(jobId) + "/transfers", this.defaultHeaders, TransferList.class);
     }
 
-    public Statistic getStatistics(String from, String to) {
-        try {
-            JSONRestClient jRest = new JSONRestClient(new URI(this.apiUrl));
-            return jRest.get(new URI("statistics/jobs/" + from + "/" + to), this.defaultHeaders, Statistic.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Statistic getStatistics() throws BitcodinApiException {
+        return this.get("statistics", this.defaultHeaders, Statistic.class);
+    }
+
+    public Statistic getStatistics(String from, String to) throws BitcodinApiException {
+        return this.get("statistics/jobs/" + from + "/" + to, this.defaultHeaders, Statistic.class);
     }
 }

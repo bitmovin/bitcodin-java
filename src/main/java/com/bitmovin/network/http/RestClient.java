@@ -2,7 +2,6 @@ package com.bitmovin.network.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -20,29 +19,29 @@ public class RestClient {
         this.baseUrl = baseUrl;
     }
 
-    public String post(URI resource, Map<String, String> headers, String content) throws IOException {
+    public String post(URI resource, Map<String, String> headers, String content) throws IOException, RestException {
 
         URL url = this.baseUrl.resolve(resource).toURL();
         return this.request("POST", url, headers, content);
     }
 
-    public String get(URI resource, Map<String, String> headers) throws IOException {
+    public String get(URI resource, Map<String, String> headers) throws IOException, RestException {
 
         URL url = this.baseUrl.resolve(resource).toURL();
         return this.request("GET", url, headers);
     }
 
-    public String delete(URI resource, Map<String, String> headers) throws IOException {
+    public String delete(URI resource, Map<String, String> headers) throws IOException, RestException {
 
         URL url = this.baseUrl.resolve(resource).toURL();
         return this.request("DELETE", url, headers);
     }
 
-    public String request(String method, URL url, Map<String, String> headers) throws IOException {
+    public String request(String method, URL url, Map<String, String> headers) throws IOException, RestException {
         return this.request(method, url, headers, null);
     }
 
-    public String request(String method, URL url, Map<String, String> headers, String content) throws IOException {
+    public String request(String method, URL url, Map<String, String> headers, String content) throws IOException, RestException {
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
@@ -60,7 +59,7 @@ public class RestClient {
             os.flush();
         }
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_CREATED && connection.getResponseCode() != HttpURLConnection.HTTP_OK && connection.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
+        if (connection.getResponseCode() < 200 && connection.getResponseCode() >= 300) {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
 
@@ -69,7 +68,7 @@ public class RestClient {
             while ((read = reader.readLine()) != null)
                 sb.append(read);
 
-            throw new RuntimeException("Failed : HTTP error code : " + connection.getResponseCode() + " Message: " + connection.getResponseMessage() + " Body: " + sb.toString() + " URL: " + url.toString() + " Content: " + content);
+            throw new RestException(connection.getResponseCode(), connection.getResponseMessage(), sb.toString());
         }
 
         BufferedReader reader = new BufferedReader(new InputStreamReader((connection.getInputStream())));
