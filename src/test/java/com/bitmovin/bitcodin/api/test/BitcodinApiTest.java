@@ -189,8 +189,12 @@ public class BitcodinApiTest {
     public void createJob() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = new JobConfig();
-        jobConfig.encodingProfileId = 6938;
-        jobConfig.inputId = 2765;
+        EncodingProfileConfig config = this.createEncodingProfileConfig();
+        EncodingProfile encodingProfile = bitApi.createEncodingProfile(config);
+        Input input = this.createSintelInput();
+        
+        jobConfig.encodingProfileId = encodingProfile.encodingProfileId;
+        jobConfig.inputId = input.inputId;
         jobConfig.manifestTypes.addElement("mpd");
         jobConfig.manifestTypes.addElement("m3u8");
 
