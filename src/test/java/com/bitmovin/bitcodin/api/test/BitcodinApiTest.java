@@ -78,14 +78,7 @@ public class BitcodinApiTest {
     @Test
     public void deleteInput() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        HTTPInputConfig httpInputConfig = new HTTPInputConfig();
-        httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
-        Input input = bitApi.createInput(httpInputConfig);
-
-        assertEquals(input.filename, "Sintel.2010.720p.mkv");
-        assertEquals(input.mediaConfigurations.size(), 2);
-        assertEquals(input.mediaConfigurations.get(0).width, 1280);
-        assertEquals(input.mediaConfigurations.get(0).height, 544);
+        Input input = this.createSintelInput();
 
         bitApi.deleteInput(input.inputId);
         /* TODO: fix API input delete is not working */
@@ -131,7 +124,7 @@ public class BitcodinApiTest {
 
     @Test
     public void deleteOutput() throws BitcodinApiException {
-        /* TODO */
+
     }
 
     @Test
