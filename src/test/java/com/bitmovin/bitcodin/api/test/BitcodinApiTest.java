@@ -18,6 +18,7 @@ import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
+import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
@@ -110,9 +111,11 @@ public class BitcodinApiTest {
     @Test
     public void listOutputs() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
         OutputList outputList = bitApi.listOutputs(0);
-
-        assertNotNull(outputList);
+        Output lastRecentOutput = outputList.outputs.get(0);
+        
+        assertEquals(lastRecentOutput.outputId, output.outputId);
     }
 
     @Test
