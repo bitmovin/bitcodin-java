@@ -79,8 +79,9 @@ public class RestClient {
             sb.append(read);
 
         connection.disconnect();
+        String response = sb.toString();
 
-        return sb.toString();
+        return response;
     }
 
 }
