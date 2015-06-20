@@ -177,26 +177,12 @@ public class BitcodinApiTest {
     @Test
     public void getEncodingProfile() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-
-        VideoStreamConfig videoConfig = new VideoStreamConfig();
-        videoConfig.bitrate = 8 * 1024 * 1024;
-        videoConfig.width = 1920;
-        videoConfig.height = 1080;
-        videoConfig.profile = "Main";
-        videoConfig.preset = "Standard";
-
-        EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
-        encodingProfileConfig.name = "JUnitTestProfile";
-        encodingProfileConfig.videoStreamConfigs.add(videoConfig);
-
-        EncodingProfile encodingProfile = bitApi.createEncodingProfile(encodingProfileConfig);
-
-        assertEquals(encodingProfile.videoStreamConfigs.get(0).width, 1920);
-        assertEquals(encodingProfile.videoStreamConfigs.get(0).height, 1080);
-
+        EncodingProfileConfig config = this.createEncodingProfileConfig();
+        EncodingProfile encodingProfile = bitApi.createEncodingProfile(config);
         EncodingProfile sameProfile = bitApi.getEncodingProfile(encodingProfile.encodingProfileId);
 
         assertEquals(sameProfile.name, encodingProfile.name);
+        assertEquals(sameProfile.encodingProfileId, encodingProfile.encodingProfileId);
     }
 
     @Test
