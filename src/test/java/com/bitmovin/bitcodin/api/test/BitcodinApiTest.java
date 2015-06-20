@@ -166,9 +166,12 @@ public class BitcodinApiTest {
     @Test
     public void listEncodingProfiles() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        EncodingProfileConfig config = this.createEncodingProfileConfig();
+        EncodingProfile encodingProfile = bitApi.createEncodingProfile(config);
         EncodingProfileList encodingProfileList = bitApi.listEncodingProfiles(0);
+        EncodingProfile lastRecentProfile = encodingProfileList.profiles.get(0);
 
-        assertEquals(encodingProfileList.profiles.get(0).name, "JUnitTestProfile");
+        assertEquals(lastRecentProfile.encodingProfileId, encodingProfile.encodingProfileId);
     }
 
     @Test
