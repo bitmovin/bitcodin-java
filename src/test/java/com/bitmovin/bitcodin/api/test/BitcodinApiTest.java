@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
@@ -24,7 +26,9 @@ import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
 
 public class BitcodinApiTest {
-
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+    
     private Settings settings;
 
     public BitcodinApiTest() throws FileNotFoundException {
@@ -124,7 +128,14 @@ public class BitcodinApiTest {
 
     @Test
     public void deleteOutput() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
 
+        bitApi.deleteOutput(output.outputId);
+        
+        thrown.expect(BitcodinApiException.class);
+        thrown.expectMessage("Resource not available");
+        bitApi.getOutput(output.outputId);
     }
 
     @Test

@@ -12,6 +12,7 @@
 
 package com.bitmovin.bitcodin.api;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -70,6 +71,8 @@ public class BitcodinApi {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
             throw new BitcodinApiException("Request is not vaild", e);
+        } catch (FileNotFoundException e) {
+            throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
             throw new BitcodinApiException("Network problem", e);
         }
@@ -88,6 +91,8 @@ public class BitcodinApi {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
             throw new BitcodinApiException("Request is not vaild", e);
+        } catch (FileNotFoundException e) {
+            throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
             throw new BitcodinApiException("Network problem", e);
         }
@@ -106,6 +111,8 @@ public class BitcodinApi {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
             throw new BitcodinApiException("Request is not vaild", e);
+        } catch (FileNotFoundException e) {
+            throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
             throw new BitcodinApiException("Network problem", e);
         }
@@ -123,6 +130,8 @@ public class BitcodinApi {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
             throw new BitcodinApiException("Request is not vaild", e);
+        } catch (FileNotFoundException e) {
+            throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
             throw new BitcodinApiException("Network problem", e);
         }
@@ -140,6 +149,8 @@ public class BitcodinApi {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
             throw new BitcodinApiException("Request is not vaild", e);
+        } catch (FileNotFoundException e) {
+            throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
             throw new BitcodinApiException("Network problem", e);
         }
