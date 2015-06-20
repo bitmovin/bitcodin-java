@@ -22,6 +22,8 @@ import com.bitmovin.bitcodin.api.job.ManifestType;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
+import com.bitmovin.bitcodin.api.media.Preset;
+import com.bitmovin.bitcodin.api.media.Profile;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
@@ -153,8 +155,8 @@ public class BitcodinApiTest {
         videoConfig.bitrate = 1 * 1024 * 1024;
         videoConfig.width = 640;
         videoConfig.height = 480;
-        videoConfig.profile = "Main";
-        videoConfig.preset = "Standard";
+        videoConfig.profile = Profile.MAIN;
+        videoConfig.preset = Preset.STANDARD;
 
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
         encodingProfileConfig.name = "JUnitTestProfile";

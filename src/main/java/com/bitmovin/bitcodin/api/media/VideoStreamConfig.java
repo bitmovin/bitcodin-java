@@ -12,7 +12,7 @@ public class VideoStreamConfig {
     @Expose
     public int height;
     @Expose
-    public String profile;
+    public Profile profile;
     @Expose
-    public String preset;
+    public Preset preset;
 }
