@@ -36,13 +36,13 @@ import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 public class BitcodinApiTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-    
+
     private Settings settings;
 
     public BitcodinApiTest() throws FileNotFoundException {
         this.settings = Settings.getInstance();
     }
-    
+
     @Test
     public void testApiInvalidKey() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi("THIS_IS_AN_INVALID_KEY");
@@ -50,7 +50,7 @@ public class BitcodinApiTest {
         thrown.expect(BitcodinApiException.class);
         bitApi.listInputs(0);
     }
-    
+
     @Test
     public void createInvalidInput() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
@@ -60,7 +60,7 @@ public class BitcodinApiTest {
         thrown.expect(BitcodinApiException.class);
         bitApi.createInput(httpInputConfig);
     }
-    
+
     @Test
     public void createInvalidS3Output() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
@@ -129,7 +129,7 @@ public class BitcodinApiTest {
 
         bitApi.deleteInput(input.inputId);
         /* TODO: FIX API input delete is not working */
-        //assertNull(bitApi.getInput(input.inputId));
+        // assertNull(bitApi.getInput(input.inputId));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class BitcodinApiTest {
 
     @Test
     public void createGCSOutput() throws BitcodinApiException {
-        /* TODO Create public GCS bucket*/
+        /* TODO Create public GCS bucket */
     }
 
     @Test
@@ -184,7 +184,7 @@ public class BitcodinApiTest {
         thrown.expectMessage("Resource not available");
         bitApi.getOutput(output.outputId);
     }
-    
+
     public EncodingProfileConfig createEncodingProfileConfig() {
         VideoStreamConfig videoConfig = new VideoStreamConfig();
         videoConfig.bitrate = 1 * 1024 * 1024;
@@ -231,7 +231,7 @@ public class BitcodinApiTest {
         assertEquals(sameProfile.name, encodingProfile.name);
         assertEquals(sameProfile.encodingProfileId, encodingProfile.encodingProfileId);
     }
-    
+
     public JobConfig createJobConfig() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = new JobConfig();
@@ -277,25 +277,25 @@ public class BitcodinApiTest {
         assertEquals(sameJob.jobId, job.jobId);
     }
 
-    public void transfer (Output output) throws BitcodinApiException {
+    public void transfer(Output output) throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobList jobList = bitApi.listJobs(0);
 
         Job finishedJob = null;
         for (Job job : jobList.jobs) {
             if (job.status == JobStatus.FINISHED) {
-                finishedJob = job; 
+                finishedJob = job;
                 break;
             }
         }
-        
+
         assertNotNull(finishedJob);
-        
+
         TransferConfig transferConfig = new TransferConfig();
-        
+
         transferConfig.jobId = finishedJob.jobId;
         transferConfig.outputId = output.outputId;
-        
+
         bitApi.transfer(transferConfig);
     }
 
@@ -317,9 +317,10 @@ public class BitcodinApiTest {
 
     @Test
     public void listTransfers() throws BitcodinApiException {
-        /* TODO 
-         * cannot effectively be implemented without API fix
-         * so that transfer returns at least id */
+        /*
+         * TODO cannot effectively be implemented without API fix so that
+         * transfer returns at least id
+         */
     }
 
     @Test
@@ -328,9 +329,10 @@ public class BitcodinApiTest {
         Statistic stats = bitApi.getStatistics();
 
         assertNotNull(stats);
-        
-        /* TODO 
-         * Does this call return monthly? Values must be redesigned */
+
+        /*
+         * TODO Does this call return monthly? Values must be redesigned
+         */
     }
 
     @Test
@@ -339,7 +341,8 @@ public class BitcodinApiTest {
         Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-10");
         assertNotNull(stats);
 
-        /* TODO 
-         * Range is not working -> fix in API */
+        /*
+         * TODO Range is not working -> fix in API
+         */
     }
 }
