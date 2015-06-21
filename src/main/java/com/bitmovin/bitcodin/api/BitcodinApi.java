@@ -70,7 +70,7 @@ public class BitcodinApi {
         } catch (URISyntaxException e) {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild", e);
+            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
         } catch (FileNotFoundException e) {
             throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
@@ -90,7 +90,7 @@ public class BitcodinApi {
         } catch (URISyntaxException e) {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild", e);
+            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
         } catch (FileNotFoundException e) {
             throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
@@ -110,7 +110,7 @@ public class BitcodinApi {
         } catch (URISyntaxException e) {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild", e);
+            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
         } catch (FileNotFoundException e) {
             throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
@@ -129,7 +129,7 @@ public class BitcodinApi {
         } catch (URISyntaxException e) {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild", e);
+            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
         } catch (FileNotFoundException e) {
             throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {
@@ -148,7 +148,7 @@ public class BitcodinApi {
         } catch (URISyntaxException e) {
             throw new BitcodinApiException("Resource url not valid", e);
         }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild", e);
+            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
         } catch (FileNotFoundException e) {
             throw new BitcodinApiException("Resource not available", e);
         } catch (IOException e) {

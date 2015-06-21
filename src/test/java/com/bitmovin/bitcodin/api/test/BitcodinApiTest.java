@@ -40,6 +40,14 @@ public class BitcodinApiTest {
     public BitcodinApiTest() throws FileNotFoundException {
         this.settings = Settings.getInstance();
     }
+    
+    @Test
+    public void testApiInvalidKey() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi("THIS_IS_AN_INVALID_KEY");
+        
+        thrown.expect(BitcodinApiException.class);
+        bitApi.listInputs(0);
+    }
 
     @Test
     public void testApiKeyGetter() {
