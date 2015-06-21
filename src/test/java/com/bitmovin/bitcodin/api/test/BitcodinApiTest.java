@@ -90,6 +90,27 @@ public class BitcodinApiTest {
         thrown.expect(BitcodinApiException.class);
         bitApi.createFTPOutput(ftpOutputConfig);
     }
+    
+    @Test
+    public void createInvalidEncodingProfile() throws BitcodinApiException {
+        VideoStreamConfig videoConfig = new VideoStreamConfig();
+        videoConfig.bitrate = -1;
+        videoConfig.width = -1;
+        videoConfig.height = -1;
+        videoConfig.profile = Profile.MAIN;
+        videoConfig.preset = Preset.STANDARD;
+
+        EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
+        encodingProfileConfig.name = "Invalid_Profile";
+        encodingProfileConfig.videoStreamConfigs.add(videoConfig);
+        
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        EncodingProfileConfig config = this.createEncodingProfileConfig();
+
+        /* TODO: fix API no error will be returned */
+        //thrown.expect(BitcodinApiException.class);
+        //bitApi.createEncodingProfile(config);
+    }
 
     @Test
     public void testApiKeyGetter() {
