@@ -108,8 +108,8 @@ public class BitcodinApiTest {
         EncodingProfileConfig config = this.createEncodingProfileConfig();
 
         /* TODO: fix API no error will be returned */
-        //thrown.expect(BitcodinApiException.class);
-        //bitApi.createEncodingProfile(config);
+        thrown.expect(BitcodinApiException.class);
+        bitApi.createEncodingProfile(config);
     }
 
     @Test
@@ -165,7 +165,7 @@ public class BitcodinApiTest {
 
         bitApi.deleteInput(input.inputId);
         /* TODO: FIX API input delete is not working */
-        // assertNull(bitApi.getInput(input.inputId));
+        assertNull(bitApi.getInput(input.inputId));
     }
 
     @Test
