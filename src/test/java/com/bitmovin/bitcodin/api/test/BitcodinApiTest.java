@@ -48,6 +48,16 @@ public class BitcodinApiTest {
         thrown.expect(BitcodinApiException.class);
         bitApi.listInputs(0);
     }
+    
+    @Test
+    public void createInvalidInput() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        HTTPInputConfig httpInputConfig = new HTTPInputConfig();
+        httpInputConfig.url = "http://this/is/an/invalid/url.mkv";
+        
+        thrown.expect(BitcodinApiException.class);
+        Input input = bitApi.createInput(httpInputConfig);
+    }
 
     @Test
     public void testApiKeyGetter() {
