@@ -6,7 +6,6 @@ import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
-import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.job.ManifestType;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
