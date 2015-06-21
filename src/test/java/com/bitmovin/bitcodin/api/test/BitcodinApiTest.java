@@ -56,7 +56,7 @@ public class BitcodinApiTest {
         httpInputConfig.url = "http://this/is/an/invalid/url.mkv";
         
         thrown.expect(BitcodinApiException.class);
-        Input input = bitApi.createInput(httpInputConfig);
+        bitApi.createInput(httpInputConfig);
     }
 
     @Test
