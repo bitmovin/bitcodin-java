@@ -1,5 +1,9 @@
 language: java
 
+notifications:
+  email:
+    - bitcodin-java@bitmovin.net
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_b4f0616205c0_key -iv $encrypted_b4f0616205c0_iv
   -in src/test/resources/settings.json.enc -out src/test/resources/settings.json -d
