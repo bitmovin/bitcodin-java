@@ -46,7 +46,7 @@ public class BitcodinApiTest {
     @Test
     public void testApiInvalidKey() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi("THIS_IS_AN_INVALID_KEY");
-        
+
         thrown.expect(BitcodinApiException.class);
         bitApi.listInputs(0);
     }
@@ -56,7 +56,7 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
         httpInputConfig.url = "http://this/is/an/invalid/url.mkv";
-        
+
         thrown.expect(BitcodinApiException.class);
         bitApi.createInput(httpInputConfig);
     }
@@ -64,14 +64,14 @@ public class BitcodinApiTest {
     @Test
     public void createInvalidS3Output() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        
+
         S3OutputConfig s3OutputConfig = new S3OutputConfig();
         s3OutputConfig.accessKey = "THIS_IS_AN_INVALID_ACCESS_KEY";
         s3OutputConfig.secretKey = "THIS_IS_AN_INVALID_SECRET_KEY";
         s3OutputConfig.bucket = "INVALID_BUCKET";
         s3OutputConfig.region = S3Region.EU_WEST_1;
         s3OutputConfig.name = "INVALID_S3_OUTPUT";
-        
+
         thrown.expect(BitcodinApiException.class);
         bitApi.createS3Output(s3OutputConfig);
     }
@@ -86,7 +86,7 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
         httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
-        
+
         return bitApi.createInput(httpInputConfig);
     }
 
@@ -107,7 +107,7 @@ public class BitcodinApiTest {
         Input input = this.createSintelInput();
         InputList inputList = bitApi.listInputs(0);
         Input lastRecentInput = inputList.inputs.get(0);
-        
+
         assertEquals(lastRecentInput.filename, input.filename);
         assertEquals(lastRecentInput.inputId, input.inputId);
     }
@@ -136,7 +136,7 @@ public class BitcodinApiTest {
     public void createS3Output() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Output output = bitApi.createS3Output(this.settings.s3OutputEUWest);
-        
+
         assertEquals(output.type, OutputType.S3);
     }
 
@@ -149,7 +149,7 @@ public class BitcodinApiTest {
     public void createFTPOutput() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
-        
+
         assertEquals(output.type, OutputType.FTP);
     }
 
@@ -159,7 +159,7 @@ public class BitcodinApiTest {
         Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
         OutputList outputList = bitApi.listOutputs(0);
         Output lastRecentOutput = outputList.outputs.get(0);
-        
+
         assertEquals(lastRecentOutput.outputId, output.outputId);
     }
 
@@ -179,7 +179,7 @@ public class BitcodinApiTest {
         Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
 
         bitApi.deleteOutput(output.outputId);
-        
+
         thrown.expect(BitcodinApiException.class);
         thrown.expectMessage("Resource not available");
         bitApi.getOutput(output.outputId);
@@ -196,7 +196,7 @@ public class BitcodinApiTest {
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
         encodingProfileConfig.name = "JUnitTestProfile";
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
-        
+
         return encodingProfileConfig;
     }
 
@@ -238,12 +238,12 @@ public class BitcodinApiTest {
         EncodingProfileConfig config = this.createEncodingProfileConfig();
         EncodingProfile encodingProfile = bitApi.createEncodingProfile(config);
         Input input = this.createSintelInput();
-        
+
         jobConfig.encodingProfileId = encodingProfile.encodingProfileId;
         jobConfig.inputId = input.inputId;
         jobConfig.manifestTypes.addElement(ManifestType.MPEG_DASH_MPD);
         jobConfig.manifestTypes.addElement(ManifestType.HLS_M3U8);
-        
+
         return jobConfig;
     }
 
@@ -280,7 +280,7 @@ public class BitcodinApiTest {
     public void transfer (Output output) throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobList jobList = bitApi.listJobs(0);
-        
+
         Job finishedJob = null;
         for (Job job : jobList.jobs) {
             if (job.status == JobStatus.FINISHED) {
@@ -298,20 +298,20 @@ public class BitcodinApiTest {
         
         bitApi.transfer(transferConfig);
     }
-    
+
     @Test
     public void transferToS3() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Output s3Output = bitApi.createS3Output(this.settings.s3OutputEUWest);
-        
+
         this.transfer(s3Output);
     }
-    
+
     @Test
     public void transferToFTP() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Output ftpOutput = bitApi.createFTPOutput(this.settings.ftpOutput);
-        
+
         this.transfer(ftpOutput);
     }
 
@@ -338,7 +338,7 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-10");
         assertNotNull(stats);
-        
+
         /* TODO 
          * Range is not working -> fix in API */
     }
