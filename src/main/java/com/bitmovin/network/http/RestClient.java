@@ -59,7 +59,7 @@ public class RestClient {
             os.flush();
         }
 
-        if (connection.getResponseCode() < 200 && connection.getResponseCode() >= 300) {
+        if (connection.getResponseCode() < 200 || connection.getResponseCode() >= 300) {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
 
