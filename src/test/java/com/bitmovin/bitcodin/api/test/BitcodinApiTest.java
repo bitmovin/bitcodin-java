@@ -28,6 +28,8 @@ import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.OutputType;
+import com.bitmovin.bitcodin.api.output.S3OutputConfig;
+import com.bitmovin.bitcodin.api.output.S3Region;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 
@@ -57,6 +59,21 @@ public class BitcodinApiTest {
         
         thrown.expect(BitcodinApiException.class);
         bitApi.createInput(httpInputConfig);
+    }
+    
+    @Test
+    public void createInvalidS3Output() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        
+        S3OutputConfig s3OutputConfig = new S3OutputConfig();
+        s3OutputConfig.accessKey = "THIS_IS_AN_INVALID_ACCESS_KEY";
+        s3OutputConfig.secretKey = "THIS_IS_AN_INVALID_SECRET_KEY";
+        s3OutputConfig.bucket = "INVALID_BUCKET";
+        s3OutputConfig.region = S3Region.EU_WEST_1;
+        s3OutputConfig.name = "INVALID_S3_OUTPUT";
+        
+        thrown.expect(BitcodinApiException.class);
+        bitApi.createS3Output(s3OutputConfig);
     }
 
     @Test
