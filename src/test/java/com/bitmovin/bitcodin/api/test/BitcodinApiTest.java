@@ -25,6 +25,7 @@ import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.media.Preset;
 import com.bitmovin.bitcodin.api.media.Profile;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
+import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.OutputType;
@@ -74,6 +75,20 @@ public class BitcodinApiTest {
 
         thrown.expect(BitcodinApiException.class);
         bitApi.createS3Output(s3OutputConfig);
+    }
+    
+    @Test
+    public void createInvalidFTPOutput() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+
+        FTPOutputConfig ftpOutputConfig = new FTPOutputConfig();
+        ftpOutputConfig.name = "INVALID_FTP_OUTPUT";
+        ftpOutputConfig.host = "invalid.host.com";
+        ftpOutputConfig.username = "INVALID_USER";
+        ftpOutputConfig.password = "INVALID_PASSWORD";
+
+        thrown.expect(BitcodinApiException.class);
+        bitApi.createFTPOutput(ftpOutputConfig);
     }
 
     @Test
