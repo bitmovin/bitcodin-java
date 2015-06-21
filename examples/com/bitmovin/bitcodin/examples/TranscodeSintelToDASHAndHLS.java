@@ -19,7 +19,7 @@ public class TranscodeSintelToDASHAndHLS {
     public static void main(String[] args) {
         
         /* Create BitcodinApi */
-        String apiKey = "05790831d5131be17ae3674591c0a6de23243d05be43a89f514768de87b38c91";
+        String apiKey = "YOUR_API_KEY";
         BitcodinApi bitApi = new BitcodinApi(apiKey);
         
         /* Create URL Input */
