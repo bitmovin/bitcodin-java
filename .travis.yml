@@ -3,4 +3,4 @@ after_success:
 - mvn clean test jacoco:report coveralls:report
 before_install:
 - openssl aes-256-cbc -K $encrypted_45fbf5b34c6b_key -iv $encrypted_45fbf5b34c6b_iv
-  -in settings.json.enc -out src\\test\\resources\\settings.json -d
+  -in settings.json.enc -out settings.json -d
