@@ -33,7 +33,7 @@ public class Settings {
                 inputStream = Settings.class.getClassLoader().getResourceAsStream(Settings.localSettingsfile);
                 
                 if (inputStream == null)
-                  throw new FileNotFoundException("Cloud not find any config file: " + Settings.settingsfile);
+                  throw new FileNotFoundException("Could not find any config file: " + Settings.settingsfile);
             }
 
             BufferedReader  reader = new BufferedReader(new InputStreamReader(inputStream));
