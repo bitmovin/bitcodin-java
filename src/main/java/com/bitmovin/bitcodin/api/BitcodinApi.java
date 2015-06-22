@@ -38,6 +38,7 @@ import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
 import com.bitmovin.network.http.JSONRestClient;
+import com.bitmovin.network.http.RequestMethod;
 import com.bitmovin.network.http.RestException;
 
 public class BitcodinApi {
@@ -58,102 +59,73 @@ public class BitcodinApi {
         return this.apiKey;
     }
     
+    public <T> T request (String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws BitcodinApiException {
+        JSONRestClient jRest;
+        try {
+            jRest = new JSONRestClient(new URI(this.apiUrl));
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("API url not valid", e);
+        }
+        
+        try {
+            switch (method) {
+                case POST:    return jRest.post(new URI(resource), this.defaultHeaders, content, classOfT);
+                case GET:     return jRest.get(new URI(resource), this.defaultHeaders, classOfT);
+                case DELETE:  return jRest.delete(new URI(resource), this.defaultHeaders, classOfT);
+            }
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("Resource url not valid", e);
+        } catch (RestException e) {
+            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
+        } catch (FileNotFoundException e) {
+            throw new BitcodinApiException("Resource not available", e);
+        } catch (IOException e) {
+            throw new BitcodinApiException("Network problem", e);
+        }
+        
+        throw new BitcodinApiException("Request method: " + method.name() + " is not supported");
+    }
+    public void request (String resource, Map<String, String> headers, Object content, RequestMethod method) throws BitcodinApiException {
+        JSONRestClient jRest;
+        try {
+            jRest = new JSONRestClient(new URI(this.apiUrl));
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("API url not valid", e);
+        }
+        
+        try {
+            switch (method) {
+                case POST:    jRest.post(new URI(resource), this.defaultHeaders, content); return;
+                case GET:     jRest.get(new URI(resource), this.defaultHeaders); return;
+                case DELETE:  jRest.delete(new URI(resource), this.defaultHeaders); return;
+            }
+        } catch (URISyntaxException e) {
+            throw new BitcodinApiException("Resource url not valid", e);
+        } catch (RestException e) {
+            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
+        } catch (FileNotFoundException e) {
+            throw new BitcodinApiException("Resource not available", e);
+        } catch (IOException e) {
+            throw new BitcodinApiException("Network problem", e);
+        }
+        
+        throw new BitcodinApiException("Request method: " + method.name() + " is not supported");
+    }
+    
     public <T> T post(String resource, Map<String, String> headers, Object content, Class<T> classOfT) throws BitcodinApiException{
-        JSONRestClient jRest;
-        try {
-            jRest = new JSONRestClient(new URI(this.apiUrl));
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("API url not valid", e);
-        }
-        try {
-            return jRest.post(new URI(resource), this.defaultHeaders, content, classOfT);
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("Resource url not valid", e);
-        }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
-        } catch (FileNotFoundException e) {
-            throw new BitcodinApiException("Resource not available", e);
-        } catch (IOException e) {
-            throw new BitcodinApiException("Network problem", e);
-        }
+        return this.request(resource, headers, content, classOfT, RequestMethod.POST);
     }
-    
-    public void post(String resource, Map<String, String> headers, Object content) throws BitcodinApiException {
-        JSONRestClient jRest;
-        try {
-            jRest = new JSONRestClient(new URI(this.apiUrl));
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("API url not valid", e);
-        }
-        try {
-            jRest.post(new URI(resource), this.defaultHeaders, content);
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("Resource url not valid", e);
-        }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
-        } catch (FileNotFoundException e) {
-            throw new BitcodinApiException("Resource not available", e);
-        } catch (IOException e) {
-            throw new BitcodinApiException("Network problem", e);
-        }
-    }
-    
     public <T> T get(String resource, Map<String, String> headers, Class<T> classOfT) throws BitcodinApiException {
-        JSONRestClient jRest;
-        try {
-            jRest = new JSONRestClient(new URI(this.apiUrl));
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("API url not valid", e);
-        }
-        try {
-            return jRest.get(new URI(resource), this.defaultHeaders, classOfT);
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("Resource url not valid", e);
-        }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
-        } catch (FileNotFoundException e) {
-            throw new BitcodinApiException("Resource not available", e);
-        } catch (IOException e) {
-            throw new BitcodinApiException("Network problem", e);
-        }
+        return this.request(resource, headers, null, classOfT, RequestMethod.GET);
     }
     public <T> T delete(String resource, Map<String, String> headers, Class<T> classOfT) throws BitcodinApiException {
-        JSONRestClient jRest;
-        try {
-            jRest = new JSONRestClient(new URI(this.apiUrl));
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("API url not valid", e);
-        }
-        try {
-            return jRest.delete(new URI(resource), this.defaultHeaders, classOfT);
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("Resource url not valid", e);
-        }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
-        } catch (FileNotFoundException e) {
-            throw new BitcodinApiException("Resource not available", e);
-        } catch (IOException e) {
-            throw new BitcodinApiException("Network problem", e);
-        }
+        return this.request(resource, headers, null, classOfT, RequestMethod.DELETE);
     }
     public void delete(String resource, Map<String, String> headers) throws BitcodinApiException {
-        JSONRestClient jRest;
-        try {
-            jRest = new JSONRestClient(new URI(this.apiUrl));
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("API url not valid", e);
-        }
-        try {
-            jRest.delete(new URI(resource), this.defaultHeaders);
-        } catch (URISyntaxException e) {
-            throw new BitcodinApiException("Resource url not valid", e);
-        }  catch (RestException e) {
-            throw new BitcodinApiException("Request is not vaild: " + e.body, e);
-        } catch (FileNotFoundException e) {
-            throw new BitcodinApiException("Resource not available", e);
-        } catch (IOException e) {
-            throw new BitcodinApiException("Network problem", e);
-        }
+        this.request(resource, headers, null, RequestMethod.DELETE);
+    }
+    public void post(String resource, Map<String, String> headers, Object content) throws BitcodinApiException {
+        this.request(resource, headers, content, RequestMethod.POST);
     }
 
     public Input createInput(HTTPInputConfig httpInputConfig) throws BitcodinApiException {

@@ -15,20 +15,29 @@ public class JSONRestClient extends RestClient{
     public <T> T post(URI resource, Map<String, String> headers, Object content, Class<T> classOfT) throws IOException, RestException {
         Gson gson = new Gson();
         String jsoncontent = gson.toJson(content);
-        return gson.fromJson(this.post(resource, headers, jsoncontent), classOfT);
-    }
-    public void post(URI resource, Map<String, String> headers, Object content) throws IOException, RestException {
-        Gson gson = new Gson();
-        String jsoncontent = gson.toJson(content);
-        this.post(resource, headers, jsoncontent);
+        String response = this.request(RequestMethod.POST, resource, headers, jsoncontent);
+        return gson.fromJson(response, classOfT);
     }
     public <T> T get(URI resource, Map<String, String> headers, Class<T> classOfT) throws IOException, RestException {
         Gson gson = new Gson();
-        String response = this.get(resource, headers);
+        String response = this.request(RequestMethod.GET, resource, headers);
         return gson.fromJson(response, classOfT);
     }
     public <T> T delete(URI resource, Map<String, String> headers, Class<T> classOfT) throws IOException, RestException {
         Gson gson = new Gson();
-        return gson.fromJson(this.delete(resource, headers), classOfT);
+        String response = this.request(RequestMethod.DELETE, resource, headers);
+        return gson.fromJson(response, classOfT);
+    }
+    
+    public void post(URI resource, Map<String, String> headers, Object content) throws IOException, RestException {
+        Gson gson = new Gson();
+        String jsoncontent = gson.toJson(content);
+        this.request(RequestMethod.POST, resource, headers, jsoncontent);
+    }
+    public void get(URI resource, Map<String, String> headers) throws IOException, RestException {
+        this.request(RequestMethod.GET, resource, headers);
+    }
+    public void delete(URI resource, Map<String, String> headers) throws IOException, RestException {
+        this.request(RequestMethod.DELETE, resource, headers);
     }
 }
