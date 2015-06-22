@@ -19,6 +19,7 @@ import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.job.ManifestType;
+import com.bitmovin.bitcodin.api.media.AudioStreamConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
@@ -226,10 +227,14 @@ public class BitcodinApiTest {
         videoConfig.height = 480;
         videoConfig.profile = Profile.MAIN;
         videoConfig.preset = Preset.STANDARD;
+        
+        AudioStreamConfig audioConfig = new AudioStreamConfig();
+        audioConfig.bitrate = 128 * 1024;
 
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
         encodingProfileConfig.name = "JUnitTestProfile";
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
+        encodingProfileConfig.audioStreamConfigs.add(audioConfig);
 
         return encodingProfileConfig;
     }
@@ -242,6 +247,7 @@ public class BitcodinApiTest {
 
         assertEquals(encodingProfile.videoStreamConfigs.get(0).width, config.videoStreamConfigs.get(0).width);
         assertEquals(encodingProfile.videoStreamConfigs.get(0).height, config.videoStreamConfigs.get(0).height);
+        assertEquals(encodingProfile.audioStreamConfigs.get(0).bitrate, config.audioStreamConfigs.get(0).bitrate);
     }
 
     @Test
