@@ -164,8 +164,9 @@ public class BitcodinApiTest {
         Input input = this.createSintelInput();
 
         bitApi.deleteInput(input.inputId);
-        /* TODO: FIX API input delete is not working */
-        assertNull(bitApi.getInput(input.inputId));
+        
+        thrown.expect(BitcodinApiException.class);
+        bitApi.getInput(input.inputId);
     }
 
     @Test
