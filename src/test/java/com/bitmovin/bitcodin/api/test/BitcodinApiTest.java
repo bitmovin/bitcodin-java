@@ -218,7 +218,6 @@ public class BitcodinApiTest {
         bitApi.deleteOutput(output.outputId);
 
         thrown.expect(BitcodinApiException.class);
-        thrown.expectMessage("Resource not available");
         bitApi.getOutput(output.outputId);
     }
 
