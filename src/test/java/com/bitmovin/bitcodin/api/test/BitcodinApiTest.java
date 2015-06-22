@@ -105,11 +105,9 @@ public class BitcodinApiTest {
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
         
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        EncodingProfileConfig config = this.createEncodingProfileConfig();
 
-        /* TODO: fix API no error will be returned */
-        //thrown.expect(BitcodinApiException.class);
-        bitApi.createEncodingProfile(config);
+        thrown.expect(BitcodinApiException.class);
+        bitApi.createEncodingProfile(encodingProfileConfig);
     }
 
     @Test
