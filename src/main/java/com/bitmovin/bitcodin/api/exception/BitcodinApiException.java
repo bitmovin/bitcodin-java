@@ -7,5 +7,8 @@ public class BitcodinApiException extends Exception {
     public BitcodinApiException (String message, Throwable cause) {
         super(message, cause);
     }
+    public BitcodinApiException (String message) {
+        super(message);
+    }
 
 }

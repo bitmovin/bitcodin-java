@@ -18,34 +18,16 @@ public class RestClient {
     public RestClient(URI baseUrl) {
         this.baseUrl = baseUrl;
     }
+    
+    public String request(RequestMethod method, URI resource, Map<String, String> headers) throws IOException, RestException {
+        return this.request(method, resource, headers, null);
+    }
 
-    public String post(URI resource, Map<String, String> headers, String content) throws IOException, RestException {
-
+    public String request(RequestMethod method, URI resource, Map<String, String> headers, String content) throws IOException, RestException {
         URL url = this.baseUrl.resolve(resource).toURL();
-        return this.request("POST", url, headers, content);
-    }
-
-    public String get(URI resource, Map<String, String> headers) throws IOException, RestException {
-
-        URL url = this.baseUrl.resolve(resource).toURL();
-        return this.request("GET", url, headers);
-    }
-
-    public String delete(URI resource, Map<String, String> headers) throws IOException, RestException {
-
-        URL url = this.baseUrl.resolve(resource).toURL();
-        return this.request("DELETE", url, headers);
-    }
-
-    public String request(String method, URL url, Map<String, String> headers) throws IOException, RestException {
-        return this.request(method, url, headers, null);
-    }
-
-    public String request(String method, URL url, Map<String, String> headers, String content) throws IOException, RestException {
-
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
-        connection.setRequestMethod(method);
+        connection.setRequestMethod(method.name());
 
         Iterator<Entry<String, String>> it = headers.entrySet().iterator();
         while (it.hasNext()) {

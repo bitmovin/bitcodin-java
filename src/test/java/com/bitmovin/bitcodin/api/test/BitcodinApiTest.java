@@ -19,6 +19,7 @@ import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.job.ManifestType;
+import com.bitmovin.bitcodin.api.media.AudioStreamConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
@@ -105,11 +106,9 @@ public class BitcodinApiTest {
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
         
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        EncodingProfileConfig config = this.createEncodingProfileConfig();
 
-        /* TODO: fix API no error will be returned */
         thrown.expect(BitcodinApiException.class);
-        bitApi.createEncodingProfile(config);
+        bitApi.createEncodingProfile(encodingProfileConfig);
     }
 
     @Test
@@ -164,8 +163,9 @@ public class BitcodinApiTest {
         Input input = this.createSintelInput();
 
         bitApi.deleteInput(input.inputId);
-        /* TODO: FIX API input delete is not working */
-        assertNull(bitApi.getInput(input.inputId));
+        
+        thrown.expect(BitcodinApiException.class);
+        bitApi.getInput(input.inputId);
     }
 
     @Test
@@ -217,7 +217,6 @@ public class BitcodinApiTest {
         bitApi.deleteOutput(output.outputId);
 
         thrown.expect(BitcodinApiException.class);
-        thrown.expectMessage("Resource not available");
         bitApi.getOutput(output.outputId);
     }
 
@@ -228,10 +227,14 @@ public class BitcodinApiTest {
         videoConfig.height = 480;
         videoConfig.profile = Profile.MAIN;
         videoConfig.preset = Preset.STANDARD;
+        
+        AudioStreamConfig audioConfig = new AudioStreamConfig();
+        audioConfig.bitrate = 128 * 1024;
 
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
         encodingProfileConfig.name = "JUnitTestProfile";
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
+        encodingProfileConfig.audioStreamConfigs.add(audioConfig);
 
         return encodingProfileConfig;
     }
@@ -244,6 +247,7 @@ public class BitcodinApiTest {
 
         assertEquals(encodingProfile.videoStreamConfigs.get(0).width, config.videoStreamConfigs.get(0).width);
         assertEquals(encodingProfile.videoStreamConfigs.get(0).height, config.videoStreamConfigs.get(0).height);
+        assertEquals(encodingProfile.audioStreamConfigs.get(0).bitrate, config.audioStreamConfigs.get(0).bitrate);
     }
 
     @Test
@@ -374,7 +378,7 @@ public class BitcodinApiTest {
     @Test
     public void getStatisticsFromTo() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-10");
+        Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-23");
         assertNotNull(stats);
 
         /*
