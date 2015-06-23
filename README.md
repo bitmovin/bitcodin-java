@@ -21,7 +21,7 @@ public class BitcodinApiTest {
 }
 ```
 # Example
-The following example demonstrates how to create a simple transcoding job.
+The following example demonstrates how to create a simple transcoding job, generating MPEG-DASH and Apple HLS out of a single MP4.
 ```java
 import com.bitmovin.bitcodin.api.BitcodinApi;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
