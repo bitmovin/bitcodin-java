@@ -27,6 +27,7 @@ import com.bitmovin.bitcodin.api.media.Preset;
 import com.bitmovin.bitcodin.api.media.Profile;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
 import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
+import com.bitmovin.bitcodin.api.output.GCSOutputConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.OutputType;
@@ -178,7 +179,10 @@ public class BitcodinApiTest {
 
     @Test
     public void createGCSOutput() throws BitcodinApiException {
-        /* TODO Create public GCS bucket */
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output output = bitApi.createGCSOutput(this.settings.gcsOutput);
+        
+        assertEquals(output.type, OutputType.GCS);
     }
 
     @Test
@@ -354,6 +358,14 @@ public class BitcodinApiTest {
 
         this.transfer(ftpOutput);
     }
+    
+    @Test
+    public void transferToGCS() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output gcsOutput = bitApi.createGCSOutput(this.settings.gcsOutput);
+
+        this.transfer(gcsOutput);
+    }
 
     @Test
     public void listTransfers() throws BitcodinApiException {
@@ -378,9 +390,7 @@ public class BitcodinApiTest {
     @Test
     public void getStatisticsFromTo() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-23");
-        assertNotNull(stats);
-
+        Statistic stats = bitApi.getStatistics("2015-06-22", "2015-06-23");
         /*
          * TODO Range is not working -> fix in API
          */
