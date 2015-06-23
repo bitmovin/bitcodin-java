@@ -27,7 +27,6 @@ import com.bitmovin.bitcodin.api.media.Preset;
 import com.bitmovin.bitcodin.api.media.Profile;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
 import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
-import com.bitmovin.bitcodin.api.output.GCSOutputConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.OutputType;
@@ -91,20 +90,6 @@ public class BitcodinApiTest {
 
         thrown.expect(BitcodinApiException.class);
         bitApi.createFTPOutput(ftpOutputConfig);
-    }
-    
-    @Test
-    public void createInvalidGCSOutput() throws BitcodinApiException {
-        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-
-        GCSOutputConfig gcsOutputConfig = new GCSOutputConfig();
-        gcsOutputConfig.accessKey = "THIS_IS_AN_INVALID_ACCESS_KEY";
-        gcsOutputConfig.secretKey = "THIS_IS_AN_INVALID_SECRET_KEY";
-        gcsOutputConfig.bucket = "INVALID_BUCKET";
-        gcsOutputConfig.name = "INVALID_S3_OUTPUT";
-
-        thrown.expect(BitcodinApiException.class);
-        bitApi.createGCSOutput(gcsOutputConfig);
     }
     
     @Test
@@ -189,14 +174,6 @@ public class BitcodinApiTest {
         Output output = bitApi.createS3Output(this.settings.s3OutputEUWest);
 
         assertEquals(output.type, OutputType.S3);
-    }
-
-    @Test
-    public void createGCSOutput() throws BitcodinApiException {
-        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Output output = bitApi.createGCSOutput(this.settings.gcsOutput);
-        
-        assertEquals(output.type, OutputType.GCS);
     }
 
     @Test
@@ -372,14 +349,6 @@ public class BitcodinApiTest {
 
         this.transfer(ftpOutput);
     }
-    
-    @Test
-    public void transferToGCS() throws BitcodinApiException {
-        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Output gcsOutput = bitApi.createGCSOutput(this.settings.gcsOutput);
-
-        this.transfer(gcsOutput);
-    }
 
     @Test
     public void listTransfers() throws BitcodinApiException {
@@ -404,7 +373,7 @@ public class BitcodinApiTest {
     @Test
     public void getStatisticsFromTo() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Statistic stats = bitApi.getStatistics("2015-06-22", "2015-06-23");
+        Statistic stats = bitApi.getStatistics("2015-06-21", "2015-06-23");
         /*
          * TODO Range is not working -> fix in API
          */

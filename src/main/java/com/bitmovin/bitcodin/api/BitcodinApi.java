@@ -30,7 +30,6 @@ import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
-import com.bitmovin.bitcodin.api.output.GCSOutputConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.S3OutputConfig;
@@ -145,10 +144,6 @@ public class BitcodinApi {
     }
 
     public Output createS3Output(S3OutputConfig output) throws BitcodinApiException {
-        return this.post("output/create", this.defaultHeaders, output, Output.class);
-    }
-
-    public Output createGCSOutput(GCSOutputConfig output) throws BitcodinApiException {
         return this.post("output/create", this.defaultHeaders, output, Output.class);
     }
 
