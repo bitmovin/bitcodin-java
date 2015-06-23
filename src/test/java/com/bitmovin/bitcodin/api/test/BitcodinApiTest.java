@@ -378,7 +378,7 @@ public class BitcodinApiTest {
     @Test
     public void getStatisticsFromTo() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-22");
+        Statistic stats = bitApi.getStatistics("2015-06-01", "2015-06-23");
         assertNotNull(stats);
 
         /*
