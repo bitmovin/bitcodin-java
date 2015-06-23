@@ -94,6 +94,20 @@ public class BitcodinApiTest {
     }
     
     @Test
+    public void createInvalidGCSOutput() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+
+        GCSOutputConfig gcsOutputConfig = new GCSOutputConfig();
+        gcsOutputConfig.accessKey = "THIS_IS_AN_INVALID_ACCESS_KEY";
+        gcsOutputConfig.secretKey = "THIS_IS_AN_INVALID_SECRET_KEY";
+        gcsOutputConfig.bucket = "INVALID_BUCKET";
+        gcsOutputConfig.name = "INVALID_S3_OUTPUT";
+
+        thrown.expect(BitcodinApiException.class);
+        bitApi.createGCSOutput(gcsOutputConfig);
+    }
+    
+    @Test
     public void createInvalidEncodingProfile() throws BitcodinApiException {
         VideoStreamConfig videoConfig = new VideoStreamConfig();
         videoConfig.bitrate = -1;
