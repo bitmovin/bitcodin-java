@@ -32,6 +32,7 @@ import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.OutputType;
 import com.bitmovin.bitcodin.api.output.S3OutputConfig;
 import com.bitmovin.bitcodin.api.output.S3Region;
+import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 
@@ -361,12 +362,11 @@ public class BitcodinApiTest {
     @Test
     public void getStatistics() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        Statistic stats = bitApi.getStatistics();
+        MonthlyStatistic stats = bitApi.getMonthlyStatistics();
 
         assertNotNull(stats);
-
         /*
-         * TODO Does this call return monthly? Values must be redesigned
+         * TODO values are not designed very well, e.g., totalBytesWritten return GB?
          */
     }
 

@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bitmovin.bitcodin.api.billing.InvoiceInformation;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
 import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
@@ -33,6 +34,7 @@ import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
 import com.bitmovin.bitcodin.api.output.Output;
 import com.bitmovin.bitcodin.api.output.OutputList;
 import com.bitmovin.bitcodin.api.output.S3OutputConfig;
+import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 import com.bitmovin.bitcodin.api.transfer.TransferList;
@@ -195,11 +197,19 @@ public class BitcodinApi {
         return this.get("jobs/" + Integer.toString(jobId) + "/transfers", this.defaultHeaders, TransferList.class);
     }
 
-    public Statistic getStatistics() throws BitcodinApiException {
-        return this.get("statistics", this.defaultHeaders, Statistic.class);
+    public MonthlyStatistic getMonthlyStatistics() throws BitcodinApiException {
+        return this.get("statistics", this.defaultHeaders, MonthlyStatistic.class);
     }
 
     public Statistic getStatistics(String from, String to) throws BitcodinApiException {
         return this.get("statistics/jobs/" + from + "/" + to, this.defaultHeaders, Statistic.class);
+    }
+    
+    public InvoiceInformation getInvoiceInfos() throws BitcodinApiException {
+        return this.get("payment/invoiceinfo", this.defaultHeaders, InvoiceInformation.class);
+    }
+    
+    public void updateInvoiceInfos(InvoiceInformation invoiceInfo) throws BitcodinApiException {
+        this.post("payment/invoiceinfo", this.defaultHeaders, invoiceInfo);
     }
 }
