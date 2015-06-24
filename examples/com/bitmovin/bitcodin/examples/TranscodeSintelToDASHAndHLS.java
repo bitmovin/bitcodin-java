@@ -6,6 +6,8 @@ import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
+import com.bitmovin.bitcodin.api.job.JobDetails;
+import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.job.ManifestType;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
@@ -15,7 +17,7 @@ import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
 
 public class TranscodeSintelToDASHAndHLS {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         
         /* Create BitcodinApi */
         String apiKey = "YOUR_API_KEY";
@@ -70,7 +72,30 @@ public class TranscodeSintelToDASHAndHLS {
             return;
         }
         
-        System.out.println("Job with ID " + job.jobId + " submitted successfully!");
+        JobDetails jobDetails;
+        
+        do {
+            try {
+                jobDetails = bitApi.getJobDetails(job.jobId);
+                System.out.println("Status: " + jobDetails.status.toString() +
+                                   " - Enqueued Duration: " + jobDetails.enqueueDuration + "s" +
+                                   " - Realtime Factor: " + jobDetails.realtimeFactor +
+                                   " - Encoded Duration: " + jobDetails.encodedDuration + "s" +
+                                   " - Output: " + jobDetails.bytesWritten/1024/1024 + "MB");
+            } catch (BitcodinApiException e) {
+                System.out.println("Could not get any job details");
+                return;
+            }
+            
+            if (jobDetails.status == JobStatus.ERROR) {
+                System.out.println("Error during transcoding");
+                return;
+            }
+            
+            Thread.sleep(2000);
+            
+        } while (jobDetails.status != JobStatus.FINISHED);
+        
+        System.out.println("Job with ID " + job.jobId + " finished successfully!");
     }
-
 }
