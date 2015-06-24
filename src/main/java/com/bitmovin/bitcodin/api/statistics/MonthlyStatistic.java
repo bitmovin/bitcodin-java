@@ -6,7 +6,7 @@ public class MonthlyStatistic {
     @Expose
     public int jobCountFinished;
     @Expose
-    public int realtimeFactor;
+    public double realtimeFactor;
     @Expose
     public String totalBytesWritten;
     @Expose
