@@ -26,6 +26,7 @@ import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
+import com.bitmovin.bitcodin.api.job.JobDetails;
 import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
@@ -185,8 +186,8 @@ public class BitcodinApi {
         return this.get("jobs/" + Integer.toString(pageNumber), this.defaultHeaders, JobList.class);
     }
 
-    public Job getJob(int id) throws BitcodinApiException {
-        return this.get("job/" + Integer.toString(id), this.defaultHeaders, Job.class);
+    public JobDetails getJobDetails(int id) throws BitcodinApiException {
+        return this.get("job/" + Integer.toString(id), this.defaultHeaders, JobDetails.class);
     }
 
     public void transfer(TransferConfig transferConfig) throws BitcodinApiException {

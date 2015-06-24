@@ -16,6 +16,7 @@ import com.bitmovin.bitcodin.api.input.InputList;
 import com.bitmovin.bitcodin.api.input.InputType;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
+import com.bitmovin.bitcodin.api.job.JobDetails;
 import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.job.ManifestType;
@@ -308,7 +309,7 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
         Job job = bitApi.createJob(jobConfig);
-        Job sameJob = bitApi.getJob(job.jobId);
+        JobDetails sameJob = bitApi.getJobDetails(job.jobId);
 
         assertEquals(sameJob.jobId, job.jobId);
     }
