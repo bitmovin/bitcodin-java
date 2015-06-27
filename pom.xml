@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bitmovin.bitcodin.api</groupId>
   <artifactId>bitcodin-java</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <name>bitcodin Java API</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
