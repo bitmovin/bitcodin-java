@@ -6,7 +6,7 @@ The bitcodin API for Java is a seamless integration with the [bitcodin cloud tra
 
 # Getting started
 ## Maven
-Add this your pom.xml:
+Add this to your pom.xml:
 ```xml
 <dependency>
     <groupId>com.bitmovin.bitcodin.api</groupId>
