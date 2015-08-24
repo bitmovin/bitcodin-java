@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 
+import com.bitmovin.bitcodin.api.job.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -14,12 +15,6 @@ import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
 import com.bitmovin.bitcodin.api.input.InputType;
-import com.bitmovin.bitcodin.api.job.Job;
-import com.bitmovin.bitcodin.api.job.JobConfig;
-import com.bitmovin.bitcodin.api.job.JobDetails;
-import com.bitmovin.bitcodin.api.job.JobList;
-import com.bitmovin.bitcodin.api.job.JobStatus;
-import com.bitmovin.bitcodin.api.job.ManifestType;
 import com.bitmovin.bitcodin.api.media.AudioStreamConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
@@ -127,6 +122,14 @@ public class BitcodinApiTest {
         return bitApi.createInput(httpInputConfig);
     }
 
+    public Input createSintelMultiAudioInput() throws  BitcodinApiException{
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        HTTPInputConfig httpInputConfig = new HTTPInputConfig();
+        httpInputConfig.url = "http://bitbucketireland.s3.amazonaws.com/Sintel-two-audio-streams-short.mkv";
+
+        return bitApi.createInput(httpInputConfig);
+    }
+
     @Test
     public void createInput() throws BitcodinApiException {
         Input input = this.createSintelInput();
@@ -219,7 +222,7 @@ public class BitcodinApiTest {
 
     public EncodingProfileConfig createEncodingProfileConfig() {
         VideoStreamConfig videoConfig = new VideoStreamConfig();
-        videoConfig.bitrate = 1 * 1024 * 1024;
+        videoConfig.bitrate = 1024 * 1024;
         videoConfig.width = 640;
         videoConfig.height = 480;
         videoConfig.profile = Profile.MAIN;
@@ -294,9 +297,100 @@ public class BitcodinApiTest {
     }
 
     @Test
+    public void createWidevineJob() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        JobConfig jobConfig = this.createJobConfig();
+
+        WidevineDrmConfig drmConfig = new WidevineDrmConfig();
+        drmConfig.provider = "widevine_test";
+        drmConfig.signingKey = "1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9";
+        drmConfig.signingIV = "d58ce954203b7c9a9a9d467f59839249";
+        drmConfig.requestUrl = "http://license.uat.widevine.com/cenc/getcontentkey";
+        drmConfig.contentId = "746573745f69645f4639465043304e4f";
+
+        jobConfig.drmConfig = drmConfig;
+        jobConfig.speed = Speed.STANDARD;
+
+        Job job = bitApi.createJob(jobConfig);
+        assertEquals(job.status, JobStatus.ENQUEUED);
+    }
+
+    @Test
+    public void createPlayreadyJob() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        JobConfig jobConfig = this.createJobConfig();
+
+        PlayReadyDrmConfig drmConfig = new PlayReadyDrmConfig();
+        drmConfig.system = DrmSystem.PLAYREADY;
+        drmConfig.keySeed = "XVBovsmzhP9gRIZxWfFta3VVRPzVEWmJsazEJ46I";
+        drmConfig.laUrl = "http://playready.directtaps.net/pr/svc/rightsmanager.asmx";
+        drmConfig.method = DrmMethod.MPEG_CENC;
+        drmConfig.kid = "746573745f69645f4639465043304e4f";
+
+        jobConfig.drmConfig = drmConfig;
+        jobConfig.speed = Speed.STANDARD;
+
+        Job job = bitApi.createJob(jobConfig);
+        assertEquals(job.status, JobStatus.ENQUEUED);
+    }
+
+    @Test
+    public void createCombinedDrmJob() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        JobConfig jobConfig = this.createJobConfig();
+
+        CombinedDrmConfig drmConfig = new CombinedDrmConfig();
+        drmConfig.kid = "eb676abbcb345e96bbcf616630f1a3da";
+        drmConfig.key = "100b6c20940f779a4589152b57d2dacb";
+        drmConfig.laUrl = "http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==";
+        drmConfig.pssh = "#CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=";
+
+        jobConfig.drmConfig = drmConfig;
+        jobConfig.speed = Speed.STANDARD;
+
+        Job job = bitApi.createJob(jobConfig);
+        assertEquals(job.status, JobStatus.ENQUEUED);
+    }
+
+    @Test
+    public void createMultipleAudioStreamJob() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        JobConfig jobConfig = this.createJobConfig();
+
+        Input input = this.createSintelMultiAudioInput();
+        jobConfig.inputId = input.inputId;
+
+        AudioMetaData voicesOff = new AudioMetaData();
+        voicesOff.defaultStreamId = 0;
+        voicesOff.label = "Voices off";
+        voicesOff.language = "audio";
+
+        AudioMetaData voicesOn = new AudioMetaData();
+        voicesOn.defaultStreamId = 1;
+        voicesOn.label = "Voices on";
+        voicesOn.language = "voice";
+
+        jobConfig.audioMetaData = new AudioMetaData[]{voicesOff, voicesOn};
+        jobConfig.speed = Speed.STANDARD;
+
+        Job job = bitApi.createJob(jobConfig);
+
+        assertEquals(job.status, JobStatus.ENQUEUED);
+    }
+
+    @Test
+    public void createClosedCaptionsJob() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        JobConfig jobConfig = this.createJobConfig();
+        jobConfig.speed = Speed.STANDARD;
+    }
+
+    @Test
     public void listJobs() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
+        jobConfig.speed = Speed.STANDARD;
+
         Job job = bitApi.createJob(jobConfig);
         JobList jobList = bitApi.listJobs(0);
         Job lastRecentJob = jobList.jobs.get(0);
@@ -308,6 +402,8 @@ public class BitcodinApiTest {
     public void getJob() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
+        jobConfig.speed = Speed.STANDARD;
+
         Job job = bitApi.createJob(jobConfig);
         JobDetails sameJob = bitApi.getJobDetails(job.jobId);
 
