@@ -393,6 +393,18 @@ public class BitcodinApiTest {
     }
 
     @Test
+    public void createLocationJob() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+
+        JobConfig jobConfig = this.createJobConfig();
+        jobConfig.location = Location.EU_WEST;
+        jobConfig.speed = Speed.STANDARD;
+
+        Job job = bitApi.createJob(jobConfig);
+        assertEquals(job.status, JobStatus.ENQUEUED);
+    }
+
+    @Test
     public void listJobs() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();

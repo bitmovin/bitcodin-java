@@ -22,4 +22,6 @@ public class JobConfig {
     public AbstractDrmConfig drmConfig;
     @Expose
     public Speed speed;
+    @Expose
+    public Location location;
 }
