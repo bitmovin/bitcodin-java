@@ -379,10 +379,17 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void createClosedCaptionsJob() throws BitcodinApiException {
+    public void createHlsEncryptionJob() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
         jobConfig.speed = Speed.STANDARD;
+
+        HlsEncrytionConfig hlsEncryptionConfig = new HlsEncrytionConfig();
+        hlsEncryptionConfig.method = HlsMethod.SAMPLE_AES;
+        hlsEncryptionConfig.key = "cab5b529ae28d5cc5e3e7bc3fd4a544d";
+
+        Job job = bitApi.createJob(jobConfig);
+        assertEquals(job.status, JobStatus.ENQUEUED);
     }
 
     @Test
