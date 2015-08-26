@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
  * David Moser [david.moser@bitmovin.net]
  * on 24.08.15
  */
-public class HlsEncrytionConfig {
+public class HlsEncryptionConfig {
     @Expose
     public HlsMethod method;
     @Expose
