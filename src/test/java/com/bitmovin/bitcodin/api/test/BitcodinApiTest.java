@@ -229,6 +229,7 @@ public class BitcodinApiTest {
         videoConfig.preset = Preset.STANDARD;
         
         AudioStreamConfig audioConfig = new AudioStreamConfig();
+        audioConfig.defaultStreamId = 0;
         audioConfig.bitrate = 128 * 1024;
 
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
@@ -381,12 +382,14 @@ public class BitcodinApiTest {
     @Test
     public void createHlsEncryptionJob() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        JobConfig jobConfig = this.createJobConfig();
-        jobConfig.speed = Speed.STANDARD;
 
-        HlsEncrytionConfig hlsEncryptionConfig = new HlsEncrytionConfig();
+        HlsEncryptionConfig hlsEncryptionConfig = new HlsEncryptionConfig();
         hlsEncryptionConfig.method = HlsMethod.SAMPLE_AES;
         hlsEncryptionConfig.key = "cab5b529ae28d5cc5e3e7bc3fd4a544d";
+
+        JobConfig jobConfig = this.createJobConfig();
+        jobConfig.speed = Speed.STANDARD;
+        jobConfig.hlsEncryptionConfig = hlsEncryptionConfig;
 
         Job job = bitApi.createJob(jobConfig);
         assertEquals(job.status, JobStatus.ENQUEUED);
