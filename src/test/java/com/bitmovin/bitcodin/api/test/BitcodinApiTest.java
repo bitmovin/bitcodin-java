@@ -415,7 +415,7 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
         JobList jobList = bitApi.listJobs(0);
-        Job lastRecentJob = jobList.jobs.get(0);
+        JobDetails lastRecentJob = jobList.jobs.get(0);
 
         assertEquals(lastRecentJob.jobId, job.jobId);
     }
@@ -436,8 +436,8 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobList jobList = bitApi.listJobs(0);
 
-        Job finishedJob = null;
-        for (Job job : jobList.jobs) {
+        JobDetails finishedJob = null;
+        for (JobDetails job : jobList.jobs) {
             if (job.status == JobStatus.FINISHED) {
                 finishedJob = job;
                 break;
