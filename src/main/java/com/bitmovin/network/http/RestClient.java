@@ -26,7 +26,10 @@ public class RestClient {
     public String request(RequestMethod method, URI resource, Map<String, String> headers, String content) throws IOException, RestException {
         URL url = this.baseUrl.resolve(resource).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
+        if (!System.getProperty("java.vendor", "").toLowerCase().equals("the android project") &&
+                !System.getProperty("java.vm.vendor", "").toLowerCase().equals("the android project")) {
+            connection.setDoOutput(true);
+        }
         connection.setRequestMethod(method.name());
 
         Iterator<Entry<String, String>> it = headers.entrySet().iterator();
