@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.bitmovin.bitcodin.api.billing.InvoiceInformation;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
+import com.bitmovin.bitcodin.api.input.AzureInputConfig;
 import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
@@ -133,6 +134,10 @@ public class BitcodinApi {
 
     public Input createInput(HTTPInputConfig httpInputConfig) throws BitcodinApiException {
         return this.post("input/create", this.defaultHeaders, httpInputConfig, Input.class);
+    }
+
+    public Input createAzureInput(AzureInputConfig azureInputConfig) throws BitcodinApiException {
+        return this.post("input/create", this.defaultHeaders, azureInputConfig, Input.class);
     }
 
     public InputList listInputs(int pageNumber) throws BitcodinApiException {

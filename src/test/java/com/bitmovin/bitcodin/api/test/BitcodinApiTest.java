@@ -4,17 +4,15 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 
+import com.bitmovin.bitcodin.api.input.*;
 import com.bitmovin.bitcodin.api.job.*;
+import com.bitmovin.bitcodin.api.output.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
-import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
-import com.bitmovin.bitcodin.api.input.Input;
-import com.bitmovin.bitcodin.api.input.InputList;
-import com.bitmovin.bitcodin.api.input.InputType;
 import com.bitmovin.bitcodin.api.media.AudioStreamConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
@@ -22,12 +20,6 @@ import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.media.Preset;
 import com.bitmovin.bitcodin.api.media.Profile;
 import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
-import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
-import com.bitmovin.bitcodin.api.output.Output;
-import com.bitmovin.bitcodin.api.output.OutputList;
-import com.bitmovin.bitcodin.api.output.OutputType;
-import com.bitmovin.bitcodin.api.output.S3OutputConfig;
-import com.bitmovin.bitcodin.api.output.S3Region;
 import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
@@ -139,6 +131,20 @@ public class BitcodinApiTest {
         assertEquals(input.mediaConfigurations.get(0).width, 1280);
         assertEquals(input.mediaConfigurations.get(0).height, 544);
         assertEquals(input.inputType, InputType.URL);
+    }
+
+    @Test
+    public void createAzureInput() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        AzureOutputConfig config = this.settings.azureOutput;
+
+        AzureInputConfig inputConfig = new AzureInputConfig();
+        inputConfig.accountKey = config.accountKey;
+        inputConfig.accountName = config.accountName;
+        inputConfig.url = "http://bitblobstorage.blob.core.windows.net/php-api-wrapper/Sintel-original-short.mkv";
+        Input azureInput = bitApi.createAzureInput(inputConfig);
+
+        assertEquals(azureInput.inputType, InputType.ABS);
     }
 
     @Test
