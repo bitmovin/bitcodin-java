@@ -31,10 +31,7 @@ import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
-import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
-import com.bitmovin.bitcodin.api.output.Output;
-import com.bitmovin.bitcodin.api.output.OutputList;
-import com.bitmovin.bitcodin.api.output.S3OutputConfig;
+import com.bitmovin.bitcodin.api.output.*;
 import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
@@ -147,6 +144,10 @@ public class BitcodinApi {
     }
 
     public Output createS3Output(S3OutputConfig output) throws BitcodinApiException {
+        return this.post("output/create", this.defaultHeaders, output, Output.class);
+    }
+
+    public Output createAzureOutput(AzureOutputConfig output) throws  BitcodinApiException {
         return this.post("output/create", this.defaultHeaders, output, Output.class);
     }
 

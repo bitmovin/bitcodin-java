@@ -174,6 +174,14 @@ public class BitcodinApiTest {
     }
 
     @Test
+    public void createAzureOuptput() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output output = bitApi.createAzureOutput(this.settings.azureOutput);
+
+        assertEquals(output.type, OutputType.AZURE);
+    }
+
+    @Test
     public void createS3Output() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Output output = bitApi.createS3Output(this.settings.s3OutputEUWest);
@@ -465,6 +473,14 @@ public class BitcodinApiTest {
         Output ftpOutput = bitApi.createFTPOutput(this.settings.ftpOutput);
 
         this.transfer(ftpOutput);
+    }
+
+    @Test
+    public void transferToAzure() throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
+        Output azureOutput = bitApi.createAzureOutput(this.settings.azureOutput);
+
+        this.transfer(azureOutput);
     }
 
     @Test
