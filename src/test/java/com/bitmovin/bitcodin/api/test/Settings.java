@@ -23,7 +23,7 @@ public class Settings {
 
     static private Settings settings = null;
     static private String settingsfile  = "settings.json";
-    static private String localSettingsfile = "local_settings.json";
+    static private String localSettingsfile = "settings.json";
     
     static public Settings getInstance() throws FileNotFoundException
     {
