@@ -24,4 +24,6 @@ public class JobConfig {
     public Speed speed;
     @Expose
     public Location location;
+    @Expose
+    public HlsEncryptionConfig hlsEncryptionConfig;
 }
