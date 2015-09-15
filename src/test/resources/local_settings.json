@@ -14,5 +14,12 @@
         "username" : "FTP_USERNAME",
         "password" : "FTP_PASSWORD",
         "passive" : false
+    },
+    "azureOutput" : {
+        "accountName": "AZURE_ACCOUNT_NAME",
+        "accountKey": "AZURE_ACCOUNT_KEY",
+        "name": "NAME",
+        "container": "AZURE_CONTAINER_NAME",
+        "prefix": "AZURE_OUTPUT_PREFIX"
     }
 }
