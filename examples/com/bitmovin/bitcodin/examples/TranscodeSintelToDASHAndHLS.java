@@ -25,7 +25,7 @@ public class TranscodeSintelToDASHAndHLS {
         
         /* Create URL Input */
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
-        httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
+        httpInputConfig.url = "http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv";
 
         Input input;
         try {
