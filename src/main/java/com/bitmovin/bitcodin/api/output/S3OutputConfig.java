@@ -19,4 +19,6 @@ public class S3OutputConfig {
     public String prefix;
     @Expose
     public boolean makePublic;
+    @Expose
+    public boolean createSubDirectory;
 }

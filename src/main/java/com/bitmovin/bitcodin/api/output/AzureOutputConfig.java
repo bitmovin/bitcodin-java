@@ -21,5 +21,5 @@ public class AzureOutputConfig {
     @Expose
     public String prefix;
     @Expose
-    public boolean makePublic;
+    public boolean createSubDirectory;
 }
