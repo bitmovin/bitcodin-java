@@ -1,28 +1,23 @@
 package com.bitmovin.bitcodin.api.test;
 
-import static org.junit.Assert.*;
-
-import java.io.FileNotFoundException;
-
+import com.bitmovin.bitcodin.api.BitcodinApi;
+import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
 import com.bitmovin.bitcodin.api.input.*;
 import com.bitmovin.bitcodin.api.job.*;
+import com.bitmovin.bitcodin.api.media.*;
 import com.bitmovin.bitcodin.api.output.*;
+import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
+import com.bitmovin.bitcodin.api.statistics.Statistic;
+import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.bitmovin.bitcodin.api.BitcodinApi;
-import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
-import com.bitmovin.bitcodin.api.media.AudioStreamConfig;
-import com.bitmovin.bitcodin.api.media.EncodingProfile;
-import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
-import com.bitmovin.bitcodin.api.media.EncodingProfileList;
-import com.bitmovin.bitcodin.api.media.Preset;
-import com.bitmovin.bitcodin.api.media.Profile;
-import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
-import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
-import com.bitmovin.bitcodin.api.statistics.Statistic;
-import com.bitmovin.bitcodin.api.transfer.TransferConfig;
+import java.io.FileNotFoundException;
+import java.util.Calendar;
+import java.util.Date;
+
+import static org.junit.Assert.*;
 
 public class BitcodinApiTest {
     @Rule
@@ -303,16 +298,17 @@ public class BitcodinApiTest {
     }
 
     @Test
-    public void createJob() throws BitcodinApiException {
+    public void createJob() throws BitcodinApiException, InterruptedException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
         Job job = bitApi.createJob(jobConfig);
 
         assertEquals(JobStatus.ENQUEUED, job.status);
+        this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
-    public void createWidevineJob() throws BitcodinApiException {
+    public void createWidevineJob() throws BitcodinApiException, InterruptedException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
 
@@ -328,10 +324,11 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
+        this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
-    public void createPlayreadyJob() throws BitcodinApiException {
+    public void createPlayreadyJob() throws BitcodinApiException, InterruptedException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
 
@@ -347,10 +344,12 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
+
+        this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
-    public void createCombinedDrmJob() throws BitcodinApiException {
+    public void createCombinedDrmJob() throws BitcodinApiException, InterruptedException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
 
@@ -365,10 +364,11 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
+        this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
-    public void createMultipleAudioStreamJob() throws BitcodinApiException {
+    public void createMultipleAudioStreamJob() throws BitcodinApiException, InterruptedException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         JobConfig jobConfig = this.createJobConfig();
 
@@ -391,10 +391,11 @@ public class BitcodinApiTest {
         Job job = bitApi.createJob(jobConfig);
 
         assertEquals(JobStatus.ENQUEUED, job.status);
+        this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
-    public void createHlsEncryptionJob() throws BitcodinApiException {
+    public void createHlsEncryptionJob() throws BitcodinApiException, InterruptedException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
 
         HlsEncryptionConfig hlsEncryptionConfig = new HlsEncryptionConfig();
@@ -407,10 +408,12 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
+
+        this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
-    public void createLocationJob() throws BitcodinApiException {
+    public void createLocationJob() throws BitcodinApiException, InterruptedException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
 
         JobConfig jobConfig = this.createJobConfig();
@@ -419,6 +422,8 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
+
+        this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
@@ -445,6 +450,7 @@ public class BitcodinApiTest {
 
         assertEquals(job.jobId, sameJob.jobId);
     }
+
 
     public void transfer(Output output) throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
@@ -518,5 +524,30 @@ public class BitcodinApiTest {
         /*
          * TODO Range is not working -> fix in API
          */
+    }
+
+    private void waitTillJobIsFinished(Job job, BitcodinApi bitApi) throws BitcodinApiException, InterruptedException {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.MINUTE, 15);
+        JobDetails jobDetails;
+
+        do {
+            jobDetails = bitApi.getJobDetails(job.jobId);
+
+            Date now = new Date();
+            if (jobDetails.status == JobStatus.ERROR) {
+                fail("Job Failed!");
+            }
+            else if(cal.getTime().getTime() < now.getTime()) {
+                fail("Job took too long!");
+            }
+
+            Thread.sleep(2000);
+
+        } while (jobDetails.status != JobStatus.FINISHED);
+
+        assertEquals(JobStatus.FINISHED, jobDetails.status);
     }
 }
