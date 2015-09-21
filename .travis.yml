@@ -8,7 +8,9 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_fd629a5c659e_key -iv $encrypted_fd629a5c659e_iv -in src/test/resources/settings.json.enc -out src/test/resources/settings.json -d
 
 install: 
-  - travis_wait 30 mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true -B -V
+  - mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true -B -V
+
+script: "travis_wait 30 mvn test -B"
 
 after_success:
-  - travis_wait 30 mvn clean test jacoco:report coveralls:report
+  - mvn clean test jacoco:report coveralls:report
