@@ -103,7 +103,7 @@ public class BitcodinApiTest {
     @Test
     public void testApiKeyGetter() {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
-        assertEquals(this.settings.apikey, bitApi.getKey());
+        assertEquals(bitApi.getKey(), this.settings.apikey);
     }
 
     public Input createSintelInput() throws BitcodinApiException {
@@ -126,11 +126,11 @@ public class BitcodinApiTest {
     public void createInput() throws BitcodinApiException {
         Input input = this.createSintelInput();
 
-        assertEquals(input.filename, "Sintel-original-short.mkv");
-        assertEquals(input.mediaConfigurations.size(), 2);
-        assertEquals(input.mediaConfigurations.get(0).width, 1280);
-        assertEquals(input.mediaConfigurations.get(0).height, 544);
-        assertEquals(input.inputType, InputType.URL);
+        assertEquals("Sintel-original-short.mkv", input.filename);
+        assertEquals(2, input.mediaConfigurations.size());
+        assertEquals(1920, input.mediaConfigurations.get(0).width);
+        assertEquals(818, input.mediaConfigurations.get(0).height);
+        assertEquals(InputType.URL, InputType.URL);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class BitcodinApiTest {
         inputConfig.url = "http://bitblobstorage.blob.core.windows.net/php-api-wrapper/Sintel-original-short.mkv";
         Input azureInput = bitApi.createAzureInput(inputConfig);
 
-        assertEquals(azureInput.inputType, InputType.ABS);
+        assertEquals(InputType.ABS, azureInput.inputType);
     }
 
     @Test
@@ -154,8 +154,8 @@ public class BitcodinApiTest {
         InputList inputList = bitApi.listInputs(0);
         Input lastRecentInput = inputList.inputs.get(0);
 
-        assertEquals(lastRecentInput.filename, input.filename);
-        assertEquals(lastRecentInput.inputId, input.inputId);
+        assertEquals(input.filename, lastRecentInput.filename);
+        assertEquals(input.inputId, lastRecentInput.inputId);
     }
 
     @Test
@@ -164,8 +164,8 @@ public class BitcodinApiTest {
         Input input = this.createSintelInput();
         Input sameInput = bitApi.getInput(input.inputId);
 
-        assertEquals(input.filename, sameInput.filename);
-        assertEquals(input.inputId, sameInput.inputId);
+        assertEquals(sameInput.filename, input.filename);
+        assertEquals(sameInput.inputId, input.inputId);
     }
 
     @Test
@@ -184,7 +184,7 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Output output = bitApi.createAzureOutput(this.settings.azureOutput);
 
-        assertEquals(output.type, OutputType.AZURE);
+        assertEquals(OutputType.AZURE, output.type);
     }
 
     @Test
@@ -192,7 +192,7 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Output output = bitApi.createS3Output(this.settings.s3OutputEUWest);
 
-        assertEquals(output.type, OutputType.S3);
+        assertEquals(OutputType.S3, output.type);
     }
 
     @Test
@@ -200,7 +200,7 @@ public class BitcodinApiTest {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
 
-        assertEquals(output.type, OutputType.FTP);
+        assertEquals(OutputType.FTP, output.type);
     }
 
     @Test
@@ -210,7 +210,7 @@ public class BitcodinApiTest {
         OutputList outputList = bitApi.listOutputs(0);
         Output lastRecentOutput = outputList.outputs.get(0);
 
-        assertEquals(lastRecentOutput.outputId, output.outputId);
+        assertEquals(output.outputId, lastRecentOutput.outputId);
     }
 
     @Test
@@ -219,8 +219,8 @@ public class BitcodinApiTest {
         Output output = bitApi.createFTPOutput(this.settings.ftpOutput);
         Output sameOutput = bitApi.getOutput(output.outputId);
 
-        assertEquals(output.name, sameOutput.name);
-        assertEquals(output.outputId, sameOutput.outputId);
+        assertEquals(sameOutput.name, output.name);
+        assertEquals(sameOutput.outputId, output.outputId);
     }
 
     @Test
@@ -260,9 +260,9 @@ public class BitcodinApiTest {
         EncodingProfileConfig config = this.createEncodingProfileConfig();
         EncodingProfile encodingProfile = bitApi.createEncodingProfile(config);
 
-        assertEquals(encodingProfile.videoStreamConfigs.get(0).width, config.videoStreamConfigs.get(0).width);
-        assertEquals(encodingProfile.videoStreamConfigs.get(0).height, config.videoStreamConfigs.get(0).height);
-        assertEquals(encodingProfile.audioStreamConfigs.get(0).bitrate, config.audioStreamConfigs.get(0).bitrate);
+        assertEquals(config.videoStreamConfigs.get(0).width, encodingProfile.videoStreamConfigs.get(0).width);
+        assertEquals(config.videoStreamConfigs.get(0).height, encodingProfile.videoStreamConfigs.get(0).height);
+        assertEquals(config.audioStreamConfigs.get(0).bitrate, encodingProfile.audioStreamConfigs.get(0).bitrate);
     }
 
     @Test
@@ -273,7 +273,7 @@ public class BitcodinApiTest {
         EncodingProfileList encodingProfileList = bitApi.listEncodingProfiles(0);
         EncodingProfile lastRecentProfile = encodingProfileList.profiles.get(0);
 
-        assertEquals(lastRecentProfile.encodingProfileId, encodingProfile.encodingProfileId);
+        assertEquals(encodingProfile.encodingProfileId, lastRecentProfile.encodingProfileId);
     }
 
     @Test
@@ -283,8 +283,8 @@ public class BitcodinApiTest {
         EncodingProfile encodingProfile = bitApi.createEncodingProfile(config);
         EncodingProfile sameProfile = bitApi.getEncodingProfile(encodingProfile.encodingProfileId);
 
-        assertEquals(sameProfile.name, encodingProfile.name);
-        assertEquals(sameProfile.encodingProfileId, encodingProfile.encodingProfileId);
+        assertEquals(encodingProfile.name, sameProfile.name);
+        assertEquals(encodingProfile.encodingProfileId, sameProfile.encodingProfileId);
     }
 
     public JobConfig createJobConfig() throws BitcodinApiException {
@@ -308,7 +308,7 @@ public class BitcodinApiTest {
         JobConfig jobConfig = this.createJobConfig();
         Job job = bitApi.createJob(jobConfig);
 
-        assertEquals(job.status, JobStatus.ENQUEUED);
+        assertEquals(JobStatus.ENQUEUED, job.status);
     }
 
     @Test
@@ -327,7 +327,7 @@ public class BitcodinApiTest {
         jobConfig.speed = Speed.STANDARD;
 
         Job job = bitApi.createJob(jobConfig);
-        assertEquals(job.status, JobStatus.ENQUEUED);
+        assertEquals(JobStatus.ENQUEUED, job.status);
     }
 
     @Test
@@ -346,7 +346,7 @@ public class BitcodinApiTest {
         jobConfig.speed = Speed.STANDARD;
 
         Job job = bitApi.createJob(jobConfig);
-        assertEquals(job.status, JobStatus.ENQUEUED);
+        assertEquals(JobStatus.ENQUEUED, job.status);
     }
 
     @Test
@@ -364,7 +364,7 @@ public class BitcodinApiTest {
         jobConfig.speed = Speed.STANDARD;
 
         Job job = bitApi.createJob(jobConfig);
-        assertEquals(job.status, JobStatus.ENQUEUED);
+        assertEquals(JobStatus.ENQUEUED, job.status);
     }
 
     @Test
@@ -390,7 +390,7 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
 
-        assertEquals(job.status, JobStatus.ENQUEUED);
+        assertEquals(JobStatus.ENQUEUED, job.status);
     }
 
     @Test
@@ -406,7 +406,7 @@ public class BitcodinApiTest {
         jobConfig.hlsEncryptionConfig = hlsEncryptionConfig;
 
         Job job = bitApi.createJob(jobConfig);
-        assertEquals(job.status, JobStatus.ENQUEUED);
+        assertEquals(JobStatus.ENQUEUED, job.status);
     }
 
     @Test
@@ -418,7 +418,7 @@ public class BitcodinApiTest {
         jobConfig.speed = Speed.STANDARD;
 
         Job job = bitApi.createJob(jobConfig);
-        assertEquals(job.status, JobStatus.ENQUEUED);
+        assertEquals(JobStatus.ENQUEUED, job.status);
     }
 
     @Test
@@ -431,7 +431,7 @@ public class BitcodinApiTest {
         JobList jobList = bitApi.listJobs(0);
         JobDetails lastRecentJob = jobList.jobs.get(0);
 
-        assertEquals(lastRecentJob.jobId, job.jobId);
+        assertEquals(job.jobId, lastRecentJob.jobId);
     }
 
     @Test
@@ -443,7 +443,7 @@ public class BitcodinApiTest {
         Job job = bitApi.createJob(jobConfig);
         JobDetails sameJob = bitApi.getJobDetails(job.jobId);
 
-        assertEquals(sameJob.jobId, job.jobId);
+        assertEquals(job.jobId, sameJob.jobId);
     }
 
     public void transfer(Output output) throws BitcodinApiException {
