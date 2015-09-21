@@ -109,7 +109,7 @@ public class BitcodinApiTest {
     public Input createSintelInput() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(this.settings.apikey);
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
-        httpInputConfig.url = "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv";
+        httpInputConfig.url = "http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv";
 
         return bitApi.createInput(httpInputConfig);
     }
@@ -126,7 +126,7 @@ public class BitcodinApiTest {
     public void createInput() throws BitcodinApiException {
         Input input = this.createSintelInput();
 
-        assertEquals(input.filename, "Sintel.2010.720p.mkv");
+        assertEquals(input.filename, "Sintel-original-short.mkv");
         assertEquals(input.mediaConfigurations.size(), 2);
         assertEquals(input.mediaConfigurations.get(0).width, 1280);
         assertEquals(input.mediaConfigurations.get(0).height, 544);
