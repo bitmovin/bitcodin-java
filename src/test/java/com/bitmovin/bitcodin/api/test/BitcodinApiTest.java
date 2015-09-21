@@ -304,7 +304,7 @@ public class BitcodinApiTest {
         Job job = bitApi.createJob(jobConfig);
 
         assertEquals(JobStatus.ENQUEUED, job.status);
-        this.waitTillJobIsFinished(job, bitApi);
+        //this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
@@ -324,7 +324,7 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
-        this.waitTillJobIsFinished(job, bitApi);
+        //this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
@@ -345,7 +345,7 @@ public class BitcodinApiTest {
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
 
-        this.waitTillJobIsFinished(job, bitApi);
+        //this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
@@ -364,7 +364,7 @@ public class BitcodinApiTest {
 
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
-        this.waitTillJobIsFinished(job, bitApi);
+        //this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
@@ -391,7 +391,7 @@ public class BitcodinApiTest {
         Job job = bitApi.createJob(jobConfig);
 
         assertEquals(JobStatus.ENQUEUED, job.status);
-        this.waitTillJobIsFinished(job, bitApi);
+        //this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
@@ -409,7 +409,7 @@ public class BitcodinApiTest {
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
 
-        this.waitTillJobIsFinished(job, bitApi);
+        //this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
@@ -423,7 +423,7 @@ public class BitcodinApiTest {
         Job job = bitApi.createJob(jobConfig);
         assertEquals(JobStatus.ENQUEUED, job.status);
 
-        this.waitTillJobIsFinished(job, bitApi);
+        //this.waitTillJobIsFinished(job, bitApi);
     }
 
     @Test
