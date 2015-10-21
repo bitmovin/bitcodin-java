@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.bitmovin.bitcodin.api.billing.InvoiceInformation;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
+import com.bitmovin.bitcodin.api.input.AzureInputConfig;
 import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.input.InputList;
@@ -31,10 +32,7 @@ import com.bitmovin.bitcodin.api.job.JobList;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
-import com.bitmovin.bitcodin.api.output.FTPOutputConfig;
-import com.bitmovin.bitcodin.api.output.Output;
-import com.bitmovin.bitcodin.api.output.OutputList;
-import com.bitmovin.bitcodin.api.output.S3OutputConfig;
+import com.bitmovin.bitcodin.api.output.*;
 import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
@@ -50,8 +48,12 @@ public class BitcodinApi {
     private HashMap<String, String> defaultHeaders = new HashMap<String, String>();
 
     public BitcodinApi(String apiKey) {
+        this(apiKey, false);
+    }
+
+    public BitcodinApi(String apiKey, boolean useHttps) {
         this.apiKey = apiKey;
-        this.apiUrl = "http://portal.bitcodin.com/api/";
+        this.apiUrl = (useHttps ? "https" : "http") + "://portal.bitcodin.com/api/";
         this.defaultHeaders.put("Content-Type", "application/json");
         this.defaultHeaders.put("bitcodin-api-version", "v1");
         this.defaultHeaders.put("bitcodin-api-key", this.apiKey);
@@ -134,6 +136,10 @@ public class BitcodinApi {
         return this.post("input/create", this.defaultHeaders, httpInputConfig, Input.class);
     }
 
+    public Input createAzureInput(AzureInputConfig azureInputConfig) throws BitcodinApiException {
+        return this.post("input/create", this.defaultHeaders, azureInputConfig, Input.class);
+    }
+
     public InputList listInputs(int pageNumber) throws BitcodinApiException {
         return this.get("inputs/" + Integer.toString(pageNumber), this.defaultHeaders, InputList.class);
     }
@@ -147,6 +153,10 @@ public class BitcodinApi {
     }
 
     public Output createS3Output(S3OutputConfig output) throws BitcodinApiException {
+        return this.post("output/create", this.defaultHeaders, output, Output.class);
+    }
+
+    public Output createAzureOutput(AzureOutputConfig output) throws  BitcodinApiException {
         return this.post("output/create", this.defaultHeaders, output, Output.class);
     }
 

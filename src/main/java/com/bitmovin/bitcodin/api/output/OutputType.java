@@ -6,5 +6,7 @@ public enum OutputType {
     @SerializedName("s3")
     S3,
     @SerializedName("ftp")
-    FTP;
+    FTP,
+    @SerializedName("azure")
+    AZURE
 }

@@ -8,5 +8,7 @@ public class JobList {
     @Expose
     public long totalCount;
     @Expose
-    public List<Job> jobs;
+    public long perPage;
+    @Expose
+    public List<JobDetails> jobs;
 }
