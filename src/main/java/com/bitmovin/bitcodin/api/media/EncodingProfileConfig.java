@@ -13,4 +13,6 @@ public class EncodingProfileConfig {
     public Vector<AudioStreamConfig> audioStreamConfigs = new Vector<AudioStreamConfig>();
     @Expose
     public int segmentLength = 4;
+    @Expose
+    public CroppingConfig croppingConfig = null;
 }
