@@ -11,4 +11,6 @@ public class EncodingProfileConfig {
     public Vector<VideoStreamConfig> videoStreamConfigs = new Vector<VideoStreamConfig>();
     @Expose
     public Vector<AudioStreamConfig> audioStreamConfigs = new Vector<AudioStreamConfig>();
+    @Expose
+    public int segmentLength = 4;
 }
