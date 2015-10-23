@@ -9,6 +9,8 @@ public class JobConfig {
     @Expose
     public int inputId;
     @Expose
+    public int outputId;
+    @Expose
     public int encodingProfileId;
     @Expose
     public Vector<ManifestType> manifestTypes = new Vector<>();
