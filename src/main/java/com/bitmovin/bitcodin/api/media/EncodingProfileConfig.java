@@ -15,4 +15,6 @@ public class EncodingProfileConfig {
     public int segmentLength = 4;
     @Expose
     public CroppingConfig croppingConfig = null;
+    @Expose
+    public int rotation = 0;
 }
