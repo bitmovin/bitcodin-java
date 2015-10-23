@@ -7,4 +7,6 @@ public class AudioStreamConfig {
     public int defaultStreamId;
     @Expose
     public long bitrate;
+    @Expose
+    public float samplerate;
 }
