@@ -21,10 +21,7 @@ import java.util.Map;
 
 import com.bitmovin.bitcodin.api.billing.InvoiceInformation;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
-import com.bitmovin.bitcodin.api.input.AzureInputConfig;
-import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
-import com.bitmovin.bitcodin.api.input.Input;
-import com.bitmovin.bitcodin.api.input.InputList;
+import com.bitmovin.bitcodin.api.input.*;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobDetails;
@@ -140,6 +137,10 @@ public class BitcodinApi {
         return this.post("input/create", this.defaultHeaders, azureInputConfig, Input.class);
     }
 
+    public Input createS3Input(S3InputConfig s3InputConfig) throws BitcodinApiException {
+        return this.post("input/create", this.defaultHeaders, s3InputConfig, Input.class);
+    }
+
     public InputList listInputs(int pageNumber) throws BitcodinApiException {
         return this.get("inputs/" + Integer.toString(pageNumber), this.defaultHeaders, InputList.class);
     }
@@ -153,6 +154,10 @@ public class BitcodinApi {
     }
 
     public Output createS3Output(S3OutputConfig output) throws BitcodinApiException {
+        return this.post("output/create", this.defaultHeaders, output, Output.class);
+    }
+
+    public Output createGCSOutput(GCSOutputConfig output) throws BitcodinApiException {
         return this.post("output/create", this.defaultHeaders, output, Output.class);
     }
 

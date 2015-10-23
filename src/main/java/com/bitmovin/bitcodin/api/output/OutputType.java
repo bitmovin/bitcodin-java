@@ -8,5 +8,7 @@ public enum OutputType {
     @SerializedName("ftp")
     FTP,
     @SerializedName("azure")
-    AZURE
+    AZURE,
+    @SerializedName("gcs")
+    GCS
 }
