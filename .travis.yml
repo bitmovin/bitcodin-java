@@ -17,4 +17,5 @@ install:
 script: "travis_wait 30 mvn test -B"
 
 after_success:
+  - mvn deploy
   - mvn clean jacoco:report coveralls:report
