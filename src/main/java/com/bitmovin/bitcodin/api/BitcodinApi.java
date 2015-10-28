@@ -32,8 +32,8 @@ import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.output.*;
 import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
+import com.bitmovin.bitcodin.api.transfer.Transfer;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
-import com.bitmovin.bitcodin.api.transfer.TransferList;
 import com.bitmovin.network.http.JSONRestClient;
 import com.bitmovin.network.http.RequestMethod;
 import com.bitmovin.network.http.RestException;
@@ -209,8 +209,8 @@ public class BitcodinApi {
         this.post("job/transfer", this.defaultHeaders, transferConfig);
     }
 
-    public TransferList listTransfers(int jobId) throws BitcodinApiException {
-        return this.get("jobs/" + Integer.toString(jobId) + "/transfers", this.defaultHeaders, TransferList.class);
+    public Transfer[] listTransfers(int jobId) throws BitcodinApiException {
+        return this.get("job/" + Integer.toString(jobId) + "/transfers", this.defaultHeaders, Transfer[].class);
     }
 
     public MonthlyStatistic getMonthlyStatistics() throws BitcodinApiException {
