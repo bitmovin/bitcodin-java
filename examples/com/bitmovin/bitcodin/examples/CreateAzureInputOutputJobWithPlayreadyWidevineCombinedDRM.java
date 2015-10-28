@@ -22,7 +22,7 @@ public class CreateAzureInputOutputJobWithPlayreadyWidevineCombinedDRM {
         inputConfig.accountKey = "accountKey";
         inputConfig.accountName = "accountName";
         inputConfig.url = "http://accountName.blob.core.windows.net/container/video.mkv";
-        inputConfig.container = "containerr";
+        inputConfig.container = "container";
 
         Input azureInput = null;
         try {
@@ -99,11 +99,10 @@ public class CreateAzureInputOutputJobWithPlayreadyWidevineCombinedDRM {
         do {
             try {
                 jobDetails = bitApi.getJobDetails(job.jobId);
-                System.out.println("Status: " + jobDetails.status.toString() +
-                        " - Enqueued Duration: " + jobDetails.enqueueDuration + "s" +
-                        " - Realtime Factor: " + jobDetails.realtimeFactor +
-                        " - Encoded Duration: " + jobDetails.encodedDuration + "s" +
-                        " - Output: " + jobDetails.bytesWritten/1024/1024 + "MB");
+                System.out.println("Status: " + jobDetails.status.toString() + " - Enqueued Duration: " + jobDetails.enqueueDuration + "s" +
+                                           " - Realtime Factor: " + jobDetails.realtimeFactor +
+                                           " - Encoded Duration: " + jobDetails.encodedDuration + "s" +
+                                           " - Output: " + jobDetails.bytesWritten/1024/1024 + "MB");
             } catch (BitcodinApiException e) {
                 System.out.println("Could not get any job details");
                 return;
@@ -117,5 +116,33 @@ public class CreateAzureInputOutputJobWithPlayreadyWidevineCombinedDRM {
             Thread.sleep(2000);
 
         } while (jobDetails.status != JobStatus.FINISHED);
+
+        /* Wait till transfer is finished */
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Calendar cal = null;
+
+        Transfer[] transfers = null;
+        int finishedTransfers = 0;
+        do {
+            cal = Calendar.getInstance();
+            try
+            {
+                transfers = bitApi.listTransfers(job.jobId);
+                finishedTransfers = 0;
+                for (Transfer t : transfers)
+                {
+                    System.out.println(dateFormat.format(cal.getTime()) + " - Transfer: JobID " + t.jobId + " Progress[" + t.progress + "] Status[" + t.status + "]");
+                    if (t.progress == 100)
+                        finishedTransfers++;
+                }
+                Thread.sleep(2000);
+            } catch (Exception e)
+            {
+                System.out.println("Unexpected error!");
+            }
+        } while (transfers == null || transfers.length == 0 || finishedTransfers < transfers.length );
+
+        System.out.println("Transfer Finished");
     }
 }
