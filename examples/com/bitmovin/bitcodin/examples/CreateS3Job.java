@@ -1,16 +1,14 @@
-package com.bitmovin.bitcodin.examples;
+package examples.com.bitmovin.bitcodin.examples;
 
 import com.bitmovin.bitcodin.api.BitcodinApi;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
-import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
+import com.bitmovin.bitcodin.api.input.S3InputConfig;
 import com.bitmovin.bitcodin.api.job.*;
 import com.bitmovin.bitcodin.api.media.*;
 
-/**
- * Created by Dominic Miglar <dominic.miglar@bitmovin.net> on 8/26/15.
- */
-public class CreateJobWithPlayreadyWidevineCombinedDRM {
+public class CreateS3Job
+{
     public static void main(String[] args) throws InterruptedException {
 
         /* Create BitcodinApi */
@@ -18,12 +16,16 @@ public class CreateJobWithPlayreadyWidevineCombinedDRM {
         BitcodinApi bitApi = new BitcodinApi(apiKey);
 
         /* Create URL Input */
-        HTTPInputConfig httpInputConfig = new HTTPInputConfig();
-        httpInputConfig.url = "http://bitbucketireland.s3.amazonaws.com/h264_720p_mp_3.1_3mbps_aac_shrinkage.mp4";
+        S3InputConfig s3InputConfig = new S3InputConfig();
+        s3InputConfig.accessKey = "YourS3AccessKey";
+        s3InputConfig.secretKey = "YourS3SecretKey";
+        s3InputConfig.bucket = "YourS3Bucket";
+        s3InputConfig.region = "YourS3Region";
+        s3InputConfig.objectKey = "path_to/yourfile/on_s3/video.mkv";
 
         Input input;
         try {
-            input = bitApi.createInput(httpInputConfig);
+            input = bitApi.createS3Input(s3InputConfig);
         } catch (BitcodinApiException e) {
             System.out.println("Could not create input: " + e.getMessage());
             return;
@@ -39,14 +41,9 @@ public class CreateJobWithPlayreadyWidevineCombinedDRM {
         videoConfig.profile = Profile.MAIN;
         videoConfig.preset = Preset.STANDARD;
 
-        AudioStreamConfig audioStreamConfig = new AudioStreamConfig();
-        audioStreamConfig.defaultStreamId = 0;
-        audioStreamConfig.bitrate = 192000;
-
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
         encodingProfileConfig.name = "JUnitTestProfile";
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
-        encodingProfileConfig.audioStreamConfigs.add(audioStreamConfig);
 
         EncodingProfile encodingProfile;
         try {
@@ -56,22 +53,12 @@ public class CreateJobWithPlayreadyWidevineCombinedDRM {
             return;
         }
 
-        /* Create CombinedDrmConfig */
-
-        CombinedDrmConfig drmConfig = new CombinedDrmConfig();
-        drmConfig.kid = "eb676abbcb345e96bbcf616630f1a3da";
-        drmConfig.key = "100b6c20940f779a4589152b57d2dacb";
-        drmConfig.laUrl = "http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==";
-        drmConfig.pssh = "CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=";
-
         /* Create Job */
         JobConfig jobConfig = new JobConfig();
         jobConfig.encodingProfileId = encodingProfile.encodingProfileId;
         jobConfig.inputId = input.inputId;
         jobConfig.manifestTypes.addElement(ManifestType.MPEG_DASH_MPD);
         jobConfig.manifestTypes.addElement(ManifestType.HLS_M3U8);
-        jobConfig.speed = Speed.STANDARD;
-        jobConfig.drmConfig = drmConfig;
 
         Job job;
         try {
@@ -107,5 +94,4 @@ public class CreateJobWithPlayreadyWidevineCombinedDRM {
 
         System.out.println("Job with ID " + job.jobId + " finished successfully!");
     }
-
 }

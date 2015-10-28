@@ -61,7 +61,7 @@ public class CreateJobWithPlayreadyWidevineCombinedDRMAndHLSEncryption {
         drmConfig.kid = "eb676abbcb345e96bbcf616630f1a3da";
         drmConfig.key = "100b6c20940f779a4589152b57d2dacb";
         drmConfig.laUrl = "http://playready.directtaps.net/pr/svc/rightsmanager.asmx?PlayRight=1&ContentKey=EAtsIJQPd5pFiRUrV9Layw==";
-        drmConfig.pssh = "#CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=";
+        drmConfig.pssh = "CAESEOtnarvLNF6Wu89hZjDxo9oaDXdpZGV2aW5lX3Rlc3QiEGZrajNsamFTZGZhbGtyM2oqAkhEMgA=";
 
         /* Create HlsEncryptionConfig */
         HlsEncryptionConfig hlsEncryptionConfig = new HlsEncryptionConfig();

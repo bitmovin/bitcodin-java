@@ -6,5 +6,7 @@ public enum InputType {
     @SerializedName("abs")
     ABS,
     @SerializedName("url")
-    URL
+    URL,
+    @SerializedName("s3")
+    S3
 }

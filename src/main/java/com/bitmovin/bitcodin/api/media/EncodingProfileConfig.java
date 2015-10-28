@@ -12,7 +12,11 @@ public class EncodingProfileConfig {
     @Expose
     public Vector<AudioStreamConfig> audioStreamConfigs = new Vector<AudioStreamConfig>();
     @Expose
-    public int segmentLength = 4;
+    public int rotation = 0;
+    @Expose
+    public WatermarkConfig watermarkConfig = null;
     @Expose
     public CroppingConfig croppingConfig = null;
+    @Expose
+    public int segmentLength = 4;
 }
