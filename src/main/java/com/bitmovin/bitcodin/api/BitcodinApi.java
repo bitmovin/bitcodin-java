@@ -26,6 +26,8 @@ import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobDetails;
 import com.bitmovin.bitcodin.api.job.JobList;
+import com.bitmovin.bitcodin.api.manifest.VttMpd;
+import com.bitmovin.bitcodin.api.manifest.VttMpdConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
@@ -227,5 +229,9 @@ public class BitcodinApi {
     
     public void updateInvoiceInfos(InvoiceInformation invoiceInfo) throws BitcodinApiException {
         this.post("payment/invoiceinfo", this.defaultHeaders, invoiceInfo);
+    }
+
+    public VttMpd createVttMpd(VttMpdConfig vttMpdConfig) throws BitcodinApiException {
+        return this.post("manifest/mpd/vtt", this.defaultHeaders, vttMpdConfig, VttMpd.class);
     }
 }

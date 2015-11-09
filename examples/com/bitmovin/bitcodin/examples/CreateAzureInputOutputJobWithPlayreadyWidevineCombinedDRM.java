@@ -8,6 +8,11 @@ import com.bitmovin.bitcodin.api.job.*;
 import com.bitmovin.bitcodin.api.media.*;
 import com.bitmovin.bitcodin.api.output.AzureOutputConfig;
 import com.bitmovin.bitcodin.api.output.Output;
+import com.bitmovin.bitcodin.api.transfer.Transfer;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class CreateAzureInputOutputJobWithPlayreadyWidevineCombinedDRM {
 
