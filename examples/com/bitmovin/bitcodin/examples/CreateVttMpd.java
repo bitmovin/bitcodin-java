@@ -9,23 +9,22 @@ import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobDetails;
 import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.job.ManifestType;
-import com.bitmovin.bitcodin.api.media.EncodingProfile;
-import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
-import com.bitmovin.bitcodin.api.media.Preset;
-import com.bitmovin.bitcodin.api.media.Profile;
-import com.bitmovin.bitcodin.api.media.VideoStreamConfig;
+import com.bitmovin.bitcodin.api.manifest.VttMpd;
+import com.bitmovin.bitcodin.api.manifest.VttMpdConfig;
+import com.bitmovin.bitcodin.api.manifest.VttSubtitle;
+import com.bitmovin.bitcodin.api.media.*;
 
-public class TranscodeSintelToDASHAndHLS {
+public class CreateVttMpd {
 
     public static void main(String[] args) throws InterruptedException {
 
         /* Create BitcodinApi */
-        String apiKey = "YOUR_API_KEY";
+        String apiKey = "YOUR API KEY";
         BitcodinApi bitApi = new BitcodinApi(apiKey);
 
         /* Create URL Input */
         HTTPInputConfig httpInputConfig = new HTTPInputConfig();
-        httpInputConfig.url = "http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv";
+        httpInputConfig.url = "http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv";
 
         Input input;
         try {
@@ -39,15 +38,20 @@ public class TranscodeSintelToDASHAndHLS {
 
         /* Create EncodingProfile */
         VideoStreamConfig videoConfig = new VideoStreamConfig();
-        videoConfig.bitrate = 1 * 1024 * 1024;
+        videoConfig.bitrate = 1024 * 1024;
         videoConfig.width = 640;
         videoConfig.height = 480;
         videoConfig.profile = Profile.MAIN;
         videoConfig.preset = Preset.STANDARD;
 
+        AudioStreamConfig audioConfig = new AudioStreamConfig();
+        audioConfig.bitrate = 256000;
+        audioConfig.samplerate = 320000;
+
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
-        encodingProfileConfig.name = "JUnitTestProfile";
+        encodingProfileConfig.name = "CreateVttMpd Test Profile";
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
+        encodingProfileConfig.audioStreamConfigs.add(audioConfig);
 
         EncodingProfile encodingProfile;
         try {
@@ -115,7 +119,11 @@ public class TranscodeSintelToDASHAndHLS {
         vttMpdConfig.jobId = job.jobId;
         vttMpdConfig.subtitles = subtitles;
 
-        VttMpd vttMpd = bitApi.createVttMpd(vttMpdConfig);
-        System.out.println(vttMpd.mpdUrl);
+        try {
+            VttMpd vttMpd = bitApi.createVttMpd(vttMpdConfig);
+            System.out.println("VTT MPD URL: " + vttMpd.mpdUrl);
+        } catch (BitcodinApiException e) {
+            System.out.println("Could not create Vtt MPD! " + e.getMessage());
+        }
     }
 }
