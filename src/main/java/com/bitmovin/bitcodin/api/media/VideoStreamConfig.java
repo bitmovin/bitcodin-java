@@ -15,4 +15,6 @@ public class VideoStreamConfig {
     public Profile profile;
     @Expose
     public Preset preset;
+    @Expose
+    public VideoCodec codec;
 }

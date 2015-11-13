@@ -34,6 +34,8 @@ import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.output.*;
 import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
+import com.bitmovin.bitcodin.api.thumbnail.Thumbnail;
+import com.bitmovin.bitcodin.api.thumbnail.ThumbnailConfig;
 import com.bitmovin.bitcodin.api.transfer.Transfer;
 import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 import com.bitmovin.network.http.JSONRestClient;
@@ -233,5 +235,9 @@ public class BitcodinApi {
 
     public VttMpd createVttMpd(VttMpdConfig vttMpdConfig) throws BitcodinApiException {
         return this.post("manifest/mpd/vtt", this.defaultHeaders, vttMpdConfig, VttMpd.class);
+    }
+
+    public Thumbnail createThumbnail(ThumbnailConfig thumbnailConfig) throws BitcodinApiException {
+        return this.post("thumbnail", this.defaultHeaders, thumbnailConfig, Thumbnail.class);
     }
 }
