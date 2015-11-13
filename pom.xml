@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bitmovin.bitcodin.api</groupId>
   <artifactId>bitcodin-java</artifactId>
-  <version>1.3.3</version>
+  <version>1.4.0</version>
   <name>bitcodin Java API</name>
   <url>https://github.com/bitmovin/bitcodin-java</url>
   <description>The bitcodin API for Java is a seamless integration with the bitcodin.com cloud transcoding system. It enables the generation of MPEG-DASH and HLS content in just some minutes.</description>
