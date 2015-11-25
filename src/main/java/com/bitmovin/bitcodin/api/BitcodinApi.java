@@ -34,6 +34,8 @@ import com.bitmovin.bitcodin.api.media.EncodingProfileList;
 import com.bitmovin.bitcodin.api.output.*;
 import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
+import com.bitmovin.bitcodin.api.thumbnail.Sprite;
+import com.bitmovin.bitcodin.api.thumbnail.SpriteConfig;
 import com.bitmovin.bitcodin.api.thumbnail.Thumbnail;
 import com.bitmovin.bitcodin.api.thumbnail.ThumbnailConfig;
 import com.bitmovin.bitcodin.api.transfer.Transfer;
@@ -239,5 +241,9 @@ public class BitcodinApi {
 
     public Thumbnail createThumbnail(ThumbnailConfig thumbnailConfig) throws BitcodinApiException {
         return this.post("thumbnail", this.defaultHeaders, thumbnailConfig, Thumbnail.class);
+    }
+
+    public Sprite createSprite(SpriteConfig spriteConfig) throws BitcodinApiException {
+        return this.post("sprite", this.defaultHeaders, spriteConfig, Sprite.class);
     }
 }
