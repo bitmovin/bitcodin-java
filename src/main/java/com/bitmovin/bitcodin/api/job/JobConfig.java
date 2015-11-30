@@ -28,4 +28,6 @@ public class JobConfig {
     public Location location;
     @Expose
     public HlsEncryptionConfig hlsEncryptionConfig;
+    @Expose
+    public MergeAudioChannelConfig[] mergeAudioChannelConfigs;
 }
