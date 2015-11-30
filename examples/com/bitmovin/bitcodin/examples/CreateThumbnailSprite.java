@@ -6,20 +6,21 @@ import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
-import com.bitmovin.bitcodin.api.job.JobDetails;
-import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.job.ManifestType;
-import com.bitmovin.bitcodin.api.manifest.VttMpd;
-import com.bitmovin.bitcodin.api.manifest.VttMpdConfig;
-import com.bitmovin.bitcodin.api.manifest.VttSubtitle;
 import com.bitmovin.bitcodin.api.media.*;
+import com.bitmovin.bitcodin.api.thumbnail.Sprite;
+import com.bitmovin.bitcodin.api.thumbnail.SpriteConfig;
 
-public class CreateVttMpd {
-
-    public static void main(String[] args) throws InterruptedException {
-
+/**
+ * Created by
+ * dmoser [david.moser@bitmovin.net]
+ * on 13.11.15
+ */
+public class CreateThumbnailSprite {
+    public static void main(String[] args) throws InterruptedException
+    {
         /* Create BitcodinApi */
-        String apiKey = "YOUR API KEY";
+        String apiKey = "INSERT YOUR API KEY";
         BitcodinApi bitApi = new BitcodinApi(apiKey);
 
         /* Create URL Input */
@@ -33,7 +34,6 @@ public class CreateVttMpd {
             System.out.println("Could not create input: " + e.getMessage());
             return;
         }
-
         System.out.println("Created Input: " + input.filename);
 
         /* Create EncodingProfile */
@@ -49,7 +49,7 @@ public class CreateVttMpd {
         audioConfig.samplerate = 320000;
 
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
-        encodingProfileConfig.name = "CreateVttHls Test Profile";
+        encodingProfileConfig.name = "Create Sprite Test Profile";
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
         encodingProfileConfig.audioStreamConfigs.add(audioConfig);
 
@@ -75,56 +75,22 @@ public class CreateVttMpd {
             System.out.println("Could not create job: " + e.getMessage());
             return;
         }
+        System.out.println("Created Job with id: " + job.jobId);
 
-        JobDetails jobDetails;
-
-        do {
-            try {
-                jobDetails = bitApi.getJobDetails(job.jobId);
-                System.out.println("Status: " + jobDetails.status.toString() +
-                        " - Enqueued Duration: " + jobDetails.enqueueDuration + "s" +
-                        " - Realtime Factor: " + jobDetails.realtimeFactor +
-                        " - Encoded Duration: " + jobDetails.encodedDuration + "s" +
-                        " - Output: " + jobDetails.bytesWritten/1024/1024 + "MB");
-            } catch (BitcodinApiException e) {
-                System.out.println("Could not get any job details");
-                return;
-            }
-
-            if (jobDetails.status == JobStatus.ERROR) {
-                System.out.println("Error during transcoding");
-                return;
-            }
-
-            Thread.sleep(2000);
-
-        } while (jobDetails.status != JobStatus.FINISHED);
-
-        System.out.println("Job with ID " + job.jobId + " finished successfully!");
-
-        /* Create VTT Manifest */
-        VttSubtitle engSub = new VttSubtitle();
-        engSub.langLong = "English";
-        engSub.langShort = "en";
-        engSub.url = "http://url.to/your/eng.vtt";
-
-        VttSubtitle deSub = new VttSubtitle();
-        deSub.langLong = "Deutsch";
-        deSub.langShort = "de";
-        deSub.url = "http://url.to/your/de.vtt";
-
-        VttSubtitle[] subtitles = {engSub, deSub};
-
-        VttMpdConfig vttMpdConfig = new VttMpdConfig();
-        vttMpdConfig.jobId = job.jobId;
-        vttMpdConfig.subtitles = subtitles;
-        vttMpdConfig.outputFileName = "vttTestMpd.mpd";
+        /* Create thumbnail sprite to use with our player*/
+        SpriteConfig spriteConfig = new SpriteConfig();
+        spriteConfig.jobId = job.jobId;
+        spriteConfig.height = 320;
+        spriteConfig.width = 240;
+        spriteConfig.distance = 10;
 
         try {
-            VttMpd vttMpd = bitApi.createVttMpd(vttMpdConfig);
-            System.out.println("VTT MPD URL: " + vttMpd.mpdUrl);
-        } catch (BitcodinApiException e) {
-            System.out.println("Could not create Vtt MPD! " + e.getMessage());
+            Sprite sprite = bitApi.createSprite(spriteConfig);
+            System.out.println("Successfully created sprite! \nSprite URL: " + sprite.spriteUrl + "\nVTT URL: " + sprite.vttUrl);
+        }
+        catch (BitcodinApiException e) {
+            System.out.println("Could not create thumbnail: " + e.getMessage());
         }
     }
 }
+

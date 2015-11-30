@@ -49,7 +49,7 @@ public class CreateThumbnail {
         audioConfig.samplerate = 320000;
 
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
-        encodingProfileConfig.name = "CreateVttMpd Test Profile";
+        encodingProfileConfig.name = "CreateVttHls Test Profile";
         encodingProfileConfig.videoStreamConfigs.add(videoConfig);
         encodingProfileConfig.audioStreamConfigs.add(audioConfig);
 
