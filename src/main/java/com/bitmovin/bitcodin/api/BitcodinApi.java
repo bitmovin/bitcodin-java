@@ -26,6 +26,8 @@ import com.bitmovin.bitcodin.api.job.Job;
 import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobDetails;
 import com.bitmovin.bitcodin.api.job.JobList;
+import com.bitmovin.bitcodin.api.manifest.VttHls;
+import com.bitmovin.bitcodin.api.manifest.VttHlsConfig;
 import com.bitmovin.bitcodin.api.manifest.VttMpd;
 import com.bitmovin.bitcodin.api.manifest.VttMpdConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
@@ -237,6 +239,10 @@ public class BitcodinApi {
 
     public VttMpd createVttMpd(VttMpdConfig vttMpdConfig) throws BitcodinApiException {
         return this.post("manifest/mpd/vtt", this.defaultHeaders, vttMpdConfig, VttMpd.class);
+    }
+
+    public VttHls createVttHls(VttHlsConfig vttHlsConfig) throws BitcodinApiException {
+        return this.post("manifest/hls/vtt", this.defaultHeaders, vttHlsConfig, VttHls.class);
     }
 
     public Thumbnail createThumbnail(ThumbnailConfig thumbnailConfig) throws BitcodinApiException {

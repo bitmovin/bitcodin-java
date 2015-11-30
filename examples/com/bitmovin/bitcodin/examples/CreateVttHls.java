@@ -9,15 +9,13 @@ import com.bitmovin.bitcodin.api.job.JobConfig;
 import com.bitmovin.bitcodin.api.job.JobDetails;
 import com.bitmovin.bitcodin.api.job.JobStatus;
 import com.bitmovin.bitcodin.api.job.ManifestType;
-import com.bitmovin.bitcodin.api.manifest.VttMpd;
-import com.bitmovin.bitcodin.api.manifest.VttMpdConfig;
-import com.bitmovin.bitcodin.api.manifest.VttSubtitle;
+import com.bitmovin.bitcodin.api.manifest.*;
 import com.bitmovin.bitcodin.api.media.*;
 
-public class CreateVttMpd {
-
-    public static void main(String[] args) throws InterruptedException {
-
+public class CreateVttHls
+{
+    public static void main(String[] args) throws InterruptedException
+    {
         /* Create BitcodinApi */
         String apiKey = "YOUR API KEY";
         BitcodinApi bitApi = new BitcodinApi(apiKey);
@@ -115,16 +113,16 @@ public class CreateVttMpd {
 
         VttSubtitle[] subtitles = {engSub, deSub};
 
-        VttMpdConfig vttMpdConfig = new VttMpdConfig();
-        vttMpdConfig.jobId = job.jobId;
-        vttMpdConfig.subtitles = subtitles;
-        vttMpdConfig.outputFileName = "vttTestMpd.mpd";
+        VttHlsConfig vttHlsConfig = new VttHlsConfig();
+        vttHlsConfig.jobId = job.jobId;
+        vttHlsConfig.subtitles = subtitles;
+        vttHlsConfig.outputFileName = "vttTestHls.m3u8";
 
         try {
-            VttMpd vttMpd = bitApi.createVttMpd(vttMpdConfig);
-            System.out.println("VTT MPD URL: " + vttMpd.mpdUrl);
+            VttHls vttHls = bitApi.createVttHls(vttHlsConfig);
+            System.out.println("VTT HLS URL: " + vttHls.hlsUrl);
         } catch (BitcodinApiException e) {
-            System.out.println("Could not create Vtt MPD! " + e.getMessage());
+            System.out.println("Could not create Vtt HLS! " + e.getMessage());
         }
     }
 }
