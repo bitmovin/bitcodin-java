@@ -44,7 +44,6 @@ public class CreateVttHls
 
         AudioStreamConfig audioConfig = new AudioStreamConfig();
         audioConfig.bitrate = 256000;
-        audioConfig.samplerate = 320000;
 
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
         encodingProfileConfig.name = "CreateVttHls Test Profile";
