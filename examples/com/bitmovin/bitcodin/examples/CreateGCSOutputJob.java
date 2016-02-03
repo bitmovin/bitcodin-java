@@ -92,6 +92,7 @@ public class CreateGCSOutputJob {
         } while (jobDetails.status != JobStatus.FINISHED);
 
         GCSOutputConfig gcsOutput = new GCSOutputConfig();
+        gcsOutput.name = "output configuration name";
         gcsOutput.accessKey = "accessKey";
         gcsOutput.secretKey = "secretKey";
         gcsOutput.bucket = "bucket";

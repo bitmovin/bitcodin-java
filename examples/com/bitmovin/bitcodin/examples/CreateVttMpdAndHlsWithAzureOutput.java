@@ -4,18 +4,17 @@ import com.bitmovin.bitcodin.api.BitcodinApi;
 import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
 import com.bitmovin.bitcodin.api.input.HTTPInputConfig;
 import com.bitmovin.bitcodin.api.input.Input;
-import com.bitmovin.bitcodin.api.job.Job;
-import com.bitmovin.bitcodin.api.job.JobConfig;
-import com.bitmovin.bitcodin.api.job.JobDetails;
-import com.bitmovin.bitcodin.api.job.JobStatus;
-import com.bitmovin.bitcodin.api.job.ManifestType;
+import com.bitmovin.bitcodin.api.job.*;
 import com.bitmovin.bitcodin.api.manifest.*;
 import com.bitmovin.bitcodin.api.media.*;
+import com.bitmovin.bitcodin.api.output.AzureOutputConfig;
+import com.bitmovin.bitcodin.api.output.Output;
+import com.bitmovin.bitcodin.api.transfer.TransferConfig;
 
-public class CreateVttHls
-{
-    public static void main(String[] args) throws InterruptedException
-    {
+public class CreateVttMpdAndHlsWithAzureOutput {
+
+    public static void main(String[] args) throws InterruptedException {
+
         /* Create BitcodinApi */
         String apiKey = "YOUR API KEY";
         BitcodinApi bitApi = new BitcodinApi(apiKey);
@@ -43,6 +42,7 @@ public class CreateVttHls
         videoConfig.preset = Preset.STANDARD;
 
         AudioStreamConfig audioConfig = new AudioStreamConfig();
+        audioConfig.defaultStreamId = 0;
         audioConfig.bitrate = 256000;
 
         EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
@@ -112,6 +112,18 @@ public class CreateVttHls
 
         VttSubtitle[] subtitles = {engSub, deSub};
 
+        VttMpdConfig vttMpdConfig = new VttMpdConfig();
+        vttMpdConfig.jobId = job.jobId;
+        vttMpdConfig.subtitles = subtitles;
+        vttMpdConfig.outputFileName = "vttTestMpd.mpd";
+
+        try {
+            VttMpd vttMpd = bitApi.createVttMpd(vttMpdConfig);
+            System.out.println("VTT MPD URL: " + vttMpd.mpdUrl);
+        } catch (BitcodinApiException e) {
+            System.out.println("Could not create Vtt MPD! " + e.getMessage());
+        }
+
         VttHlsConfig vttHlsConfig = new VttHlsConfig();
         vttHlsConfig.jobId = job.jobId;
         vttHlsConfig.subtitles = subtitles;
@@ -122,6 +134,32 @@ public class CreateVttHls
             System.out.println("VTT HLS URL: " + vttHls.hlsUrl);
         } catch (BitcodinApiException e) {
             System.out.println("Could not create Vtt HLS! " + e.getMessage());
+        }
+
+        /* Create Azure Output */
+        AzureOutputConfig azureOutput = new AzureOutputConfig();
+        azureOutput.accountKey = "accountKey";
+        azureOutput.accountName = "accountName";
+        azureOutput.name = "name";
+        azureOutput.container = "container";
+        azureOutput.prefix = "prefix";
+        azureOutput.createSubDirectory = false;
+
+        Output output = null;
+        try {
+            output = bitApi.createAzureOutput(azureOutput);
+        } catch (BitcodinApiException e) {
+            e.printStackTrace();
+        }
+
+        TransferConfig transferConfig = new TransferConfig();
+        transferConfig.outputId = output.outputId;
+        transferConfig.jobId = job.jobId;
+
+        try {
+            bitApi.transfer(transferConfig);
+        } catch (BitcodinApiException e) {
+            e.printStackTrace();
         }
     }
 }

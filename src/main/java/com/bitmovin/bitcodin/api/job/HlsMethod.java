@@ -10,6 +10,8 @@ import com.google.gson.annotations.SerializedName;
 public enum HlsMethod {
     @SerializedName("SAMPLE-AES")
     SAMPLE_AES,
+    @SerializedName("FAIRPLAY")
+    FAIRPLAY,
     @SerializedName("AES-128")
     AES_128
 }

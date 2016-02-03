@@ -6,6 +6,8 @@ public class GCSOutputConfig {
     @Expose
     public OutputType type = OutputType.GCS;
     @Expose
+    public String name;
+    @Expose
     public String accessKey;
     @Expose
     public String secretKey;
