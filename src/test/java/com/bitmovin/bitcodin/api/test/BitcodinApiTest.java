@@ -34,7 +34,7 @@ public class BitcodinApiTest {
 
     @Test
     public void runJobTestsParallel() throws BitcodinApiException {
-        Class[] cls={CreateJob.class, CreateLocationJob.class, CreateWidevineJob.class, CreatePlayreadyJob.class, CreateCombinedDrmJob.class, CreateMultipleAudioStreamJob.class, CreateHlsEncryptionJob.class, NonBlockingTests.class };
+        Class[] cls={CreateJob.class, CreateLocationJob.class, CreateWidevineJob.class, CreatePlayreadyJob.class, CreateCombinedDrmJob.class, CreateMultipleAudioStreamJob.class, CreateHlsEncryptionJob.class, CreateFairplayEncryptionJob.class, NonBlockingTests.class };
 
         //Parallel among classes
         JUnitCore.runClasses(ParallelComputer.classes(), cls);
@@ -65,6 +65,29 @@ public class BitcodinApiTest {
             Job job = bitApi.createJob(jobConfig);
 
             assertEquals(JobStatus.ENQUEUED, job.status);
+            BitcodinApiTest.waitTillJobIsFinished(job, bitApi);
+        }
+    }
+
+    public static class CreateFairplayEncryptionJob
+    {
+        @Test
+        public void createFairplayEncryptionJob()throws BitcodinApiException, InterruptedException
+        {
+            BitcodinApi bitApi = new BitcodinApi(BitcodinApiTest.settings.apikey);
+
+            HlsEncryptionConfig hlsEncryptionConfig = new HlsEncryptionConfig();
+            hlsEncryptionConfig.method = HlsMethod.FAIRPLAY;
+            hlsEncryptionConfig.key = "cab5b529ae28d5cc5e3e7bc3fd4a544d";
+            hlsEncryptionConfig.uri = "skd://userspecifc?custom=information";
+
+            JobConfig jobConfig = BitcodinApiTest.createJobConfig();
+            jobConfig.speed = Speed.STANDARD;
+            jobConfig.hlsEncryptionConfig = hlsEncryptionConfig;
+
+            Job job = bitApi.createJob(jobConfig);
+            assertEquals(JobStatus.ENQUEUED, job.status);
+
             BitcodinApiTest.waitTillJobIsFinished(job, bitApi);
         }
     }
