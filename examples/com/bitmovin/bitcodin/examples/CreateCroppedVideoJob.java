@@ -30,12 +30,32 @@ public class CreateCroppedVideoJob {
         System.out.println("Created Input: " + input.filename);
         
         /* Create EncodingProfile */
-        VideoStreamConfig videoConfig = new VideoStreamConfig();
-        videoConfig.bitrate = 1 * 1024 * 1024;
-        videoConfig.width = 640;
-        videoConfig.height = 480;
-        videoConfig.profile = Profile.MAIN;
-        videoConfig.preset = Preset.STANDARD;
+        VideoStreamConfig videoConfig1 = new VideoStreamConfig();
+        videoConfig1.bitrate = 4800000;
+        videoConfig1.width = 1920;
+        videoConfig1.height = 1080;
+        videoConfig1.profile = Profile.MAIN;
+        videoConfig1.preset = Preset.PREMIUM;
+
+        VideoStreamConfig videoConfig2 = new VideoStreamConfig();
+        videoConfig2.bitrate = 2400000;
+        videoConfig2.width = 1280;
+        videoConfig2.height = 720;
+        videoConfig2.profile = Profile.MAIN;
+        videoConfig2.preset = Preset.PREMIUM;
+
+        VideoStreamConfig videoConfig3 = new VideoStreamConfig();
+        videoConfig3.bitrate = 1200000;
+        videoConfig3.width = 854;
+        videoConfig3.height = 480;
+        videoConfig3.profile = Profile.MAIN;
+        videoConfig3.preset = Preset.PREMIUM;
+
+        EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
+        encodingProfileConfig.name = "JavaTestProfile";
+        encodingProfileConfig.videoStreamConfigs.add(videoConfig1);
+        encodingProfileConfig.videoStreamConfigs.add(videoConfig2);
+        encodingProfileConfig.videoStreamConfigs.add(videoConfig3);
 
         CroppingConfig croppingConfig = new CroppingConfig();
         croppingConfig.bottom = 100;  // 100 pixel of the bottom from the input video will be cropped, before encoding starts.
@@ -43,9 +63,6 @@ public class CreateCroppedVideoJob {
         croppingConfig.right  = 5;    // 5 pixel of the right side from the input video will be cropped, before encoding starts.
         croppingConfig.left   = 5;    // 5 pixel of the left side from the input video will be cropped, before encoding starts.
 
-        EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
-        encodingProfileConfig.name = "JUnitTestProfile";
-        encodingProfileConfig.videoStreamConfigs.add(videoConfig);
         encodingProfileConfig.croppingConfig = croppingConfig;
         
         EncodingProfile encodingProfile;

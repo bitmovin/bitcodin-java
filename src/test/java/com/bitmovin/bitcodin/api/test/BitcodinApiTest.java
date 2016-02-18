@@ -260,7 +260,7 @@ public class BitcodinApiTest {
             videoConfig.width = -1;
             videoConfig.height = -1;
             videoConfig.profile = Profile.MAIN;
-            videoConfig.preset = Preset.STANDARD;
+            videoConfig.preset = Preset.PREMIUM;
 
             EncodingProfileConfig encodingProfileConfig = new EncodingProfileConfig();
             encodingProfileConfig.name = "Invalid_Profile";
@@ -521,7 +521,7 @@ public class BitcodinApiTest {
         videoConfig.width = 640;
         videoConfig.height = 480;
         videoConfig.profile = Profile.MAIN;
-        videoConfig.preset = Preset.STANDARD;
+        videoConfig.preset = Preset.PREMIUM;
         
         AudioStreamConfig audioConfig = new AudioStreamConfig();
         audioConfig.defaultStreamId = 0;
