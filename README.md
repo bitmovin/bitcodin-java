@@ -11,13 +11,13 @@ Add this to your pom.xml:
 <dependency>
     <groupId>com.bitmovin.bitcodin.api</groupId>
     <artifactId>bitcodin-java</artifactId>
-    <version>1.6.0</version>
+    <version>1.6.1</version>
 </dependency>
 ```
 ## Simple Java Project
 Just add the library (jar) of the [latest release](https://github.com/bitmovin/bitcodin-java/releases) to your project.
 ## Interaction with bitcodin
-The main interaction with [bitcodian](http://www.bitcodin.com) will be handled through the BitcodinApi class. Therefore instantiate an object with your API key, which can be found in the settings of your bitcodin user account, as shown in the figure below.
+The main interaction with [bitcodin](http://www.bitcodin.com) will be handled through the BitcodinApi class. Therefore instantiate an object with your API key, which can be found in the settings of your bitcodin user account, as shown in the figure below.
 
 ![APIKey](http://www.bitcodin.com/wp-content/uploads/2015/06/api_key.png)
 

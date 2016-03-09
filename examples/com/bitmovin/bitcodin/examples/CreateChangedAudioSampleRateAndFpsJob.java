@@ -7,12 +7,13 @@ import com.bitmovin.bitcodin.api.input.Input;
 import com.bitmovin.bitcodin.api.job.*;
 import com.bitmovin.bitcodin.api.media.*;
 
-public class CreateChangedAudioSampleRateJob {
+public class CreateChangedAudioSampleRateAndFpsJob
+{
 
     public static void main(String[] args) throws InterruptedException {
         
         /* Create BitcodinApi */
-        String apiKey = "YOUR_API_KEY";
+        String apiKey = "INSERT YOUR API KEY HERE";
         BitcodinApi bitApi = new BitcodinApi(apiKey);
         
         /* Create URL Input */
@@ -32,6 +33,7 @@ public class CreateChangedAudioSampleRateJob {
         /* Create EncodingProfile */
         VideoStreamConfig videoConfig1 = new VideoStreamConfig();
         videoConfig1.bitrate = 4800000;
+        videoConfig1.rate = 30; /* Here the output FPS are set */
         videoConfig1.width = 1920;
         videoConfig1.height = 1080;
         videoConfig1.profile = Profile.MAIN;
@@ -39,6 +41,7 @@ public class CreateChangedAudioSampleRateJob {
 
         VideoStreamConfig videoConfig2 = new VideoStreamConfig();
         videoConfig2.bitrate = 2400000;
+        videoConfig2.rate = 30; /* Here the output FPS are set */
         videoConfig2.width = 1280;
         videoConfig2.height = 720;
         videoConfig2.profile = Profile.MAIN;
@@ -46,6 +49,7 @@ public class CreateChangedAudioSampleRateJob {
 
         VideoStreamConfig videoConfig3 = new VideoStreamConfig();
         videoConfig3.bitrate = 1200000;
+        videoConfig3.rate = 30; /* Here the output FPS are set */
         videoConfig3.width = 854;
         videoConfig3.height = 480;
         videoConfig3.profile = Profile.MAIN;
@@ -60,7 +64,7 @@ public class CreateChangedAudioSampleRateJob {
         AudioStreamConfig audioStreamConfig = new AudioStreamConfig();
         audioStreamConfig.defaultStreamId = 0;
         audioStreamConfig.bitrate = 192000;
-        audioStreamConfig.samplerate = 44100;
+        audioStreamConfig.rate = 44100; /* Here the new output sample rate is set */
         encodingProfileConfig.audioStreamConfigs.add(audioStreamConfig);
         
         EncodingProfile encodingProfile;
@@ -75,6 +79,7 @@ public class CreateChangedAudioSampleRateJob {
         JobConfig jobConfig = new JobConfig();
         jobConfig.encodingProfileId = encodingProfile.encodingProfileId;
         jobConfig.inputId = input.inputId;
+        jobConfig.speed = Speed.STANDARD;
         jobConfig.manifestTypes.addElement(ManifestType.MPEG_DASH_MPD);
 
         Job job;

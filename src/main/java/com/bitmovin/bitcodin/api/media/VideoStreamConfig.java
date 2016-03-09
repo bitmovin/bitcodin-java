@@ -17,4 +17,6 @@ public class VideoStreamConfig {
     public Preset preset;
     @Expose
     public VideoCodec codec;
+    @Expose
+    public int rate;
 }

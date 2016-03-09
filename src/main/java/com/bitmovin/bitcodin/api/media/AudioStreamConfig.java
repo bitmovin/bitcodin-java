@@ -8,5 +8,5 @@ public class AudioStreamConfig {
     @Expose
     public long bitrate;
     @Expose
-    public float samplerate;
+    public int rate;
 }
