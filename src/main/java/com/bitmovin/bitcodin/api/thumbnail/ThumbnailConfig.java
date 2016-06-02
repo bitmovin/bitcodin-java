@@ -19,4 +19,7 @@ public class ThumbnailConfig {
 
     @Expose
     public String fileName;
+
+    @Expose
+    public boolean async;
 }

@@ -10,8 +10,11 @@ import com.google.gson.annotations.Expose;
 public class Sprite
 {
     @Expose
+    public String id;
+    @Expose
+    public String state;
+    @Expose
     public String vttUrl;
-
     @Expose
     public String spriteUrl;
 }

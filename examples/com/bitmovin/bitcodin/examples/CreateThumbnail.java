@@ -98,12 +98,26 @@ public class CreateThumbnail {
         thumbnailConfig.jobId = job.jobId;
         thumbnailConfig.height = 320;
         thumbnailConfig.position = 45;
+        thumbnailConfig.async = true; //important notice: synchronous thumbnail creation is not supported
 
         try {
             Thumbnail thumbnail = bitApi.createThumbnail(thumbnailConfig);
+
+            while(true) {
+                Thread.sleep(5000);
+
+                String state = bitApi.getThumbnail(thumbnail.id).state;
+                if(state.equals("FINISHED")) {
+                    break;
+                } else if(state.equals("ERROR")) {
+                    break;
+                }
+            }
+
+            thumbnail = bitApi.getThumbnail(thumbnail.id);
             System.out.println("Successfully created thumbnail! Thumbnail URL: " + thumbnail.thumbnailUrl);
         }
-        catch (BitcodinApiException e) {
+        catch (BitcodinApiException | InterruptedException e) {
             System.out.println("Could not create thumbnail: " + e.getMessage());
         }
     }
