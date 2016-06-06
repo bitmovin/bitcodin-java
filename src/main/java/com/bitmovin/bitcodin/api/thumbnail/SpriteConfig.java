@@ -20,4 +20,7 @@ public class SpriteConfig
 
     @Expose
     public int distance;
+
+    @Expose
+    public boolean async;
 }

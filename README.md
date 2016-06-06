@@ -1,8 +1,8 @@
-# [![bitcodin](http://www.bitcodin.com/wp-content/uploads/2014/10/bitcodin-small.gif)](http://www.bitcodin.com)
+# [![bitmovin](https://cloudfront-prod.bitmovin.com/wp-content/themes/Bitmovin-V-0.1/images/logo3.png)](http://www.bitmovin.com)
 [![build status](https://travis-ci.org/bitmovin/bitcodin-java.svg)](https://travis-ci.org/bitmovin/bitcodin-java) 
 [![Coverage Status](https://coveralls.io/repos/bitmovin/bitcodin-java/badge.svg?branch=master)](https://coveralls.io/r/bitmovin/bitcodin-java?branch=master)
 
-The bitcodin API for Java is a seamless integration with the [bitcodin cloud transcoding service](http://www.bitcodin.com). It enables the generation of MPEG-DASH and HLS content in just some minutes.
+The bitcodin API for Java is a seamless integration with the [bitmovin cloud transcoding service](http://www.bitmovin.com). It enables the generation of MPEG-DASH and HLS content in just some minutes.
 
 # Getting started
 ## Maven
@@ -17,9 +17,9 @@ Add this to your pom.xml:
 ## Simple Java Project
 Just add the library (jar) of the [latest release](https://github.com/bitmovin/bitcodin-java/releases) to your project.
 ## Interaction with bitcodin
-The main interaction with [bitcodin](http://www.bitcodin.com) will be handled through the BitcodinApi class. Therefore instantiate an object with your API key, which can be found in the settings of your bitcodin user account, as shown in the figure below.
+The main interaction with [bitmovin](http://www.bitmovin.com) will be handled through the BitcodinApi class. Therefore instantiate an object with your API key, which can be found in the settings of your bitcodin user account, as shown in the figure below.
 
-![APIKey](http://www.bitcodin.com/wp-content/uploads/2015/06/api_key.png)
+![APIKey](https://cloudfront-prod.bitmovin.com/wp-content/uploads/2016/04/api-key.png)
 
 An example how you can instantiate the bitcodin API is shown in the following:
 
