@@ -11,7 +11,7 @@ Add this to your pom.xml:
 <dependency>
     <groupId>com.bitmovin.bitcodin.api</groupId>
     <artifactId>bitcodin-java</artifactId>
-    <version>1.6.1</version>
+    <version>1.6.3</version>
 </dependency>
 ```
 ## Simple Java Project
