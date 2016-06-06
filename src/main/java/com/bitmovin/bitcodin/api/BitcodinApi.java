@@ -249,7 +249,15 @@ public class BitcodinApi {
         return this.post("thumbnail", this.defaultHeaders, thumbnailConfig, Thumbnail.class);
     }
 
+    public Thumbnail getThumbnail(String thumbnailId) throws BitcodinApiException {
+        return this.get("thumbnail/" + thumbnailId, this.defaultHeaders, Thumbnail.class);
+    }
+
     public Sprite createSprite(SpriteConfig spriteConfig) throws BitcodinApiException {
         return this.post("sprite", this.defaultHeaders, spriteConfig, Sprite.class);
+    }
+
+    public Sprite getSprite(String spriteId) throws BitcodinApiException {
+        return this.get("sprite/" + spriteId, this.defaultHeaders, Sprite.class);
     }
 }

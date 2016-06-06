@@ -9,5 +9,9 @@ import com.google.gson.annotations.Expose;
  */
 public class Thumbnail {
     @Expose
+    public String id;
+    @Expose
     public String thumbnailUrl;
+    @Expose
+    public String state;
 }

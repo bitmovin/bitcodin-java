@@ -99,12 +99,26 @@ public class CreateThumbnailSprite {
         spriteConfig.height = 320;
         spriteConfig.width = 240;
         spriteConfig.distance = 10;
+        spriteConfig.async = true; //important notice: synchronous sprite creation is not supported
 
         try {
             Sprite sprite = bitApi.createSprite(spriteConfig);
+
+            while(true) {
+                Thread.sleep(5000);
+
+                String state = bitApi.getSprite(sprite.id).state;
+                if(state.equals("FINISHED")) {
+                    break;
+                } else if(state.equals("ERROR")) {
+                    break;
+                }
+            }
+
+            sprite = bitApi.getSprite(sprite.id);
             System.out.println("Successfully created sprite! \nSprite URL: " + sprite.spriteUrl + "\nVTT URL: " + sprite.vttUrl);
         }
-        catch (BitcodinApiException e) {
+        catch (BitcodinApiException | InterruptedException e) {
             System.out.println("Could not create thumbnail: " + e.getMessage());
         }
     }
