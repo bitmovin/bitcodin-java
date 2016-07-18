@@ -5,6 +5,9 @@ import com.bitmovin.bitcodin.api.exception.BitcodinApiException;
 import com.bitmovin.bitcodin.api.input.*;
 import com.bitmovin.bitcodin.api.job.*;
 import com.bitmovin.bitcodin.api.media.*;
+import com.bitmovin.bitcodin.api.notification.Event;
+import com.bitmovin.bitcodin.api.notification.Subscription;
+import com.bitmovin.bitcodin.api.notification.SubscriptionConfig;
 import com.bitmovin.bitcodin.api.output.*;
 import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
@@ -494,8 +497,49 @@ public class BitcodinApiTest {
          * TODO Range is not working -> fix in API
          */
         }
+
+        @Test
+        public void createSubscription() throws BitcodinApiException {
+            BitcodinApi bitApi = new BitcodinApi(BitcodinApiTest.settings.apikey);
+
+            Event[] events = bitApi.getAvailableEvents();
+
+            assertNotEquals(events.length, 0);
+
+            String url = "https://this.is/a/test/subscription/url";
+            Subscription subscription = BitcodinApiTest.createSubscription(events[0], url);
+
+            assertNotNull(subscription.id);
+            assertNotNull(subscription.event);
+            assertEquals(subscription.event.id, events[0].id);
+            assertEquals(subscription.url, url);
+        }
+
+        @Test
+        public void getSubscriptionTest() throws BitcodinApiException
+        {
+            BitcodinApi bitApi = new BitcodinApi(BitcodinApiTest.settings.apikey);
+
+            Event[] events = bitApi.getAvailableEvents();
+
+            assertNotEquals(events.length, 0);
+            String url = "https://this.is/another/test/subscription/url";
+            Subscription subscription = BitcodinApiTest.createSubscription(events[0], url);
+            assertNotNull(subscription.id);
+            Subscription responseSubscription = bitApi.getSubscription(subscription.id);
+
+            assertNotNull(responseSubscription.id);
+            assertEquals(responseSubscription.id, subscription.id);
+        }
     }
 
+    public static Subscription createSubscription(Event event, String url) throws BitcodinApiException {
+        BitcodinApi bitApi = new BitcodinApi(BitcodinApiTest.settings.apikey);
+        SubscriptionConfig subscriptionConfig = new SubscriptionConfig(event.id, url);
+
+        return bitApi.createSubscription(subscriptionConfig);
+
+    }
 
     public static Input createSintelInput() throws BitcodinApiException {
         BitcodinApi bitApi = new BitcodinApi(BitcodinApiTest.settings.apikey);
