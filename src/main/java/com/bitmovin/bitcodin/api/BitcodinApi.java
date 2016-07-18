@@ -33,6 +33,9 @@ import com.bitmovin.bitcodin.api.manifest.VttMpdConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfile;
 import com.bitmovin.bitcodin.api.media.EncodingProfileConfig;
 import com.bitmovin.bitcodin.api.media.EncodingProfileList;
+import com.bitmovin.bitcodin.api.notification.Event;
+import com.bitmovin.bitcodin.api.notification.Subscription;
+import com.bitmovin.bitcodin.api.notification.SubscriptionConfig;
 import com.bitmovin.bitcodin.api.output.*;
 import com.bitmovin.bitcodin.api.statistics.MonthlyStatistic;
 import com.bitmovin.bitcodin.api.statistics.Statistic;
@@ -259,5 +262,25 @@ public class BitcodinApi {
 
     public Sprite getSprite(String spriteId) throws BitcodinApiException {
         return this.get("sprite/" + spriteId, this.defaultHeaders, Sprite.class);
+    }
+
+    public Event[] getAvailableEvents() throws BitcodinApiException {
+        return this.get("notifications/events", this.defaultHeaders, Event[].class);
+    }
+
+    public Subscription createSubscription(SubscriptionConfig subscriptionConfig) throws BitcodinApiException {
+        return this.post("notifications/subscriptions", this.defaultHeaders, subscriptionConfig, Subscription.class);
+    }
+
+    public Subscription getSubscription(String subscriptionId) throws BitcodinApiException {
+        return this.get("notifications/subscriptions/" + subscriptionId, this.defaultHeaders, Subscription.class);
+    }
+
+    public Subscription[] listSubscriptions() throws BitcodinApiException {
+        return this.get("notifications/subscriptions", this.defaultHeaders, Subscription[].class);
+    }
+
+    public void deleteSubscription(String subscriptionId) throws BitcodinApiException {
+        this.delete("notifications/subscriptions/" + subscriptionId, this.defaultHeaders);
     }
 }
