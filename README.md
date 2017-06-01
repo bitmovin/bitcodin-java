@@ -1,5 +1,7 @@
 # [![bitmovin](https://cloudfront-prod.bitmovin.com/wp-content/themes/Bitmovin-V-0.1/images/logo3.png)](http://www.bitmovin.com)
-
+[![build status](https://travis-ci.org/bitmovin/bitcodin-java.svg)](https://travis-ci.org/bitmovin/bitcodin-java) 		
+[![Coverage Status](https://coveralls.io/repos/bitmovin/bitcodin-java/badge.svg?branch=master)](https://coveralls.io/r/bitmovin/bitcodin-java?branch=master)
+ 
 The bitcodin API for Java is a seamless integration with the [bitmovin cloud transcoding service](http://www.bitmovin.com). It enables the generation of MPEG-DASH and HLS content in just some minutes.
 
 # Getting started
